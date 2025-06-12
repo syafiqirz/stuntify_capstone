@@ -1,0 +1,22 @@
+/* Responsive styles for feature boxes */
+@media (max-width: 768px) {
+  .fitur-container {
+    flex-direction: column;
+    gap: 30px;
+  }
+  
+  .fitur-box {
+    width: 90%;
+    max-width: 300px;
+  }
+}
+
+@media (min-width: 769px) and (max-width: 1024px) {
+  .fitur-container {
+    gap: 25px;
+  }
+  
+  .fitur-box {
+    width: 280px;
+  }
+}

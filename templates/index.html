@@ -1,0 +1,315 @@
+<!DOCTYPE html>
+<html lang="id">
+  <head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Stuntify</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/Stun.png') }}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/index.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/map-filter.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/alur.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/footer.css') }}"
+    />
+    <script
+      src="https://kit.fontawesome.com/30b2892a0a.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+  <body>
+    <header class="navbar">
+      <div class="nav-brand">
+        <img
+          src="{{ url_for('static', filename='img/Logo stuntify.png') }}"
+          alt="Stuntify Logo"
+          class="brand-logo"
+        />
+      </div>
+      <nav class="nav-menu">
+        <a href="/" class="active"
+          ><img
+            src="{{ url_for('static', filename='img/home.png') }}"
+            alt="Beranda"
+          />
+          Beranda</a
+        >
+        <a href="/#alur-penggunaan"
+          ><img
+            src="{{ url_for('static', filename='img/process.png') }}"
+            alt="Alur Penggunaan"
+          />Alur Penggunaan</a
+        >
+        <a href="/articel.html"
+          ><img
+            src="{{ url_for('static', filename='img/article.png') }}"
+            alt="Artikel"
+          />
+          Artikel</a
+        >
+        <a href="/stunting.html"
+          ><img
+            src="{{ url_for('static', filename='img/calculator.png') }}"
+            alt="Stunting"
+          />Prediksi Stunting Calculator</a
+        >
+        <a href="/#peta"
+          ><img
+            src="{{ url_for('static', filename='img/map.png') }}"
+            alt="Peta Stunting"
+          />Stunting Maps</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <section class="fitur section-box">
+        <div class="fitur-container">
+          <div class="fitur-box">
+            <a
+              href="/stunting.html"
+              style="text-decoration: none; color: inherit"
+            >
+              <img
+                src="{{ url_for('static', filename='img/calculator.png') }}"
+                alt="Calculator"
+                style="width: 64px; height: 64px"
+              />
+              <h3>Prediksi Stunting Calculator</h3>
+              <p>Fitur Stunting Growth Monitoring untuk Anak 0-5 Tahun</p>
+            </a>
+          </div>
+          <div class="fitur-box">
+            <a
+              href="/articel.html"
+              style="text-decoration: none; color: inherit"
+            >
+              <img
+                src="{{ url_for('static', filename='img/article.png') }}"
+                alt="Article"
+                style="width: 64px; height: 64px"
+              />
+              <h3>Artikel</h3>
+              <p>Deskripsi, dampak, serta upaya pencegahan stunting</p>
+            </a>
+          </div>
+        </div>
+      </section>
+
+      <section class="tentang section-box">
+        <img
+          src="{{ url_for('static', filename='img/Keluarga.png') }}"
+          alt="Keluarga"
+        />
+        <p>
+          <strong>Tentang Stunting Information Center</strong><br />
+          Stunting Information Center adalah sebuah website yang bergerak di
+          bidang kesehatan, khususnya stunting. Diharapkan dengan hadirnya
+          website ini, masyarakat dapat mengakses informasi dengan lebih mudah
+          dan juga dapat menganalisis apakah anaknya berisiko stunting atau
+          tidak.
+        </p>
+      </section>
+
+      <section class="artikel section-box">
+        <h2>Artikel Edukasi</h2>
+        <div class="artikel-container" id="homeArticles">
+          <!-- Artikel akan dimuat secara dinamis dari API -->
+          <div class="artikel-item">
+            <div class="loading-placeholder">
+              <div class="spinner-border text-success" role="status">
+                <span class="visually-hidden">Loading...</span>
+              </div>
+              <p>Memuat artikel...</p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="alur-penggunaan" class="alur-penggunaan section-box">
+        <h2>Alur Pemakaian Prediksi Stunting</h2>
+        <div class="alur-container">
+          <div class="step">
+            <img
+              src="{{ url_for('static', filename='img/formkosong.png') }}"
+              alt="Langkah 1"
+            />
+            <div class="step-content">
+              <h4>1.</h4>
+              <p>
+                Masuk ke halaman prediksi stunting kalkulator dan isi form
+                dengan kondisi anak anda.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <img
+              src="{{ url_for('static', filename='img/formisi.png') }}"
+              alt="Langkah 2"
+            />
+            <div class="step-content">
+              <h4>2.</h4>
+              <p>
+                Setelah semua terisi, anda bisa langsung klik tombol Hitung.
+              </p>
+            </div>
+          </div>
+          <div class="step">
+            <img
+              src="{{ url_for('static', filename='img/hasil1.png') }}"
+              alt="Langkah 3"
+            />
+            <div class="step-content">
+              <h4>3.</h4>
+              <p>
+                Setelah tombol hitung di klik, hasil perhitungan akan langsung
+                muncul dan akan menampilkan beberapa data.
+              </p>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <section id="peta" class="peta section-box">
+        <h2>Daerah Terindikasi Stunting</h2>
+
+        <div class="map-container">
+          <div id="map-wrapper">
+            <div class="tableau-container">
+              <div
+                class="tableauPlaceholder"
+                id="viz1749651338855"
+                style="position: relative"
+              >
+                <noscript
+                  ><a href="#"
+                    ><img
+                      alt="Peta Sebaran Jumlah Persentase Stunting Indonesia "
+                      src="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pe&#47;PetaPersentaseSebaranKasusBalitaStuntingPerProvinsiIndonesia&#47;PetaSebaranJumlahPersentaseStuntingIndonesia&#47;1_rss.png"
+                      style="border: none" /></a></noscript
+                ><object class="tableauViz" style="display: none">
+                  <param
+                    name="host_url"
+                    value="https%3A%2F%2Fpublic.tableau.com%2F"
+                  />
+                  <param name="embed_code_version" value="3" />
+                  <param name="site_root" value="" />
+                  <param
+                    name="name"
+                    value="PetaPersentaseSebaranKasusBalitaStuntingPerProvinsiIndonesia&#47;PetaSebaranJumlahPersentaseStuntingIndonesia"
+                  />
+                  <param name="tabs" value="no" />
+                  <param name="toolbar" value="yes" />
+                  <param
+                    name="static_image"
+                    value="https:&#47;&#47;public.tableau.com&#47;static&#47;images&#47;Pe&#47;PetaPersentaseSebaranKasusBalitaStuntingPerProvinsiIndonesia&#47;PetaSebaranJumlahPersentaseStuntingIndonesia&#47;1.png"
+                  />
+                  <param name="animate_transition" value="yes" />
+                  <param name="display_static_image" value="yes" />
+                  <param name="display_spinner" value="yes" />
+                  <param name="display_overlay" value="yes" />
+                  <param name="display_count" value="yes" />
+                  <param name="language" value="en-US" />
+                  <param name="filter" value="publish=yes" />
+                </object>
+              </div>
+              <div class="tableau-button-container">
+                <a
+                  href="https://public.tableau.com/views/DataStunting_17492742284880/PetaSebaranKasusStuntingperProvinsi2020"
+                  target="_blank"
+                  class="tableau-view-button"
+                >
+                  <i class="fas fa-external-link-alt"></i> View on Tableau
+                  Public
+                </a>
+              </div>
+            </div>
+            <p class="sumber">
+              Sumber: Survei Status Gizi Indonesia (SSGI) Tahun 2018-2024
+            </p>
+          </div>
+        </div>
+      </section>
+    </main>
+
+    <footer class="text-center text-lg-start bg-light text-muted">
+      <div class="container">
+        <div class="footer-content">
+          <div class="footer-brand">
+            <h2>Stuntify</h2>
+            <div class="social-links">
+              <a href="https://github.com/FadlanAmin0" class="social-link"
+                ><i class="fab fa-github"></i
+              ></a>
+            </div>
+          </div>
+
+          <div class="footer-links">
+            <div class="link-group">
+              <h5>Artikel</h5>
+              <a href="/articel.html">Cek Artikel</a>
+            </div>
+            <div class="link-group">
+              <h5>Cek Stunting</h5>
+              <a href="/stunting.html">Prediksi Stunting</a>
+            </div>
+            <div class="link-group">
+              <h5>Infografis Stunting</h5>
+              <a href="#peta">Lihat Peta</a>
+            </div>
+            <div class="link-group">
+              <h5>About us</h5>
+              <p>
+                Stuntify hadir untuk melindungi anak Indonesia dari ancaman
+                stunting sedini. Deteksi dini stunting anak Anda. Coba Stuntify
+                sekarang!
+              </p>
+            </div>
+          </div>
+        </div>
+      </div>
+    </footer>
+
+    <!-- Tableau JS -->
+    <script type="text/javascript">
+      document.addEventListener("DOMContentLoaded", function () {
+        var divElement = document.getElementById("viz1749651338855");
+        var vizElement = divElement.getElementsByTagName("object")[0];
+        vizElement.style.width = "100%";
+        vizElement.style.height = divElement.offsetWidth * 0.75 + "px";
+        var scriptElement = document.createElement("script");
+        scriptElement.src =
+          "https://public.tableau.com/javascripts/api/viz_v1.js";
+        vizElement.parentNode.insertBefore(scriptElement, vizElement);
+      });
+
+      // Tidak ada kode filter yang diperlukan lagi karena visualisasi Tableau menangani semua interaksi
+    </script>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+    <!-- Script untuk mengambil artikel dari API -->
+    <script src="{{ url_for('static', filename='js/index-articles.js') }}"></script>
+  </body>
+</html>

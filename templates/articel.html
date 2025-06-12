@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <meta http-equiv="X-UA-Compatible" content="IE=edge" />
+    <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+    <title>Article - Stunting Center</title>
+    <link rel="icon" href="{{ url_for('static', filename='img/Stun.png') }}" />
+    <link
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
+      rel="stylesheet"
+      integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
+      crossorigin="anonymous"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/articel.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/custom.css') }}"
+    />
+    <link
+      rel="stylesheet"
+      href="{{ url_for('static', filename='css/footer.css') }}"
+    />
+    <script
+      src="https://kit.fontawesome.com/30b2892a0a.js"
+      crossorigin="anonymous"
+    ></script>
+  </head>
+
+  <body>
+    <header class="navbar">
+      <div class="nav-brand">
+        <img
+          src="{{ url_for('static', filename='img/Logo stuntify.png') }}"
+          alt="Stuntify Logo"
+          class="brand-logo"
+        />
+      </div>
+      <nav class="nav-menu">
+        <a href="/"
+          ><img
+            src="{{ url_for('static', filename='img/home.png') }}"
+            alt="Beranda"
+          />
+          Beranda</a
+        >
+        <a href="/#alur-penggunaan"
+          ><img
+            src="{{ url_for('static', filename='img/process.png') }}"
+            alt="Alur Penggunaan"
+          />Alur Penggunaan</a
+        >
+        <a href="/articel.html" class="active"
+          ><img
+            src="{{ url_for('static', filename='img/article.png') }}"
+            alt="Artikel"
+          />
+          Artikel</a
+        >
+        <a href="/stunting.html"
+          ><img
+            src="{{ url_for('static', filename='img/calculator.png') }}"
+            alt="Stunting"
+          />Prediksi Stunting Calculator</a
+        >
+        <a href="/#peta"
+          ><img
+            src="{{ url_for('static', filename='img/map.png') }}"
+            alt="Peta Stunting"
+          />Stunting Maps</a
+        >
+      </nav>
+    </header>
+
+    <main>
+      <section class="article-section section-box">
+        <div class="container">
+          <div class="row">
+            <!-- Kolom kiri -->
+
+            <div class="col-md-12 col-lg-10 col-xl-8">
+              <div id="sorotArticle" class="article-container"></div>
+            <nav aria-label="Page navigation example" style="margin-top: 5%">
+              <ul class="pagination justify-content-center">
+                <!-- Pagination akan dimuat secara dinamis dari JS -->
+              </ul>
+            </nav>
+          </div>
+
+          <!-- kolom kanan -->
+          <div class="col-md-12 col-lg-2 col-xl-4">
+            <div class="card">
+              <h4 class="mb-2 fw-bold" style="font-size: 24px">
+                Rekomendasi obat dan vitamin untuk anak stunting
+              </h4>
+              <div class="card mb-3" style="max-width: 540px">
+                <div class="row g-0">
+                  <div id="myArticles"></div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </div>
+      <footer class="text-center text-lg-start bg-light text-muted">
+        <div class="container">
+          <div class="footer-content">
+            <div class="footer-brand">
+              <h2>Stuntify</h2>
+              <div class="social-links">
+                <a href="https://github.com/FadlanAmin0" class="social-link"
+                  ><i class="fab fa-github"></i
+                ></a>
+              </div>
+            </div>
+
+            <div class="footer-links">
+              <div class="link-group">
+                <h5>Artikel</h5>
+                <a href="/articel.html">Cek Artikel</a>
+              </div>
+              <div class="link-group">
+                <h5>Cek Stunting</h5>
+                <a href="/stunting.html">Prediksi Stunting</a>
+              </div>
+              <div class="link-group">
+                <h5>Infografis Stunting</h5>
+                <a href="/#peta">Lihat Peta</a>
+              </div>
+              <div class="link-group">
+                <h5>About us</h5>
+                <p>
+                  Stuntify hadir untuk melindungi anak Indonesia dari ancaman
+                  stunting sedini. Deteksi dini stunting anak Anda. Coba
+                  Stuntify sekarang!
+                </p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </footer>
+    </section>
+    <script
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
+      crossorigin="anonymous"
+    ></script>
+    <script src="{{ url_for('static', filename='js/articel.js') }}"></script>
+    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+  </body>
+</html>
