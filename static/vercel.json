@@ -1,0 +1,16 @@
+{
+  "routes": [
+    {
+      "src": "/",
+      "dest": "/templates/index.html"
+    },
+    {
+      "src": "/artikel",
+      "dest": "/templates/artikel.html"
+    },
+    {
+      "src": "/static/(.*)",
+      "dest": "/static/$1"
+    }
+  ]
+}
