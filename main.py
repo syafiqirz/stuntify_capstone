@@ -105,6 +105,4 @@ def make_prediction(gender, age_months, height_cm, weight_kg):
     }
 
 if __name__ == '__main__':
-    port = int(os.environ.get("PORT", 8080))
-    print("Starting Flask backend API only...")
-    app.run(debug=True, host='0.0.0.0', port=port)
+    app.run(debug=True, port=os.getenv("PORT", default=5000))
