@@ -538,7 +538,6 @@ main::after {
 }
 
 .artikel-item.error-message h3 {
-  color: #dc3545;
   margin-bottom: 1rem;
 }
 
@@ -622,10 +621,10 @@ main::after {
 }
 
 footer {
-  background-color: #f8f9fa;
+  background-color: #f8f9fa !important;
   color: #6c757d;
-  padding: 0;
-  margin-top: 3rem;
+  padding: 40px 0;
+  margin-top: 40px;
   width: 100%;
   position: relative;
   box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
@@ -875,4 +874,35 @@ footer .fw-bold:hover {
   .artikel-content {
     width: 100%;
   }
+}
+
+/* Tombol Lihat Semua Artikel */
+#lihatSemuaArtikelContainer {
+  margin-top: 2.5rem;
+  width: 100%;
+  max-width: 1200px;
+  margin-left: auto;
+  margin-right: auto;
+}
+
+#lihatSemuaArtikelContainer .btn-outline-success {
+  padding: 0.75rem 2rem;
+  font-size: 1.1rem;
+  font-weight: 500;
+  border: 2px solid #2ab7b4;
+  color: #2ab7b4;
+  transition: all 0.3s ease;
+}
+
+#lihatSemuaArtikelContainer .btn-outline-success:hover {
+  background-color: #2ab7b4;
+  color: white;
+  transform: translateY(-3px);
+  box-shadow: 0 5px 15px rgba(42, 183, 180, 0.3);
+}
+
+/* Fix for footer colored border on homepage */
+.text-center.text-lg-start.bg-light.text-muted {
+  position: relative;
+  z-index: 1;
 }

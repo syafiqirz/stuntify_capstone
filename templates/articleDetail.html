@@ -5,25 +5,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <meta http-equiv="X-UA-Compatible" content="ie=edge" />
     <title>Article Detail</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/Stun.png') }}" />
+    <link rel="icon" href="../static/img/Stun.png" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/articel.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/custom.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/footer.css') }}"
-    />
+    <link rel="stylesheet" href="../static/css/articel.css" />
+    <link rel="stylesheet" href="../static/css/custom.css" />
+    <link rel="stylesheet" href="../static/css/footer.css" />
+    <link rel="stylesheet" href="../static/css/article-layout-fix.css" />
     <script
       src="https://kit.fontawesome.com/30b2892a0a.js"
       crossorigin="anonymous"
@@ -34,41 +26,44 @@
     <header class="navbar">
       <div class="nav-brand">
         <img
-          src="{{ url_for('static', filename='img/Logo stuntify.png') }}"
+          src="../static/img/Logo stuntify.png"
           alt="Stuntify Logo"
           class="brand-logo"
         />
       </div>
-      <nav class="nav-menu">
-        <a href="/"
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html"
           ><img
-            src="{{ url_for('static', filename='img/home.png') }}"
+            src="../static/img/home.png"
             alt="Beranda"
           />
           Beranda</a
         >
-        <a href="/#alur-penggunaan"
+        <a href="index.html#alur-penggunaan"
           ><img
-            src="{{ url_for('static', filename='img/process.png') }}"
+            src="../static/img/process.png"
             alt="Alur Penggunaan"
           />Alur Penggunaan</a
         >
-        <a href="/articel.html" class="active"
+        <a href="articel.html" class="active"
           ><img
-            src="{{ url_for('static', filename='img/article.png') }}"
+            src="../static/img/article.png"
             alt="Artikel"
           />
           Artikel</a
         >
-        <a href="/stunting.html"
+        <a href="stunting.html"
           ><img
-            src="{{ url_for('static', filename='img/calculator.png') }}"
+            src="../static/img/calculator.png"
             alt="Stunting"
           />Prediksi Stunting Calculator</a
         >
-        <a href="/#peta"
+        <a href="index.html#peta"
           ><img
-            src="{{ url_for('static', filename='img/map.png') }}"
+            src="../static/img/map.png"
             alt="Peta Stunting"
           />Stunting Maps</a
         >
@@ -101,7 +96,7 @@
           </li>
         </ul>
         <a
-          href="/articel.html"
+          href="articel.html"
           class="m-3 btn btn-features btn-success rounded-pill py-2 px-4 border-2 fw-semibold fs-6"
           >Kembali ke halaman artikel</a
         >
@@ -113,7 +108,7 @@
           <div class="footer-brand">
             <h2>Stuntify</h2>
             <div class="social-links">
-              <a href="https://github.com/FadlanAmin0" class="social-link"
+              <a href="https://github.com/kyujizt" class="social-link"
                 ><i class="fab fa-github"></i
               ></a>
             </div>
@@ -122,15 +117,15 @@
           <div class="footer-links">
             <div class="link-group">
               <h5>Artikel</h5>
-              <a href="/articel.html">Cek Artikel</a>
+              <a href="articel.html">Cek Artikel</a>
             </div>
             <div class="link-group">
               <h5>Cek Stunting</h5>
-              <a href="/stunting.html">Prediksi Stunting</a>
+              <a href="stunting.html">Prediksi Stunting</a>
             </div>
             <div class="link-group">
               <h5>Infografis Stunting</h5>
-              <a href="/#peta">Lihat Peta</a>
+              <a href="index.html#peta">Lihat Peta</a>
             </div>
             <div class="link-group">
               <h5>About us</h5>
@@ -149,7 +144,50 @@
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-    <script src="{{ url_for('static', filename='js/articel.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <script src="../static/js/articel.js"></script>
+    <script src="../static/js/main.js"></script>
+    <script src="../static/js/navbar-scroll.js"></script>
+    
+    <!-- Mobile menu toggle JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        if (mobileMenuToggle && navMenu) {
+          mobileMenuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+          });
+          
+          // Close menu when clicking outside
+          document.addEventListener('click', function(event) {
+            if (!event.target.closest('.nav-menu') && 
+                !event.target.closest('.mobile-menu-toggle') && 
+                navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+          
+          // Close menu when window is resized to desktop size
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+        }
+      });
+    </script>
+  </body>
+</html>
+          
+          // Close menu when window is resized to desktop size
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

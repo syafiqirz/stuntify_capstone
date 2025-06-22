@@ -5,25 +5,23 @@
     <meta http-equiv="X-UA-Compatible" content="IE=edge" />
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Article - Stunting Center</title>
-    <link rel="icon" href="{{ url_for('static', filename='img/Stun.png') }}" />
+    <link rel="icon" href="../static/img/Stun.png" />
     <link
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
       integrity="sha384-rbsA2VBKQhggwzxH7pPCaAqO46MgnOM80zW1RWuH61DGLwZJEdK2Kadq2F9CUG65"
       crossorigin="anonymous"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/articel.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/custom.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/footer.css') }}"
-    />
+    <!-- Main CSS files -->
+    <link rel="stylesheet" href="../static/css/articel.css" />
+    <link rel="stylesheet" href="../static/css/footer.css" />
+    <link rel="stylesheet" href="../static/css/article-layout-fix.css" />
+    <link rel="stylesheet" href="../static/css/article-listing-responsive.css" />
+    <link rel="stylesheet" href="../static/css/article-detail-responsive.css" />
+    <!-- Additional fixes for styling consistency -->
+    <link rel="stylesheet" href="../static/css/article-fixes.css" />
+    <link rel="stylesheet" href="../static/css/navbar-fixes.css" />
+    <link rel="stylesheet" href="../static/css/common-styles.css" />
     <script
       src="https://kit.fontawesome.com/30b2892a0a.js"
       crossorigin="anonymous"
@@ -34,41 +32,44 @@
     <header class="navbar">
       <div class="nav-brand">
         <img
-          src="{{ url_for('static', filename='img/Logo stuntify.png') }}"
+          src="../static/img/Logo stuntify.png"
           alt="Stuntify Logo"
           class="brand-logo"
         />
       </div>
-      <nav class="nav-menu">
-        <a href="/"
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html"
           ><img
-            src="{{ url_for('static', filename='img/home.png') }}"
+            src="../static/img/home.png"
             alt="Beranda"
           />
           Beranda</a
         >
-        <a href="/#alur-penggunaan"
+        <a href="index.html#alur-penggunaan"
           ><img
-            src="{{ url_for('static', filename='img/process.png') }}"
+            src="../static/img/process.png"
             alt="Alur Penggunaan"
           />Alur Penggunaan</a
         >
-        <a href="/articel.html" class="active"
+        <a href="articel.html" class="active"
           ><img
-            src="{{ url_for('static', filename='img/article.png') }}"
+            src="../static/img/article.png"
             alt="Artikel"
           />
           Artikel</a
         >
-        <a href="/stunting.html"
+        <a href="stunting.html"
           ><img
-            src="{{ url_for('static', filename='img/calculator.png') }}"
+            src="../static/img/calculator.png"
             alt="Stunting"
           />Prediksi Stunting Calculator</a
         >
-        <a href="/#peta"
+        <a href="index.html#peta"
           ><img
-            src="{{ url_for('static', filename='img/map.png') }}"
+            src="../static/img/map.png"
             alt="Peta Stunting"
           />Stunting Maps</a
         >
@@ -80,55 +81,53 @@
         <div class="container">
           <div class="row">
             <!-- Kolom kiri -->
-
-            <div class="col-md-12 col-lg-10 col-xl-8">
+            <div class="col-md-12 col-lg-8 col-xl-8">
               <div id="sorotArticle" class="article-container"></div>
-            <nav aria-label="Page navigation example" style="margin-top: 5%">
-              <ul class="pagination justify-content-center">
-                <!-- Pagination akan dimuat secara dinamis dari JS -->
-              </ul>
-            </nav>
-          </div>
+              <nav aria-label="Page navigation example" style="margin-top: 5%">
+                <ul class="pagination justify-content-center">
+                  <!-- Pagination akan dimuat secara dinamis dari JS -->
+                </ul>
+              </nav>
+            </div>
 
-          <!-- kolom kanan -->
-          <div class="col-md-12 col-lg-2 col-xl-4">
-            <div class="card">
-              <h4 class="mb-2 fw-bold" style="font-size: 24px">
-                Rekomendasi obat dan vitamin untuk anak stunting
-              </h4>
-              <div class="card mb-3" style="max-width: 540px">
-                <div class="row g-0">
-                  <div id="myArticles"></div>
-                </div>
+            <!-- kolom kanan -->
+            <div class="col-md-12 col-lg-4 col-xl-4">
+              <div class="card">
+                <h4 class="mb-2 fw-bold text-center">
+                  Rekomendasi Obat dan Vitamin Anak
+                </h4>
+                <div id="myArticles" class="recommendation-articles"></div>
               </div>
             </div>
           </div>
         </div>
-      </div>
+      </section>
+      
+      <!-- Footer with proper border gradient styling -->
       <footer class="text-center text-lg-start bg-light text-muted">
         <div class="container">
           <div class="footer-content">
             <div class="footer-brand">
               <h2>Stuntify</h2>
               <div class="social-links">
-                <a href="https://github.com/FadlanAmin0" class="social-link"
-                  ><i class="fab fa-github"></i
-                ></a>
+                <a href="https://github.com/kyujizt" class="social-link">
+                  <i class="fab fa-github"></i>
+                </a>
               </div>
             </div>
 
             <div class="footer-links">
               <div class="link-group">
                 <h5>Artikel</h5>
-                <a href="/articel.html">Cek Artikel</a>
+                <a href="articel.html">Cek Artikel</a>
               </div>
               <div class="link-group">
                 <h5>Cek Stunting</h5>
-                <a href="/stunting.html">Prediksi Stunting</a>
+                <a href="stunting.html">Prediksi Stunting</a>
               </div>
               <div class="link-group">
                 <h5>Infografis Stunting</h5>
-                <a href="/#peta">Lihat Peta</a>
+                <a href="index.html#peta">Lihat Peta</a>
               </div>
               <div class="link-group">
                 <h5>About us</h5>
@@ -142,13 +141,77 @@
           </div>
         </div>
       </footer>
-    </section>
     <script
       src="https://cdn.jsdelivr.net/npm/bootstrap@5.2.3/dist/js/bootstrap.bundle.min.js"
       integrity="sha384-kenU1KFdBIe4zVF0s0G1M5b4hcpxyD9F7jL+jjXkk+Q2h455rYXK/7HAuoJl+0I4"
       crossorigin="anonymous"
     ></script>
-    <script src="{{ url_for('static', filename='js/articel.js') }}"></script>
-    <script src="{{ url_for('static', filename='js/main.js') }}"></script>
+    <!-- Navbar scroll functionality -->
+    <script src="../static/js/navbar-scroll.js"></script>
+    <!-- Article-specific JS -->
+    <script src="../static/js/articel.js"></script>
+    
+    <!-- Ensure pagination functions are available globally -->
+    <script>
+      // Backup solution to ensure pagination functions work
+      document.addEventListener('DOMContentLoaded', function() {
+        // Check if functions are already exposed globally
+        if (typeof window.getArticles !== 'function') {
+          console.log("Adding global pagination functions");
+          // Expose the paginated article fetching function globally if not already available
+          window.getArticles = async function(page) {
+            // Find and call the original function from the module
+            const articleContainer = document.getElementById("sorotArticle");
+            if (articleContainer) {
+              // Show loading indicator
+              articleContainer.innerHTML = '<div class="text-center my-5"><div class="spinner-border text-success" role="status"></div><p class="mt-2">Memuat artikel...</p></div>';
+              
+              // Use direct fetch as a fallback
+              try {
+                const url = "https://681245c23ac96f7119a77e57.mockapi.io/nyoba";
+                const articlesPerPage = 6;
+                const response = await fetch(`${url}?page=${page}&limit=${articlesPerPage}`);
+                const data = await response.json();
+                
+                // Reload the page with page parameter to let server-side handle it
+                window.location.href = `/articel.html?page=${page}`;
+              } catch (error) {
+                console.error("Error loading articles:", error);
+              }
+            }
+          };
+        }
+      });
+    </script>
+    
+    <!-- Mobile menu toggle JavaScript -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        if (mobileMenuToggle && navMenu) {
+          mobileMenuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+          });
+          
+          // Close menu when clicking outside
+          document.addEventListener('click', function(event) {
+            if (!event.target.closest('.nav-menu') && 
+                !event.target.closest('.mobile-menu-toggle') && 
+                navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+          
+          // Close menu when window is resized to desktop size
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+        }
+      });
+    </script>
   </body>
 </html>

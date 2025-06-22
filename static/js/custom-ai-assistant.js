@@ -1,7 +1,13 @@
 /**
- * Custom AI Assistant for Stunting Calculator
- * This file contains the logic for our custom generative AI assistant
+ * Custom AI Assistant for Stunting Calculator - CONSOLIDATED VERSION
+ * This file contains the unified logic for our custom generative AI assistant
  * that provides recommendations based on child growth assessment
+ * 
+ * This is a consolidated version that includes all functionality from:
+ * - custom-ai-assistant.js (StuntingAI functionality)
+ * - chatbot-positioning.js (ChatbotPositioner class)
+ * - chatbot-position-fix.js (positioning fixes)
+ * - stunting-recommendations.js (StuntingRecommendations class)
  */
 
 class StuntingAI {
@@ -74,14 +80,14 @@ class StuntingAI {
         ]
       },
 
-      // Respons untuk kondisi stunting berat dengan berbagai kondisi berat
-      severeStunting: {
+      // Respons untuk kondisi stunting berat dengan berat normal
+      severeStuntingNormalWeight: {
         title: "Stunting Berat - Perhatian Khusus Diperlukan",
         interpretation: [
           "**Status Stunting: Berat**: Tinggi badan anak Anda jauh di bawah standar untuk usianya.",
-          "**Kondisi Ini Memerlukan Perhatian Segera**: Stunting berat dapat mempengaruhi perkembangan fisik dan kognitif anak."
+          "**Berat Badan: Normal**: Berat badan anak Anda berada dalam rentang normal untuk usianya."
         ],
-        conclusion: "Anak Anda mengalami stunting berat, yang membutuhkan intervensi segera dan komprehensif untuk membantu optimalisasi pertumbuhan.",
+        conclusion: "Anak Anda mengalami stunting berat, meskipun berat badannya normal untuk usianya. Ini memerlukan perhatian khusus.",
         recommendations: [
           "**Konsultasi Medis Segera**: Temui dokter anak untuk evaluasi menyeluruh dan rencana penanganan.",
           "**Program Nutrisi Intensif**: Ikuti program nutrisi khusus yang dirancang oleh ahli gizi.",
@@ -92,6 +98,25 @@ class StuntingAI {
         ]
       },
 
+      // Respons untuk kondisi stunting berat dengan berat kurang
+      severeStuntingWithUnderweight: {
+        title: "Stunting Berat dengan Berat Badan Kurang",
+        interpretation: [
+          "**Status Stunting: Berat**: Tinggi badan anak Anda jauh di bawah standar untuk usianya.",
+          "**Berat Badan: Kurang**: Berat badan anak Anda juga berada di bawah standar untuk usianya."
+        ],
+        conclusion: "Anak Anda mengalami stunting berat disertai dengan berat badan kurang. Kombinasi ini membutuhkan intervensi segera dan komprehensif.",
+        recommendations: [
+          "**Konsultasi Medis Segera**: Temui dokter anak untuk evaluasi menyeluruh dan penanganan intensif.",
+          "**Program Nutrisi Prioritas**: Ikuti program nutrisi khusus yang dirancang oleh ahli gizi untuk mengatasi stunting dan berat badan kurang secara bersamaan.",
+          "**Makanan Padat Gizi**: Berikan makanan dengan densitas nutrisi tinggi seperti telur, ikan, daging tanpa lemak, kacang-kacangan, dan susu.",
+          "**Pola Makan Teratur**: Berikan 5-6 kali makan sehari (3 makanan utama + 2-3 camilan bergizi) untuk meningkatkan asupan kalori dan nutrisi.",
+          "**Suplementasi Gizi**: Konsultasikan dengan dokter untuk suplementasi vitamin A, D, zink, zat besi dan kalsium sesuai kebutuhan.",
+          "**Pencegahan Infeksi**: Pastikan kebersihan dan vaksinasi lengkap untuk mencegah infeksi yang dapat memperburuk kondisi.",
+          "**Pemantauan Ketat**: Lakukan pemeriksaan tumbuh kembang secara teratur, idealnya setiap 2 minggu di awal intervensi."
+        ]
+      },
+      
       // Respons untuk kondisi obesitas
       obesity: {
         title: "Obesitas - Perhatian Khusus Diperlukan",
@@ -199,6 +224,161 @@ class StuntingAI {
         ]
       }
     };
+    
+    // Tambahan responses untuk pertanyaan umum
+    this.generalResponses = {
+      vitamin: {
+        title: "Vitamin dan Suplemen untuk Pencegahan Stunting",
+        content: `Untuk mendukung pencegahan stunting dan kesehatan optimal, berikut beberapa vitamin dan suplemen yang direkomendasikan:
+
+1. Vitamin A: 
+   • Penting untuk pertumbuhan, perkembangan, dan fungsi kekebalan tubuh
+   • Sumber: wortel, ubi jalar, bayam, telur, susu
+
+2. Vitamin D: 
+   • Membantu penyerapan kalsium dan penting untuk pertumbuhan tulang
+   • Sumber: sinar matahari, ikan berlemak, kuning telur, susu yang difortifikasi
+
+3. Kalsium: 
+   • Penting untuk pembentukan tulang dan gigi yang kuat
+   • Sumber: susu, keju, yogurt, ikan teri, tahu yang diolah dengan kalsium
+
+4. Zinc: 
+   • Mendukung pertumbuhan dan sistem kekebalan tubuh
+   • Sumber: daging merah, unggas, kacang-kacangan, biji-bijian
+
+5. Zat Besi: 
+   • Mencegah anemia dan mendukung perkembangan otak
+   • Sumber: daging merah, hati, bayam, kacang-kacangan
+
+6. Asam Folat: 
+   • Sangat penting untuk pertumbuhan sel dan perkembangan jaringan
+   • Sumber: sayuran hijau, kacang-kacangan, buah jeruk
+
+Namun, sebaiknya konsumsi suplemen dilakukan setelah berkonsultasi dengan dokter atau ahli gizi untuk mendapatkan dosis yang tepat sesuai kebutuhan individu.`
+      },
+      nutrition: {
+        title: "Pola Makan Seimbang untuk Mencegah Stunting",
+        content: `Pola makan seimbang untuk mencegah stunting dan mendukung pertumbuhan optimal:
+
+1. Protein Berkualitas:
+   • Telur, ikan, daging tanpa lemak, tahu, tempe
+   • Penting untuk pertumbuhan dan pembentukan otot
+
+2. Karbohidrat Kompleks:
+   • Nasi merah, roti gandum, ubi, kentang
+   • Sumber energi yang stabil
+
+3. Lemak Sehat:
+   • Alpukat, kacang-kacangan, minyak zaitun
+   • Penting untuk perkembangan otak
+
+4. Sayuran dan Buah-buahan:
+   • Minimal 5 porsi sehari dengan beragam warna
+   • Sumber vitamin, mineral dan antioksidan
+
+5. Susu dan Produk Susu:
+   • Sumber kalsium untuk pertumbuhan tulang
+   • 2-3 porsi sehari
+
+Makan dengan teratur 3 kali sehari plus 2 camilan sehat dan hindari makanan olahan tinggi gula, garam dan lemak trans.`
+      },
+      growth: {
+        title: "Faktor yang Mempengaruhi Pertumbuhan",
+        content: `Pertumbuhan tinggi badan anak dipengaruhi oleh berbagai faktor:
+
+1. Genetik/keturunan: Memengaruhi sekitar 60-80% potensi tinggi badan
+
+2. Nutrisi: Asupan protein, kalsium, vitamin D, dan zinc sangat penting untuk pertumbuhan optimal
+
+3. Hormon pertumbuhan: Diproduksi oleh kelenjar pituitari, sangat aktif saat tidur
+
+4. Aktivitas fisik: Merangsang produksi hormon pertumbuhan dan memperkuat tulang
+
+5. Kualitas tidur: Waktu tidur yang cukup meningkatkan produksi hormon pertumbuhan
+
+6. Kesehatan umum: Infeksi kronis atau penyakit dapat menghambat pertumbuhan
+
+Tips meningkatkan pertumbuhan:
+• Pastikan anak mendapat nutrisi seimbang
+• Dorong aktivitas fisik teratur
+• Jaga kualitas tidur (10-12 jam untuk anak kecil)
+• Periksa kesehatan secara berkala
+• Hindari stres berlebihan yang dapat memengaruhi pertumbuhan`
+      },
+      activity: {
+        title: "Aktivitas Fisik untuk Mendukung Pertumbuhan",
+        content: `Aktivitas fisik yang direkomendasikan untuk mendukung pertumbuhan optimal anak:
+
+Untuk bayi (0-12 bulan):
+• Waktu tengkurap dengan pengawasan
+• Permainan interaktif yang menggerakkan tangan dan kaki
+• Stimulasi sensori dengan mainan berwarna-warni dan bertekstur
+
+Untuk batita (1-3 tahun):
+• Aktivitas aktif minimal 180 menit sehari
+• Bermain di luar ruangan: berlari, melompat, melempar bola
+• Aktivitas yang melatih keseimbangan, seperti berjalan di atas garis
+
+Untuk anak prasekolah (3-5 tahun):
+• Aktivitas aktif 180 menit sehari, termasuk 60 menit aktivitas energik
+• Bermain di taman bermain: panjat, ayunan, seluncuran
+• Permainan kelompok sederhana seperti kejar-kejaran
+• Aktivitas yang mengembangkan koordinasi seperti menendang/melempar bola
+
+Tips penerapan:
+• Jadikan aktivitas fisik menyenangkan, bukan kewajiban
+• Batasi waktu di depan layar (TV, gadget)
+• Jadi teladan dengan aktif bersama anak
+• Sesuaikan aktivitas dengan minat dan kemampuan anak
+• Berikan pujian untuk upaya, bukan hanya hasil`
+      },
+      greeting: {
+        title: "Selamat Datang di Stuntify Bot",
+        content: `Halo! Saya Stuntify Bot, asisten kesehatan yang siap membantu Anda dengan informasi seputar:
+• Stunting dan pencegahannya
+• Pertumbuhan anak yang optimal
+• Rekomendasi nutrisi dan vitamin
+• Pola makan sehat untuk anak
+• Aktivitas fisik untuk mendukung pertumbuhan
+• Tips pemantauan pertumbuhan anak
+
+Apa yang ingin Anda ketahui tentang kesehatan dan pencegahan stunting pada anak hari ini?`
+      },
+      default: {
+        title: "Bantuan Stuntify Bot",
+        content: `Terima kasih atas pertanyaan Anda. Untuk memberikan informasi yang akurat, saya perlu memahami pertanyaan Anda dengan lebih jelas.
+
+Anda bisa bertanya tentang:
+• Apa itu stunting dan bagaimana mencegahnya
+• Faktor-faktor yang memengaruhi pertumbuhan anak
+• Rekomendasi vitamin dan nutrisi untuk anak
+• Pola makan sehat untuk mencegah stunting
+• Aktivitas fisik yang mendukung pertumbuhan
+• Cara memantau pertumbuhan anak secara efektif
+
+Silakan ajukan pertanyaan Anda kembali dengan lebih spesifik.`
+      },
+      stunting: {
+        title: "Apa itu Stunting?",
+        content: `Stunting adalah kondisi gagal tumbuh pada anak akibat kekurangan gizi kronis, terutama dalam 1000 hari pertama kehidupan (dari kehamilan hingga usia 2 tahun).
+
+Penyebab utama stunting:
+• Kekurangan nutrisi selama kehamilan
+• Pemberian ASI yang tidak optimal
+• Makanan pendamping ASI yang tidak adekuat
+• Infeksi berulang dan penyakit kronis
+• Sanitasi dan kebersihan yang buruk
+
+Dampak stunting:
+• Penurunan perkembangan kognitif dan kecerdasan
+• Penurunan produktivitas
+• Peningkatan risiko penyakit tidak menular di masa dewasa
+• Dampak ekonomi jangka panjang
+
+Pencegahan stunting harus dimulai sejak masa kehamilan dengan memastikan ibu mendapat nutrisi yang cukup, pemberian ASI eksklusif selama 6 bulan pertama, pemberian MPASI yang tepat, serta menjaga kebersihan dan sanitasi lingkungan.`
+      }
+    };
   }
   // Metode untuk mendapatkan respons berdasarkan data anak
   getResponseForChild(data) {
@@ -207,28 +387,29 @@ class StuntingAI {
 
     // Tentukan template respons berdasarkan status
     if (stunting_status === "Normal") {
-      if (weight_status.includes("Normal")) {
+      if (weight_status && weight_status.includes("Normal")) {
         responseTemplate = this.responses.normalHeightNormalWeight;
-      } else if (weight_status.includes("Lebih") || weight_status.includes("Obesitas")) {
+      } else if (weight_status && (weight_status.includes("Lebih") || weight_status.includes("Obesitas"))) {
         responseTemplate = this.responses.normalHeightOverweight;
       } else {
         responseTemplate = this.responses.normalHeightUnderweight;
       }
     } else if (stunting_status === "Stunting Ringan") {
       responseTemplate = this.responses.mildStuntingNormalWeight;
+    } else if (stunting_status === "Stunting Berat" && weight_status && weight_status.includes("Kurang")) {
+      responseTemplate = this.responses.severeStuntingWithUnderweight;
     } else {
       responseTemplate = this.responses.severeStunting;
     }
 
     if (weight_status === "Obesitas") {
-      // Tambahkan rekomendasi khusus untuk obesitas
       responseTemplate = this.responses.obesity;
     }
 
     // Gunakan format respons yang lebih detail dan profesional
     return this.formatResponseDetailed(responseTemplate, data);
   }
-  
+
   // Format bagian suplemen menjadi teks yang dapat dibaca
   formatSupplementsSection(supplements) {
     if (!supplements || supplements.length === 0) {
@@ -307,672 +488,228 @@ class StuntingAI {
   // Metode untuk memformat respons dengan format yang lebih profesional dan komprehensif
   formatResponseDetailed(template, data) {
     const { title, interpretation, conclusion, recommendations } = template;
-    const { height, age, gender, weight, stunting_status, weight_status, ml_stunting_result, ml_wasting_result, name } = data;
+    const { height, age, gender, weight, stunting_status, weight_status, name } = data;
     
-    // Informasi referensi
-    const minNormalHeight = this.getMinNormalHeight(age, gender);
-    const idealWeight = this.getIdealWeight(age, gender);
     const childName = name || "Anak Anda";
+    const ageYears = (age / 12).toFixed(1);
     
-    // Tampilan status stunting yang visual
-    let stuntingStatusIcon = "✅";
-    if (stunting_status === "Stunting Ringan") {
-      stuntingStatusIcon = "⚠️";
-    } else if (stunting_status === "Stunting Berat") {
-      stuntingStatusIcon = "🔴";
-    }
-    
-    // Tampilan status berat yang visual
-    let weightStatusIcon = "✅";
-    if (weight_status.includes("Kurang") || weight_status.includes("Rendah")) {
-      weightStatusIcon = "⚠️";
-    } else if (weight_status.includes("Lebih") || weight_status.includes("Obesitas")) {
-      weightStatusIcon = "⚠️";
-    }
-    
-    // Hasil analisis
-    let response = `### 🤖 **Hasil Analisis AI Stuntify**\n\n`;
-    
-    // Data anak
-    response += `**Data Anak:**\n\n`;
-    response += `* **Usia:** ${age} bulan\n`;
-    response += `* **Jenis Kelamin:** ${gender}\n`;
-    response += `* **Tinggi Badan:** ${height} cm\n`;
-    if (weight) {
-      response += `* **Berat Badan:** ${weight} kg\n`;
-    }
-    
-    response += `\n---\n\n`;
-    
-    // Hasil ML jika tersedia
-    if (ml_stunting_result || ml_wasting_result) {
-      response += `### 📊 **Hasil Prediksi Machine Learning**\n\n`;
-      
-      if (ml_stunting_result) {
-        let mlStuntingIcon = "✅";
-        if (ml_stunting_result === "Stunting Ringan") {
-          mlStuntingIcon = "⚠️";
-        } else if (ml_stunting_result === "Stunting Berat") {
-          mlStuntingIcon = "🔴";
-        }
-        
-        response += `**Status Stunting:**\n${mlStuntingIcon} **${ml_stunting_result}**\n`;
-        response += `📈 Confidence: **${data.stunting_confidence || "85"}%**\n\n`;
-      }
-      
-      if (ml_wasting_result) {
-        let mlWastingIcon = "✅";
-        if (ml_wasting_result !== "Normal") {
-          mlWastingIcon = "⚠️";
-        }
-        
-        response += `**Status Wasting:**\n${mlWastingIcon} **${ml_wasting_result}**\n`;
-        response += `📈 Confidence: **${data.wasting_confidence || "85"}%**\n\n`;
-      }
-      
-      response += `📝 *Catatan:* Hasil ini dihasilkan oleh model Machine Learning dan bersifat prediktif. Untuk akurasi dan tindak lanjut, silakan konsultasikan dengan tenaga medis profesional.\n\n`;
-      response += `---\n\n`;
-    }
-    
-    // Interpretasi pertumbuhan
-    response += `### 📋 **Interpretasi Pertumbuhan**\n\n`;
-    
-    // Tinggi badan
-    response += `* **Tinggi Badan:** **${stunting_status}**\n`;
-    if (stunting_status === "Normal") {
-      response += `  * Tinggi badan ${childName} berada dalam rentang normal untuk ${gender.toLowerCase()} usia ${age} bulan (standar minimal ${minNormalHeight} cm).\n\n`;
-    } else if (stunting_status === "Stunting Ringan") {
-      response += `  * ${childName} berada di bawah standar WHO untuk ${gender.toLowerCase()} usia ${age} bulan. Tinggi badan ${height} cm sementara standar minimal adalah ${minNormalHeight} cm.\n\n`;
-    } else {
-      response += `  * ${childName} berada jauh di bawah standar WHO untuk ${gender.toLowerCase()} usia ${age} bulan. Tinggi badan ${height} cm sementara standar minimal adalah ${minNormalHeight} cm.\n\n`;
-    }
-    
-    // Berat badan jika tersedia
-    if (weight) {
-      response += `* **Berat Badan:** **${weight_status}**\n`;
-      if (weight_status.includes("Normal")) {
-        response += `  * Berat badan ${childName} berada dalam rentang normal (${weight} kg) untuk usia ${age} bulan. Berat ideal sekitar ${idealWeight} kg.\n\n`;
-      } else if (weight_status.includes("Kurang") || weight_status.includes("Rendah")) {
-        response += `  * Berat badan ${childName} di bawah rata-rata (${weight} kg) untuk usia ${age} bulan. Berat ideal seharusnya sekitar ${idealWeight} kg.\n\n`;
-      } else {
-        response += `  * Berat badan ${childName} di atas rata-rata (${weight} kg) untuk usia ${age} bulan. Berat ideal seharusnya sekitar ${idealWeight} kg.\n\n`;
-      }
-    }
-    
-    // Status keseluruhan
-    response += `* **Status Keseluruhan:**\n`;
-    response += `  ${this.getOverallStatus(stunting_status, weight_status)}\n\n`;
-    
-    response += `---\n\n`;
-    
-    // Rekomendasi tindakan
-    response += `### ✅ **Rekomendasi Tindakan**\n\n`;
-    for (let i = 0; i < recommendations.length; i++) {
-      response += `${i+1}. **${recommendations[i].split(":")[0]}**\n`;
-      const description = recommendations[i].split(":")[1] || "";
-      if (description) {
-        response += `   ${description.trim()}\n\n`;
-      }
-    }
-    
-    // Menambahkan rekomendasi vitamin dan aktivitas fisik jika tersedia
-    if (window.stuntingRecommendations) {
-      try {
-        const personalizedRecs = stuntingRecommendations.getPersonalizedRecommendations({
-          age: age,
-          stunting_status: stunting_status,
-          weight_status: weight_status
-        });
-        
-        if (personalizedRecs) {
-          // Tambahkan 2 suplemen teratas
-          if (personalizedRecs.supplements && personalizedRecs.supplements.length > 0) {
-            response += `\n**Suplemen Direkomendasikan:**\n\n`;
-            for (let i = 0; i < Math.min(2, personalizedRecs.supplements.length); i++) {
-              const supp = personalizedRecs.supplements[i];
-              response += `• **${supp.name}**: ${supp.benefits}. Sumber: ${supp.sources}\n`;
-            }
-            response += `\n`;
-          }
-          
-          // Tambahkan 3 aktivitas fisik teratas
-          if (personalizedRecs.activities && personalizedRecs.activities.activities) {
-            const ageAppropriateActivities = personalizedRecs.activities.activities;
-            if (ageAppropriateActivities.length > 0) {
-              response += `\n**Aktivitas Fisik untuk Usia ${age} bulan:**\n\n`;
-              for (let i = 0; i < Math.min(3, ageAppropriateActivities.length); i++) {
-                response += `• ${ageAppropriateActivities[i]}\n`;
-              }
-              response += `\n`;
-            }
-          }
-        }
-      } catch (e) {
-        console.error("Error mengambil rekomendasi:", e);
-      }
-    }
-    
-    // Peringatan penting
-    response += `---\n\n`;
-    response += `### ⚠️ **Peringatan Penting**\n\n`;
-    
-    // Berikan peringatan spesifik berdasarkan kondisi
-    if (stunting_status !== "Normal") {
-      response += `* ❗ Stunting adalah kondisi serius yang dapat memengaruhi kemampuan belajar dan kesehatan jangka panjang anak.\n`;
-      response += `* ❗ Pastikan untuk berkonsultasi dengan dokter atau ahli gizi untuk penanganan yang tepat.\n`;
-    }
-    
-    if (weight_status.includes("Obesitas") || weight_status.includes("Lebih")) {
-      response += `* ❗ Jangan berikan diet ketat, suplemen penurun berat badan, atau obat-obatan tanpa anjuran dokter.\n`;
-      response += `* ❗ Kelebihan berat badan di masa anak-anak bisa meningkatkan risiko penyakit metabolik di kemudian hari.\n`;
-    } else if (weight_status.includes("Kurang") || weight_status.includes("Rendah")) {
-      response += `* ❗ Jangan berikan suplemen penambah berat badan tanpa anjuran dokter.\n`;
-      response += `* ❗ Berat badan kurang perlu penanganan serius untuk mencegah masalah kesehatan lainnya.\n`;
-    }
-    
-    response += `* ❗ Informasi ini bersifat umum dan tidak menggantikan konsultasi medis langsung.\n`;
-    
-    // Kesimpulan AI
-    response += `\n---\n\n`;
-    response += `🔍 **Kesimpulan AI**\n`;
-    response += `${conclusion}\n\n`;
-    response += `📞 *Butuh bantuan lebih lanjut? Tanyakan tentang vitamin, nutrisi, atau aktivitas fisik yang sesuai untuk ${childName}.*\n\n`;
-    
+    let response = `Halo, orangtua dari ${childName}! 
+
+Berdasarkan hasil pengukuran, ${childName} (${age} bulan / ${ageYears} tahun) memiliki kondisi: **${title}**
+
+**Interpretasi Kondisi:**
+${interpretation.join('\n')}
+
+**Kesimpulan:**
+${conclusion}
+
+**Rekomendasi Tindakan:**
+`;
+
+    recommendations.forEach((rec, index) => {
+      response += `${index + 1}. ${rec}\n`;
+    });
+
+    response += `
+**Catatan Penting:**
+• Informasi ini bersifat umum dan tidak menggantikan konsultasi medis langsung
+• Selalu konsultasikan dengan dokter atau ahli gizi untuk penanganan yang tepat
+• Pantau pertumbuhan anak secara berkala`;
+
     return response;
   }
-  
-  // Mendapatkan status keseluruhan berdasarkan stunting dan berat
-  getOverallStatus(stuntingStatus, weightStatus) {
-    if (stuntingStatus === "Normal" && weightStatus.includes("Normal")) {
-      return "✅ **Pertumbuhan Normal**\n    Tinggi dan berat badan dalam rentang normal sesuai usia.";
-    } else if (stuntingStatus === "Normal" && (weightStatus.includes("Kurang") || weightStatus.includes("Rendah"))) {
-      return "⚠️ **Risiko Wasting (Kurus)**\n    Tinggi badan normal tetapi berat badan kurang, perlu peningkatan asupan nutrisi.";
-    } else if (stuntingStatus === "Normal" && (weightStatus.includes("Lebih") || weightStatus.includes("Obesitas"))) {
-      return "⚠️ **Kelebihan Berat Badan**\n    Tinggi badan normal tetapi berat badan berlebih, perlu pengaturan pola makan.";
-    } else if (stuntingStatus.includes("Stunting") && weightStatus.includes("Normal")) {
-      return "⚠️ **Stunting**\n    Tinggi badan di bawah standar tetapi berat badan normal. Perlu fokus pada nutrisi penunjang pertumbuhan.";
-    } else if (stuntingStatus.includes("Stunting") && (weightStatus.includes("Kurang") || weightStatus.includes("Rendah"))) {
-      return "🔴 **Stunting dan Wasting**\n    Kondisi serius dimana tinggi dan berat badan di bawah standar. Memerlukan konsultasi medis dan intervensi nutrisi segera.";
-    } else if (stuntingStatus.includes("Stunting") && (weightStatus.includes("Lebih") || weightStatus.includes("Obesitas"))) {
-      return "⚠️ **Stunting dengan Kelebihan Berat Badan**\n    Kondisi kompleks yang menunjukkan ketidakseimbangan pertumbuhan. Memerlukan penanganan khusus.";
-    } 
-    
-    return "Perlu evaluasi lebih lanjut oleh tenaga kesehatan.";
-  }
-  
-  // Metode untuk mendapatkan respons pertanyaan umum
+
+  // Metode untuk mendapatkan respons berdasarkan pesan user
   getGeneralResponse(query) {
-    // Menentukan respons berdasarkan kata kunci dalam query
-    query = query.toLowerCase();
+    const lowerCaseMessage = query.toLowerCase();
     
-    // Deteksi pertanyaan spesifik tentang data anak
-    if (query.includes("anak saya") || query.includes("bayi saya") || query.includes("pertumbuhan anak saya")) {
-      return `**Pertanyaan tentang Anak Anda**
-
-Untuk memberikan informasi yang akurat tentang pertumbuhan anak Anda, saya memerlukan data seperti usia, tinggi, dan berat badan anak. 
-
-Silakan gunakan kalkulator di halaman ini untuk memasukkan data pengukuran. Setelah itu, saya dapat memberikan analisis dan rekomendasi yang spesifik untuk anak Anda.`;
-    }
-    
-    // Deteksi jenis pertanyaan spesifik dan berikan jawaban yang sesuai
-    
-    // Pertanyaan tentang stunting dasar
-    if (query.includes("apa itu stunting") || query.includes("stunting adalah") || query.includes("pengertian stunting")) {
-      return this.formatGeneralInfo(this.generalInfo.whatIsStunting);
-    } 
-    // Pertanyaan tentang penyebab
-    else if (
-      query.includes("penyebab") || 
-      query.includes("mengapa terjadi") || 
-      (query.includes("kenapa bisa") && query.includes("stunting"))
-    ) {
-      return this.formatGeneralInfo(this.generalInfo.stuntingCauses);
-    } 
-    // Pertanyaan tentang pencegahan
-    else if (
-      query.includes("cegah") || 
-      query.includes("preventif") || 
-      (query.includes("mencegah") && query.includes("stunting"))
-    ) {
-      return this.formatGeneralInfo(this.generalInfo.stuntingPrevention);
-    }
-    // Pertanyaan tentang vitamin dan suplemen
-    else if (
-      (query.includes("vitamin") || query.includes("suplemen") || query.includes("nutrisi")) &&
-      (query.includes("stunting") || query.includes("pertumbuhan") || query.includes("anak"))
-    ) {
-      return this.formatGeneralInfo(this.generalInfo.vitaminsForStunting);
-    }
-    // Pertanyaan tentang aktivitas fisik
-    else if (
-      (query.includes("aktivitas") || query.includes("olahraga") || query.includes("gerak") || 
-       query.includes("bermain") || query.includes("fisik")) &&
-      (query.includes("stunting") || query.includes("pertumbuhan") || query.includes("anak"))
-    ) {
-      return this.formatGeneralInfo(this.generalInfo.exerciseForChildren);
-    }
-    // Pertanyaan tentang program nutrisi
-    else if (
-      (query.includes("program") || query.includes("kebijakan") || query.includes("intervensi")) &&
-      (query.includes("stunting") || query.includes("gizi") || query.includes("nutrisi"))
-    ) {
-      return this.formatGeneralInfo(this.generalInfo.nutritionalPrograms);
-    }
-    // Pertanyaan detail tentang vitamin A
-    else if (query.includes("vitamin a") && (query.includes("stunting") || query.includes("anak"))) {
-      return `**Vitamin A untuk Mencegah Stunting**
-
-**Pentingnya Vitamin A:**
-• Mendukung pertumbuhan sel dan jaringan yang sehat
-• Menjaga kesehatan mata dan penglihatan
-• Memperkuat sistem kekebalan tubuh untuk melawan infeksi
-• Membantu perkembangan tulang dan gigi
-
-**Sumber Vitamin A:**
-• Hati, telur, susu, dan mentega
-• Buah dan sayuran berwarna jingga/oranye (wortel, labu, pepaya, mangga)
-• Sayuran hijau gelap (bayam, kangkung, daun singkong)
-• Minyak kelapa sawit merah
-
-**Dosis yang Direkomendasikan:**
-• 0-6 bulan: 400 mcg per hari (dari ASI)
-• 7-12 bulan: 500 mcg per hari
-• 1-3 tahun: 300 mcg per hari
-• 4-8 tahun: 400 mcg per hari
-
-**Catatan:** Di Indonesia, program suplementasi vitamin A biasanya diberikan dalam bentuk kapsul biru (untuk bayi 6-11 bulan dengan dosis 100.000 IU) dan kapsul merah (untuk anak 12-59 bulan dengan dosis 200.000 IU) dua kali setahun.
-
-Selalu konsultasikan dengan tenaga kesehatan sebelum memberikan suplemen vitamin A tambahan.`;
-    }
-    // Pertanyaan detail tentang vitamin D
-    else if (query.includes("vitamin d") && (query.includes("stunting") || query.includes("anak"))) {
-      return `**Vitamin D untuk Mencegah Stunting**
-
-**Pentingnya Vitamin D:**
-• Membantu penyerapan kalsium dan fosfor untuk pertumbuhan tulang
-• Mendukung fungsi sistem kekebalan tubuh
-• Berperan dalam perkembangan otak
-• Mencegah riketsia (penyakit tulang lunak pada anak)
-
-**Sumber Vitamin D:**
-• Paparan sinar matahari pagi (10-15 menit, 2-3 kali seminggu)
-• Ikan berlemak seperti salmon, tuna, dan makerel
-• Kuning telur
-• Susu dan produk susu yang difortifikasi
-• Jamur yang telah terpapar sinar UV
-
-**Dosis yang Direkomendasikan:**
-• 0-12 bulan: 400 IU (10 mcg) per hari
-• 1-18 tahun: 600 IU (15 mcg) per hari
-
-**Tips Mendapatkan Vitamin D:**
-• Ajak anak bermain di luar rumah pada pagi hari (sebelum jam 10)
-• Jangan gunakan tabir surya selama paparan singkat ini
-• Bila jarang terpapar matahari, konsultasikan ke dokter untuk suplementasi
-
-**Catatan:** Kekurangan vitamin D dapat menyebabkan gangguan pembentukan tulang yang dapat berkontribusi pada terjadinya stunting.`;
-    }
-    // Pertanyaan detail tentang kalsium
-    else if (query.includes("kalsium") && (query.includes("stunting") || query.includes("anak"))) {
-      return `**Kalsium untuk Mencegah Stunting**
-
-**Pentingnya Kalsium:**
-• Pembentukan dan pemeliharaan tulang dan gigi yang kuat
-• Mendukung fungsi saraf dan otot
-• Berperan dalam pembekuan darah
-• Mendukung pertumbuhan linier (tinggi badan)
-
-**Sumber Kalsium:**
-• Susu dan produk susu (yogurt, keju)
-• Ikan teri dan sarden (dimakan dengan tulangnya)
-• Tahu yang diproses dengan kalsium
-• Sayuran hijau gelap (brokoli, bayam, daun singkong)
-• Kacang-kacangan dan biji-bijian
-• Buah-buahan seperti jeruk dan pisang
-
-**Dosis yang Direkomendasikan:**
-• 0-6 bulan: 200 mg per hari
-• 7-12 bulan: 260 mg per hari
-• 1-3 tahun: 700 mg per hari
-• 4-8 tahun: 1000 mg per hari
-
-**Tips Meningkatkan Asupan Kalsium:**
-• Berikan susu sebagai minuman utama untuk anak (kecuali jika ada alergi)
-• Tambahkan keju parut pada makanan anak
-• Berikan yogurt sebagai camilan sehat
-• Masak sup dengan tambahan tulang ikan atau ayam
-
-**Catatan:** Vitamin D diperlukan untuk penyerapan kalsium yang optimal. Pastikan anak juga mendapatkan cukup vitamin D.`;
-    }
-    // Pertanyaan detail tentang zat besi
-    else if ((query.includes("zat besi") || query.includes("iron")) && (query.includes("stunting") || query.includes("anak"))) {
-      return `**Zat Besi untuk Mencegah Stunting**
-
-**Pentingnya Zat Besi:**
-• Pembentukan hemoglobin dan sel darah merah
-• Mencegah anemia yang dapat menghambat pertumbuhan
-• Mendukung perkembangan kognitif dan fokus
-• Memperkuat sistem kekebalan tubuh
-
-**Sumber Zat Besi:**
-• Daging merah tanpa lemak
-• Hati dan jeroan
-• Ikan dan makanan laut
-• Telur (terutama kuning telur)
-• Kacang-kacangan dan biji-bijian
-• Sayuran hijau seperti bayam dan kangkung
-• Makanan yang difortifikasi seperti sereal bayi
-
-**Dosis yang Direkomendasikan:**
-• 0-6 bulan: 0.27 mg per hari (dari ASI)
-• 7-12 bulan: 11 mg per hari
-• 1-3 tahun: 7 mg per hari
-• 4-8 tahun: 10 mg per hari
-
-**Tips Meningkatkan Penyerapan Zat Besi:**
-• Berikan makanan yang mengandung vitamin C bersamaan dengan sumber zat besi
-• Hindari minum teh atau kopi bersamaan dengan makanan kaya zat besi
-• Gunakan peralatan masak berbahan besi untuk menambah asupan zat besi
-
-**Catatan:** Kekurangan zat besi dapat menyebabkan anemia yang berhubungan dengan gangguan pertumbuhan. Di Indonesia, pemberian tablet tambah darah biasanya dilakukan untuk ibu hamil untuk mencegah anemia dan stunting pada janin.`;
-    }
-    // Pertanyaan detail tentang zinc
-    else if (query.includes("zinc") && (query.includes("stunting") || query.includes("anak"))) {
-      return `**Zinc untuk Mencegah Stunting**
-
-**Pentingnya Zinc:**
-• Mendukung pertumbuhan dan perkembangan fisik
-• Berperan dalam sintesis protein dan DNA
-• Memperkuat sistem kekebalan tubuh
-• Membantu penyembuhan luka dan mencegah infeksi
-• Mendukung fungsi indera perasa dan penciuman
-
-**Sumber Zinc:**
-• Daging merah dan unggas
-• Tiram dan seafood
-• Kacang-kacangan dan biji-bijian
-• Susu dan produk susu
-• Telur
-• Biji labu
-• Gandum utuh
-
-**Dosis yang Direkomendasikan:**
-• 0-6 bulan: 2 mg per hari
-• 7-12 bulan: 3 mg per hari
-• 1-3 tahun: 3 mg per hari
-• 4-8 tahun: 5 mg per hari
-
-**Tips Meningkatkan Asupan Zinc:**
-• Kombinasikan sumber protein hewani dan nabati dalam menu anak
-• Rendam kacang-kacangan dan biji-bijian sebelum dimasak untuk meningkatkan ketersediaan zinc
-• Hindari konsumsi teh bersamaan dengan makanan kaya zinc
-
-**Catatan:** Kekurangan zinc telah terbukti berhubungan erat dengan stunting. Di Indonesia, suplementasi zinc sering direkomendasikan sebagai bagian dari penanganan diare pada anak, yang juga membantu mencegah stunting.`;
-    }
-    // Pertanyaan tentang ASI
-    else if ((query.includes("asi") || query.includes("air susu ibu") || query.includes("menyusui")) && 
-             (query.includes("stunting") || query.includes("pencegahan") || query.includes("pertumbuhan"))) {
-      return `**ASI dan Pencegahan Stunting**
-
-**Pentingnya ASI untuk Mencegah Stunting:**
-• ASI mengandung semua nutrisi yang dibutuhkan bayi hingga usia 6 bulan
-• Mengandung antibodi yang melindungi dari infeksi, sehingga mengurangi risiko penyakit yang dapat menghambat pertumbuhan
-• Memiliki komposisi lemak ideal untuk perkembangan otak dan sistem saraf
-• Mudah dicerna, meningkatkan penyerapan nutrisi
-
-**Rekomendasi Pemberian ASI:**
-• ASI eksklusif selama 6 bulan pertama kehidupan
-• Lanjutkan pemberian ASI hingga usia 2 tahun atau lebih, bersamaan dengan MPASI
-• Menyusui sesuai permintaan (on demand), minimal 8 kali sehari untuk bayi baru lahir
-• Pastikan teknik menyusui yang benar untuk memastikan bayi mendapat cukup ASI
-
-**Manfaat ASI untuk Mencegah Stunting:**
-• Menurunkan risiko infeksi saluran pencernaan yang dapat mengganggu penyerapan nutrisi
-• Membangun sistem kekebalan tubuh yang kuat
-• Memastikan pola pertumbuhan yang optimal
-• Mengurangi risiko malnutrisi pada masa bayi
-
-**Tips untuk Ibu Menyusui:**
-• Pastikan asupan cairan yang cukup
-• Konsumsi makanan bergizi seimbang dengan tambahan 500 kalori per hari
-• Dapatkan dukungan dari keluarga dan tenaga kesehatan
-• Hindari stres berlebihan yang dapat mempengaruhi produksi ASI
-
-**Program Pendukung ASI di Indonesia:**
-• Inisiasi Menyusu Dini (IMD)
-• Konseling menyusui di fasilitas kesehatan
-• Ruang Laktasi di tempat kerja dan fasilitas umum
-• Kelompok Pendukung ASI di komunitas`;
-    }
-    // Pertanyaan tentang MPASI
-    else if (query.includes("mpasi") || (query.includes("makanan pendamping") && query.includes("asi"))) {
-      return `**MPASI (Makanan Pendamping ASI) untuk Mencegah Stunting**
-
-**Pentingnya MPASI yang Tepat:**
-• Melengkapi nutrisi dari ASI setelah usia 6 bulan
-• Memperkenalkan berbagai nutrisi esensial untuk pertumbuhan optimal
-• Mengembangkan keterampilan makan dan kebiasaan makan sehat
-• Mencegah malnutrisi dan stunting
-
-**Waktu Pemberian MPASI yang Tepat:**
-• Mulai pada usia 6 bulan, tidak lebih awal atau terlambat
-• Lanjutkan pemberian ASI bersamaan dengan MPASI hingga usia 2 tahun atau lebih
-• Tingkatkan tekstur makanan secara bertahap sesuai perkembangan anak
-
-**Prinsip MPASI yang Baik:**
-• Tepat waktu: mulai saat ASI tidak lagi mencukupi kebutuhan nutrisi (usia 6 bulan)
-• Adekuat: mencukupi kebutuhan nutrisi untuk pertumbuhan optimal
-• Aman: disiapkan dan disimpan dengan higienis
-• Diberikan dengan responsif: memperhatikan sinyal lapar dan kenyang anak
-
-**Panduan MPASI Berdasarkan Usia:**
-• 6-8 bulan: Makanan lumat halus, 2-3 kali sehari + ASI
-• 9-11 bulan: Makanan cincang, 3-4 kali sehari + ASI
-• 12-24 bulan: Makanan keluarga, 3-4 kali sehari + 1-2 kali snack + ASI
-
-**Makanan Penting dalam MPASI untuk Mencegah Stunting:**
-• Sumber protein: telur, ikan, daging, ayam, hati, kacang-kacangan
-• Sumber karbohidrat: nasi, kentang, ubi, jagung
-• Sumber lemak: alpukat, minyak, santan (dalam jumlah moderat)
-• Buah dan sayur beragam warna
-• Makanan kaya zat besi, zinc, kalsium, dan vitamin A
-
-**Catatan:** Pemberian MPASI yang tepat merupakan komponen penting dalam pencegahan stunting pada anak.`;
-    }
-    
-    // Filter pertanyaan di luar topik stunting dan pertumbuhan anak
-    else if (
-      this.isOutOfScopeQuestion(query)
-    ) {
-      return this.getOutOfScopeResponse();
-    }
-    else {
-      // Default response
-      return this.getDefaultResponse();
+    if (lowerCaseMessage.includes("vitamin") || lowerCaseMessage.includes("suplemen")) {
+      return this.generalResponses.vitamin.content;
+    } else if (lowerCaseMessage.includes("makan") || lowerCaseMessage.includes("nutrisi") || lowerCaseMessage.includes("makanan")) {
+      return this.generalResponses.nutrition.content;
+    } else if (lowerCaseMessage.includes("stunting")) {
+      return this.generalResponses.stunting.content;
+    } else if (lowerCaseMessage.includes("pertumbuhan") || lowerCaseMessage.includes("tinggi badan")) {
+      return this.generalResponses.growth.content;
+    } else if (lowerCaseMessage.includes("aktivitas") || lowerCaseMessage.includes("bermain") || lowerCaseMessage.includes("olahraga")) {
+      return this.generalResponses.activity.content;
+    } else if (lowerCaseMessage.includes("terima kasih") || lowerCaseMessage.includes("makasih")) {
+      return "Sama-sama! Senang bisa membantu Anda. Jika ada pertanyaan lain seputar kesehatan, nutrisi, atau pencegahan stunting, jangan ragu untuk bertanya kembali.";
+    } else if (lowerCaseMessage.includes("halo") || lowerCaseMessage.includes("hai") || lowerCaseMessage.includes("hi")) {
+      return this.generalResponses.greeting.content;
+    } else {
+      return this.generalResponses.default.content;
     }
   }
-  
-  // Metode untuk mendeteksi pertanyaan yang di luar topik stunting dan pertumbuhan anak
-  isOutOfScopeQuestion(query) {
-    // Kata kunci topik di luar cakupan
-    const outOfScopeKeywords = [
-      "politik", "ekonomi", "presiden", "pemerintah", "perang", 
-      "artis", "selebriti", "film", "sinetron", "drama",
-      "olahraga", "sepakbola", "basket", "voli",
-      "resep", "masakan", "makanan", "restoran",
-      "teknologi", "komputer", "laptop", "smartphone",
-      "musik", "lagu", "konser", "album",
-      "games", "permainan", "game", "video game",
-      "cuaca", "iklim", "ramalan", "prakiraan",
-      "tiket", "perjalanan", "wisata", "liburan",
-      "berita", "gosip", "skandal", "trending"
-    ];
-    
-    // Jika query tidak mengandung kata kunci stunting/pertumbuhan tapi mengandung topik lain
-    const containsStuntingKeywords = 
-      query.includes("stunting") || 
-      query.includes("pertumbuhan") || 
-      query.includes("tinggi badan") ||
-      query.includes("berat badan") ||
-      query.includes("nutrisi") ||
-      query.includes("gizi") ||
-      query.includes("anak");
-    
-    if (!containsStuntingKeywords) {
-      // Periksa apakah mengandung kata kunci di luar topik
-      for (const keyword of outOfScopeKeywords) {
-        if (query.includes(keyword)) {
-          return true;
-        }
-      }
-    }
-    
-    return false;
-  }
-  
-  // Respons untuk pertanyaan di luar topik
-  getOutOfScopeResponse() {
-    return `**Maaf, Saya Hanya Dapat Membantu Seputar Stunting dan Pertumbuhan Anak**
 
-Saya adalah asisten AI Stuntify yang dikhususkan untuk menjawab pertanyaan tentang stunting dan pertumbuhan anak. Mohon ajukan pertanyaan seputar:
+  // Metode untuk menghasilkan rekomendasi awal berdasarkan hasil analisis
+  generateInitialRecommendation(status, height, age, minHeight, name, gender, weight, weightStatus) {
+    const ageYears = (age / 12).toFixed(1);
+    const heightDiff = minHeight - height;
+    
+    // Template respons berdasarkan kondisi
+    const responseTemplates = {
+      stuntingBeratWithUnderweight: () => {
+        return `Halo, orangtua dari ${name}! 
 
-• Pengertian dan penyebab stunting
-• Cara mencegah dan mengatasi stunting 
-• Informasi tentang vitamin, nutrisi, dan suplemen untuk pertumbuhan anak
-• Aktivitas fisik untuk mendukung pertumbuhan optimal
-• Program nutrisi untuk pencegahan stunting
-• Interpretasi hasil pengukuran anak
+Berdasarkan hasil pengukuran, ${name} memiliki kondisi stunting berat dengan tinggi ${height} cm (sekitar ${heightDiff.toFixed(1)} cm di bawah standar normal) dan juga berat badan kurang yaitu ${weight} kg.
 
-Mari fokus pada topik seputar stunting dan kesehatan anak. 😊`;
-  }
+Kondisi ini memerlukan perhatian medis segera karena kombinasi stunting berat dan berat badan kurang (yang disebut stunting dan wasting) membutuhkan penanganan komprehensif:
 
-  // Metode untuk mendapatkan topik dari pertanyaan
-  detectQuestionTopic(query) {
-    query = query.toLowerCase();
-    
-    // Objek untuk menyimpan skor topik
-    const topicScores = {
-      stunting: 0,
-      nutrition: 0,
-      vitamins: 0,
-      exercise: 0,
-      development: 0
-    };
-    
-    // Kata kunci untuk setiap topik
-    const keywords = {
-      stunting: ["stunting", "pendek", "tinggi badan", "pertumbuhan", "gagal tumbuh"],
-      nutrition: ["gizi", "nutrisi", "makan", "makanan", "diet", "asupan", "mpasi", "asi"],
-      vitamins: ["vitamin", "suplemen", "mikronutrien", "mineral", "kalsium", "zat besi", "zinc", "omega"],
-      exercise: ["aktivitas", "fisik", "olahraga", "gerak", "bermain", "latihan", "motorik"],
-      development: ["perkembangan", "kognitif", "otak", "kemampuan", "milestone", "tahapan"]
-    };
-    
-    // Hitung skor untuk setiap topik
-    for (const topic in keywords) {
-      for (const keyword of keywords[topic]) {
-        if (query.includes(keyword)) {
-          topicScores[topic] += 1;
-        }
-      }
-    }
-    
-    // Tentukan topik dengan skor tertinggi
-    let highestScore = 0;
-    let mainTopic = "general";
-    
-    for (const topic in topicScores) {
-      if (topicScores[topic] > highestScore) {
-        highestScore = topicScores[topic];
-        mainTopic = topic;
-      }
-    }
-    
-    return {
-      topic: mainTopic,
-      score: highestScore
-    };
-  }
-  
-  // Metode untuk mendapatkan rekomendasi detail berdasarkan pertanyaan dan data anak
-  getDetailedRecommendations(query, childData) {
-    // Pastikan stuntingRecommendations tersedia
-    if (!window.stuntingRecommendations) {
-      return "Mohon maaf, sistem rekomendasi detail sedang tidak tersedia. Silakan coba lagi nanti.";
-    }
-    
-    // Deteksi topik pertanyaan
-    const topicInfo = this.detectQuestionTopic(query);
-    const { topic } = topicInfo;
-    
-    // Dapatkan rekomendasi berdasarkan data anak
-    const recommendations = stuntingRecommendations.getPersonalizedRecommendations({
-      age: childData.age,
-      stunting_status: childData.stunting_status,
-      weight_status: determineWeightStatus(childData.weight, childData.age, childData.gender)
-    });
-    
-    // Pengantar pesan yang disesuaikan dengan topik pertanyaan
-    let intro = "";
-    const childName = childData.name || "anak Anda";
-    
-    switch (topic) {
-      case "nutrition":
-        intro = `**Rekomendasi Nutrisi untuk ${childName}**\n\nBerikut adalah rekomendasi nutrisi yang disesuaikan untuk ${childName} (${childData.age} bulan):\n\n`;
-        break;
-      case "vitamins":
-        intro = `**Rekomendasi Vitamin & Suplemen untuk ${childName}**\n\nBerikut adalah vitamin dan suplemen yang dapat mendukung pertumbuhan ${childName} (${childData.age} bulan):\n\n`;
-        break;
-      case "exercise":
-        intro = `**Rekomendasi Aktivitas Fisik untuk ${childName}**\n\nBerikut adalah aktivitas fisik yang cocok untuk ${childName} (${childData.age} bulan):\n\n`;
-        break;
-      default:
-        intro = `**Rekomendasi Lengkap untuk ${childName}**\n\nBerikut adalah rekomendasi komprehensif untuk mendukung pertumbuhan optimal ${childName} (${childData.age} bulan):\n\n`;
-    }
-    
-    // Format rekomendasi berdasarkan topik
-    let response = "";
-    if (topic === "nutrition") {
-      response = intro + this.formatNutritionRecommendation(recommendations.nutrition) + 
-                "\n\n**Catatan:** Nutrisi yang baik adalah fondasi pertumbuhan optimal. Jangan lupa untuk memberikan makanan yang beragam dan kaya nutrisi.";
-    } 
-    else if (topic === "vitamins") {
-      let suppText = "";
-      recommendations.supplements.forEach((supp, i) => {
-        suppText += `${i+1}. **${supp.name}**\n`;
-        suppText += `   • Manfaat: ${supp.benefits}\n`;
-        suppText += `   • Sumber: ${supp.sources}\n`;
-        suppText += `   • Dosis: ${supp.dosage}\n\n`;
-      });
+1. Evaluasi Kondisi:
+   • Stunting berat menunjukkan adanya kekurangan gizi kronis jangka panjang
+   • Segera konsultasikan ke dokter anak atau ahli gizi untuk evaluasi menyeluruh
+   • Pemeriksaan darah mungkin diperlukan untuk mengidentifikasi kekurangan nutrisi spesifik
+
+2. Rekomendasi Nutrisi:
+   • Prioritaskan makanan padat nutrisi: telur, ikan, daging, susu, kacang-kacangan
+   • Berikan makanan dengan densitas kalori tinggi: tambahkan minyak zaitun atau alpukat ke makanan
+   • Suplementasi vitamin A, D, zink, dan zat besi sesuai anjuran dokter
+
+3. Pola Makan:
+   • Berikan 5-6 kali makan sehari (3 makanan utama + 2-3 snack bergizi)
+   • Pastikan setiap makanan mengandung protein, karbohidrat kompleks dan lemak sehat
+   • Hindari makanan "pengisi perut" seperti snack manis atau minuman manis
+
+4. Aktivitas Fisik:
+   • Dorong aktivitas yang menyenangkan seperti bermain di luar rumah
+   • Fokus pada aktivitas yang membangun kekuatan otot secara bertahap
+   • Pastikan istirahat dan tidur yang cukup (10-12 jam untuk balita)
+
+5. Tips untuk Orangtua:
+   • Pantau pertumbuhan secara teratur (setiap bulan) dengan kurva pertumbuhan WHO
+   • Pertimbangkan program intervensi stunting dari puskesmas atau klinik gizi
+   • Perhatikan kebersihan dan pencegahan infeksi yang bisa menghambat pertumbuhan
+
+Penting untuk memahami bahwa perbaikan stunting memerlukan waktu dan konsistensi. Dengan penanganan yang tepat dan dini, masih ada kesempatan untuk mengejar ketertinggalan pertumbuhan, terutama jika anak masih di bawah 2 tahun (periode 1000 hari pertama kehidupan).`;
+      },
       
-      response = intro + suppText + 
-                "\n**Penting:** Selalu konsultasikan dengan dokter sebelum memberikan suplemen tambahan pada anak.";
-    } 
-    else if (topic === "exercise") {
-      let actText = "";
-      recommendations.activities.activities.forEach((act, i) => {
-        actText += `${i+1}. ${act}\n`;
-      });
+      stuntingBerat: () => {
+        return `Halo, orangtua dari ${name}! 
+
+Berdasarkan hasil pengukuran, ${name} berada dalam kategori stunting berat dengan tinggi ${height} cm (sekitar ${heightDiff.toFixed(1)} cm di bawah standar normal untuk usianya).
+
+Ini memerlukan perhatian khusus, namun jangan khawatir, masih banyak yang bisa dilakukan:
+
+1. Evaluasi Kondisi:
+   • Stunting berat menunjukkan kekurangan gizi kronis jangka panjang
+   • Segera konsultasikan ke dokter anak untuk evaluasi menyeluruh
+   • Pemeriksaan lebih lanjut mungkin diperlukan untuk mengetahui penyebab
+
+2. Rekomendasi Nutrisi:
+   • Prioritaskan makanan tinggi protein: telur, ikan, daging, susu, kacang-kacangan
+   • Pastikan asupan kalsium dan vitamin D mencukupi untuk pertumbuhan tulang
+   • Konsultasikan dengan dokter tentang suplementasi vitamin dan mineral
+
+3. Pola Makan:
+   • Berikan makanan dengan nutrisi tinggi dalam porsi kecil tapi sering
+   • Pastikan setiap makanan mengandung protein dan kalsium
+   • Tambahkan lemak sehat seperti minyak zaitun atau alpukat untuk meningkatkan kalori
+   • Hindari junk food dan makanan rendah nutrisi
+
+4. Aktivitas Fisik:
+   • Dorong aktivitas fisik yang menyenangkan dan sesuai kemampuan
+   • Latihan yang melibatkan berat badan dapat menstimulasi pertumbuhan tulang
+   • Pastikan istirahat dan tidur yang cukup (10-12 jam per hari)
+
+5. Tips untuk Orangtua:
+   • Pantau pertumbuhan secara teratur setiap bulan
+   • Cari dukungan dari program pemerintah untuk pencegahan stunting
+   • Hindari infeksi berulang dengan menjaga kebersihan
+
+Ingat bahwa perbaikan kondisi stunting memerlukan waktu dan konsistensi. Terutama jika anak masih di bawah 2 tahun, potensi untuk mengejar pertumbuhan optimal masih terbuka lebar.`;
+      },
       
-      response = intro + actText + 
-                "\n\n**Catatan:** Aktivitas fisik sangat penting untuk pertumbuhan dan perkembangan anak. Pastikan aktivitas menyenangkan dan aman.";
-    } 
-    else {
-      // Berikan rekomendasi lengkap
-      response = intro + stuntingRecommendations.formatRecommendations(recommendations);
-    }
+      stuntingRinganWithUnderweight: () => {
+        return `Halo, orangtua dari ${name}! 
+
+Hasil pengukuran menunjukkan bahwa ${name} mengalami stunting ringan dengan tinggi ${height} cm (sekitar ${heightDiff.toFixed(1)} cm di bawah standar normal) dan juga berat badan kurang yaitu ${weight} kg.
+
+Kondisi ini memerlukan perhatian lebih untuk mendukung pertumbuhan yang optimal:
+
+1. Evaluasi Kondisi:
+   • Kombinasi stunting ringan dan berat badan kurang menunjukkan adanya kekurangan gizi
+   • Pantau pertumbuhan setiap 2 minggu hingga kondisi membaik
+   • Konsultasikan dengan dokter anak untuk evaluasi lengkap
+
+2. Rekomendasi Nutrisi:
+   • Perbanyak asupan protein: telur, ikan, daging, produk susu, kacang-kacangan
+   • Berikan makanan padat energi seperti kentang, pasta, sereal utuh
+   • Tambahkan sumber lemak sehat seperti alpukat, minyak zaitun, kacang-kacangan
+   • Suplementasi vitamin A, D, dan mineral (zinc, zat besi) setelah konsultasi dengan dokter
+
+3. Pola Makan:
+   • Berikan makanan kecil tapi sering (5-6 kali sehari)
+   • Setiap makanan utama harus mengandung protein, karbohidrat kompleks dan lemak sehat
+   • Buatlah makanan menarik dan bervariasi untuk meningkatkan nafsu makan
+   • Hindari minuman manis yang mengenyangkan tanpa memberikan nutrisi
+
+4. Aktivitas Fisik:
+   • Dorong aktivitas fisik ringan tetapi teratur
+   • Batasi aktivitas berlebihan yang membakar kalori terlalu banyak
+   • Pastikan tidur yang cukup untuk produksi hormon pertumbuhan
+
+5. Tips untuk Orangtua:
+   • Catat asupan makanan untuk mengidentifikasi pola makan yang perlu diperbaiki
+   • Pantau berat dan tinggi badan setiap 2 minggu
+   • Periksa adanya infeksi atau masalah kesehatan lain yang mempengaruhi nafsu makan
+   • Pertimbangkan konsultasi dengan ahli gizi untuk rencana nutrisi khusus
+
+Dengan penanganan yang tepat, stunting ringan dan berat badan kurang masih dapat diperbaiki dengan baik, terutama jika anak masih dalam periode emas pertumbuhan (di bawah 2 tahun). Tetap konsisten dan pantau kemajuannya secara teratur.`;
+      },
+      
+      stuntingRingan: () => {
+        return `Halo, orangtua dari ${name}! 
+
+Hasil pengukuran menunjukkan bahwa ${name} mengalami stunting ringan dengan tinggi ${height} cm (sekitar ${heightDiff.toFixed(1)} cm di bawah standar normal untuk usianya).
+
+Stunting ringan masih bisa diatasi dengan intervensi yang tepat. Berikut rekomendasinya:
+
+1. Evaluasi Kondisi:
+   • Stunting ringan mengindikasikan adanya keterlambatan pertumbuhan yang masih bisa dikejar
+   • Lakukan pemantauan pertumbuhan rutin setiap bulan
+   • Diskusikan dengan dokter anak untuk mendapatkan saran yang lebih personal
+
+2. Rekomendasi Nutrisi & Vitamin:
+   • Vitamin A, D dan mineral seperti kalsium, zinc dan zat besi
+   • Protein berkualitas tinggi dari daging, unggas, ikan, telur, dan susu
+   • Asam lemak esensial untuk perkembangan otak (dari ikan berlemak, alpukat)
+
+3. Pola Makan Ideal:
+   • Sajikan makanan dengan prinsip "isi piringku" (1/2 sayur dan buah, 1/4 protein, 1/4 karbohidrat)
+   • Batasi makanan dan minuman tinggi gula, garam, dan lemak jenuh
+   • Berikan air putih sebagai minuman utama
+   • Jadwalkan waktu makan teratur 3x sehari dengan 2x camilan sehat
+
+4. Aktivitas Fisik yang Disarankan:
+   • Mendorong aktivitas fisik minimal 60-180 menit sehari sesuai usia
+   • Aktivitas yang menyenangkan seperti berlari, bermain bola, berenang, atau bersepeda
+   • Batasi waktu di depan layar (TV, tablet, smartphone)
+   • Pastikan tidur yang cukup (10-12 jam untuk balita, 9-10 jam untuk anak-anak)
+
+5. Tips Pemantauan:
+   • Dokumentasikan pertumbuhan dengan buku KIA atau aplikasi pemantauan tumbuh kembang
+   • Perhatikan tanda-tanda perkembangan motorik dan kognitif sesuai usia
+   • Diskusikan pertumbuhan anak saat kunjungan rutin ke dokter anak
+
+Pertahankan pola hidup dan makan sehat ini untuk memastikan ${name} tetap tumbuh optimal dan terhindar dari stunting di masa mendatang.`;
+      }
+    };
     
-    return response;
+    // Tentukan respons berdasarkan kondisi
+    if (status === 'Stunting Berat' && weightStatus && weightStatus.status.includes('Kurang')) {
+      return responseTemplates.stuntingBeratWithUnderweight();
+    } else if (status === 'Stunting Berat') {
+      return responseTemplates.stuntingBerat();
+    } else if (status === 'Stunting Ringan' && weightStatus && weightStatus.status.includes('Kurang')) {
+      return responseTemplates.stuntingRinganWithUnderweight();
+    } else if (status === 'Stunting Ringan') {
+      return responseTemplates.stuntingRingan();
+    } else {
+      return responseTemplates.normal();
+    }
   }
-    // Format rekomendasi nutrisi
-  formatNutritionRecommendation(nutrition) {
-    let text = `**${nutrition.title}**\n\n`;
-    nutrition.recommendations.forEach((rec, i) => {
-      text += `${i+1}. ${rec}\n`;
-    });
-    return text;
-  }
-  
+
   // Get minimum normal height based on age and gender
   getMinNormalHeight(age, gender) {
     // Access the global stuntingReference object if defined in the global scope
@@ -1016,8 +753,623 @@ Mari fokus pada topik seputar stunting dan kesehatan anak. 😊`;
   }
 }
 
-// Initialize StuntingAI when the page loads
-let stuntingAI;
+/**
+ * Chatbot Positioning Functionality
+ * This code handles the positioning of the chatbot below calculation results and charts
+ */
+class ChatbotPositioner {  constructor() {
+    this.chatContainer = document.getElementById('chat-container');
+    this.historyCard = document.querySelector('.history-card');
+    this.calculationResults = document.getElementById('calculation-results');
+    this.chartContainer = document.getElementById('chart-container-placeholder');
+    this.calculationPerformed = false; // Add flag to track if calculation was ever performed
+    this.setupEventListeners();
+    this.addSupportingStyles();
+    this.setupToggleButton();
+    
+    // Make sure the chatbot is hidden initially - will be shown after calculation
+    if (this.chatContainer) {
+      this.chatContainer.style.display = 'none';
+    }
+  }
+
+  setupEventListeners() {
+    // Setup for the calculation button
+    const submitButton = document.getElementById('btn-submit-stunting');
+    if (submitButton) {
+      submitButton.addEventListener('click', () => {
+        // Position in history card with delay to let other components render first
+        setTimeout(() => this.positionChatbotInHistoryCard(), 500);
+      });
+    }
+
+    // Setup for chart viewing
+    this.setupChartEventListeners();
+  }
+    setupToggleButton() {
+    const toggleButton = document.getElementById('chat-toggle');
+    const toggleIcon = document.getElementById('toggle-icon');
+    
+    if (toggleButton && this.chatContainer) {
+      // Initially make sure the chat is expanded (not collapsed)
+      this.chatContainer.classList.remove('chat-collapsed');
+      
+      toggleButton.addEventListener('click', () => {
+        console.log("Toggle button clicked");
+        this.chatContainer.classList.toggle('chat-collapsed');
+        
+        // Update icon
+        if (this.chatContainer.classList.contains('chat-collapsed')) {
+          toggleIcon.className = 'fas fa-chevron-down';
+          console.log("Chat collapsed");
+        } else {
+          toggleIcon.className = 'fas fa-chevron-up';
+          console.log("Chat expanded");
+        }
+      });
+    } else {
+      console.warn("Chat toggle or container elements not found");
+    }
+  }
+  addSupportingStyles() {
+    // Add supporting styles for chatbot positioning
+    const style = document.createElement('style');
+    style.textContent = `
+      #calculation-results .chat-container,
+      .history-card .chat-container {
+        margin-top: 20px;
+        transition: all 0.4s ease-in-out;
+      }
+      
+      #chart-container-placeholder + .chat-container {
+        margin-top: 40px;
+      }
+    `;
+    document.head.appendChild(style);
+  }  positionChatbotInHistoryCard() {
+    if (!this.chatContainer) return;
+
+    // Check if a calculation has been performed
+    // Look for the result div with content or history entries
+    const resultText = document.getElementById('result-stunting');
+    const historyEntries = document.getElementById('riwayat-stunting').children.length > 0;
+    
+    // If we have a calculation result, set our flag to true as calculation was performed
+    if ((resultText && resultText.textContent.trim() !== '') || historyEntries) {
+      this.calculationPerformed = true;
+    }
+    
+    // Only show and position the chatbot if there's been at least one calculation
+    if (this.historyCard && this.calculationPerformed) {
+      // First ensure the chatbot is removed from its current position if it's already in the DOM
+      if (this.chatContainer.parentNode) {
+        this.chatContainer.parentNode.removeChild(this.chatContainer);
+      }
+
+      // Place chatbot AFTER the "Hapus Semua Hasil Perhitungan" button
+      const clearButton = this.historyCard.querySelector('#hapus-riwayat-btn');
+      if (clearButton) {
+        // Insert after the clear button
+        clearButton.insertAdjacentElement('afterend', this.chatContainer);
+      } else {
+        // Fallback: append to history card
+        this.historyCard.appendChild(this.chatContainer);
+      }
+      
+      this.chatContainer.style.display = 'block';
+      
+      // Clean previous messages if any
+      const chatMessages = document.getElementById('chat-messages');
+      if (chatMessages && chatMessages.innerHTML === '') {
+        // Only clear if entering a new calculation, not when repositioning
+      }
+    } else {
+      // No calculation ever performed, keep the chatbot hidden
+      if (this.chatContainer) {
+        this.chatContainer.style.display = 'none';
+      }
+    }
+  }
+  // Keep this method for backward compatibility
+  positionChatbotAfterResults() {
+    this.positionChatbotInHistoryCard();
+  }
+  
+  setupChartEventListeners() {
+    // When charts are shown
+    const viewChartsBtn = document.getElementById('view-charts-btn');
+    
+    if (viewChartsBtn) {
+      viewChartsBtn.addEventListener('click', () => {
+        // When charts are shown, move chatbot below them
+        setTimeout(() => {
+          // Check if a calculation has ever been performed during the session
+          if (!this.calculationPerformed) return;
+          
+          const chartElement = document.querySelector('.chart-container');
+          if (chartElement && this.chartContainer && this.chatContainer) {            
+            // First ensure the chatbot is removed from its current position
+            if (this.chatContainer.parentNode) {
+              this.chatContainer.parentNode.removeChild(this.chatContainer);
+            }
+            
+            // Position chatbot after charts
+            this.chartContainer.parentNode.insertBefore(this.chatContainer, this.chartContainer.nextSibling);
+            this.chatContainer.style.display = 'block';
+          }
+        }, 800); // Longer delay to ensure charts are fully rendered
+      });
+    }
+    
+    // Listen for chart close button
+    document.addEventListener('click', (event) => {
+      if (event.target.classList.contains('close-charts-button')) {
+        // When charts are closed, move chatbot back to history card
+        setTimeout(() => {
+          this.positionChatbotInHistoryCard();
+        }, 500);
+      }
+    });  }
+  // Public method to force repositioning of chatbot - can be called from outside
+  repositionChatbot() {
+    // Check if a calculation is currently displayed
+    const resultText = document.getElementById('result-stunting');
+    const historyEntries = document.getElementById('riwayat-stunting').children.length > 0;
+    
+    // If we see calculation results, update our flag 
+    if ((resultText && resultText.textContent.trim() !== '') || historyEntries) {
+      this.calculationPerformed = true;
+    }
+    
+    // Only show and position the chatbot if there's been at least one calculation during the session
+    if (this.calculationPerformed) {
+      // First check if there are charts visible
+      const chartsVisible = document.querySelector('.chart-container');
+      
+      if (chartsVisible) {
+        // Position after charts if they're visible
+        setTimeout(() => {
+          // Remove from current position if needed
+          if (this.chatContainer && this.chatContainer.parentNode) {
+            this.chatContainer.parentNode.removeChild(this.chatContainer);
+          }
+          
+          if (this.chartContainer && this.chatContainer) {
+            this.chartContainer.parentNode.insertBefore(this.chatContainer, this.chartContainer.nextSibling);
+            this.chatContainer.style.display = 'block';
+          }
+        }, 300);
+      } else {
+        // Otherwise position in history card
+        this.positionChatbotInHistoryCard();
+      }
+    } else {
+      // No calculation ever performed, keep the chatbot hidden
+      if (this.chatContainer) {
+        this.chatContainer.style.display = 'none';
+      }
+    }
+  }
+  
+  // Method to check if chatbot is visible
+  isChatbotVisible() {
+    if (!this.chatContainer) return false;
+    return this.chatContainer.style.display === 'block';
+  }
+  
+  // Method to force show the chatbot (useful for debugging or direct access)
+  forceShowChatbot() {
+    if (!this.chatContainer) return;
+    this.calculationPerformed = true; // Mark as calculation performed
+    this.positionChatbotInHistoryCard(); // Position and show
+  }
+}
+
+/**
+ * Stunting Recommendations Library
+ * Provides detailed, age-specific recommendations for nutrition,
+ * vitamins, supplements, and physical activities
+ */
+class StuntingRecommendations {
+  constructor() {
+    // Initialize recommendation categories
+    this.nutritionByAge = this.initNutritionByAge();
+    this.activitiesByAge = this.initActivitiesByAge();
+    this.vitaminsForStunting = this.initVitaminsInfo();
+  }
+
+  /**
+   * Get personalized recommendations based on child data
+   * @param {Object} childData - Data about the child
+   * @returns {Object} - Personalized recommendations
+   */
+  getPersonalizedRecommendations(childData) {
+    const { age, stunting_status, weight_status } = childData;
+    let ageGroup = this.determineAgeGroup(age);
+
+    // Prepare recommendation package
+    return {
+      nutrition: this.getNutritionForAge(ageGroup),
+      activities: this.getActivitiesForAge(ageGroup),
+      supplements: this.getRecommendedSupplements(stunting_status, ageGroup),
+      tips: this.getTipsBasedOnStatus(stunting_status, weight_status)
+    };
+  }
+
+  /**
+   * Get nutrition recommendations for specific age group
+   * @param {string} ageGroup - The age group category
+   * @returns {Object} - Nutrition recommendations
+   */
+  getNutritionForAge(ageGroup) {
+    return this.nutritionByAge[ageGroup] || this.nutritionByAge.default;
+  }
+
+  /**
+   * Get activity recommendations for specific age group
+   * @param {string} ageGroup - The age group category
+   * @returns {Object} - Activity recommendations
+   */
+  getActivitiesForAge(ageGroup) {
+    return this.activitiesByAge[ageGroup] || this.activitiesByAge.default;
+  }
+
+  /**
+   * Get recommended supplements based on stunting status and age
+   * @param {string} stuntingStatus - The child's stunting status
+   * @param {string} ageGroup - The age group category
+   * @returns {Array} - List of recommended supplements
+   */
+  getRecommendedSupplements(stuntingStatus, ageGroup) {
+    // Base recommendations for all children
+    let supplements = [
+      this.vitaminsForStunting.vitaminA,
+      this.vitaminsForStunting.vitaminD
+    ];
+
+    // Add more supplements for stunting conditions
+    if (stuntingStatus === "Stunting Ringan" || stuntingStatus === "Stunting Berat") {
+      supplements.push(
+        this.vitaminsForStunting.zinc,
+        this.vitaminsForStunting.iron,
+        this.vitaminsForStunting.calcium
+      );
+    }
+
+    // For severe stunting, add all possible supplements
+    if (stuntingStatus === "Stunting Berat") {
+      supplements.push(
+        this.vitaminsForStunting.omega3,
+        this.vitaminsForStunting.protein,
+        this.vitaminsForStunting.multivitamin
+      );
+    }
+
+    return supplements;
+  }
+
+  /**
+   * Get specific tips based on stunting and weight status
+   * @param {string} stuntingStatus - The child's stunting status
+   * @param {string} weightStatus - The child's weight status
+   * @returns {Array} - List of specific tips
+   */
+  getTipsBasedOnStatus(stuntingStatus, weightStatus) {
+    const tips = [];
+
+    // Tips based on stunting status
+    if (stuntingStatus === "Normal") {
+      tips.push(
+        "Pertahankan pola makan seimbang dengan protein berkualitas baik",
+        "Lakukan pemeriksaan pertumbuhan secara rutin setiap bulan",
+        "Pastikan anak mendapat cukup tidur untuk pertumbuhan optimal"
+      );
+    } else if (stuntingStatus === "Stunting Ringan") {
+      tips.push(
+        "Konsultasikan dengan dokter atau ahli gizi anak",
+        "Tingkatkan asupan protein berkualitas tinggi seperti telur, ikan, dan daging",
+        "Pastikan anak mendapat cukup kalsium dan vitamin D untuk pertumbuhan tulang",
+        "Berikan makanan dengan densitas nutrisi tinggi"
+      );
+    } else {
+      tips.push(
+        "Segera konsultasikan dengan dokter anak untuk penanganan intensif",
+        "Ikuti program suplementasi nutrisi sesuai anjuran tenaga kesehatan",
+        "Berikan makanan padat gizi dalam porsi kecil namun sering",
+        "Pantau pertumbuhan secara ketat dan teratur (minimal setiap 2 minggu)"
+      );
+    }
+
+    // Additional tips based on weight status
+    if (weightStatus.includes("Kurang")) {
+      tips.push(
+        "Berikan makanan padat nutrisi dengan lebih sering dalam porsi kecil",
+        "Tambahkan lemak sehat seperti alpukat atau minyak zaitun pada makanan",
+        "Pertimbangkan pemberian makanan tambahan di antara waktu makan"
+      );
+    } else if (weightStatus.includes("Lebih") || weightStatus.includes("Obesitas")) {
+      tips.push(
+        "Fokus pada kualitas makanan, bukan membatasi jumlah secara ketat",
+        "Ganti makanan tinggi gula dan lemak dengan pilihan yang lebih sehat",
+        "Tingkatkan aktivitas fisik harian secara bertahap",
+        "Batasi waktu layar dan dorong permainan aktif"
+      );
+    }
+
+    return tips;
+  }
+
+  /**
+   * Determine the age group category
+   * @param {number} ageInMonths - The child's age in months
+   * @returns {string} - The age group category
+   */
+  determineAgeGroup(ageInMonths) {
+    if (ageInMonths < 6) return "0-6mo";
+    if (ageInMonths < 12) return "6-12mo";
+    if (ageInMonths < 24) return "12-24mo";
+    if (ageInMonths < 36) return "24-36mo";
+    if (ageInMonths < 60) return "36-60mo";
+    return "default";
+  }
+
+  /**
+   * Initialize nutrition recommendations by age group
+   * @returns {Object} - Nutrition by age
+   */
+  initNutritionByAge() {
+    return {
+      "0-6mo": {
+        title: "Nutrisi 0-6 Bulan",
+        recommendations: [
+          "ASI eksklusif - merupakan makanan terbaik dan satu-satunya yang dibutuhkan bayi hingga usia 6 bulan",
+          "Pastikan ibu mengkonsumsi makanan bergizi seimbang untuk ASI yang berkualitas",
+          "Pemberian vitamin D tambahan mungkin diperlukan jika paparan sinar matahari terbatas"
+        ]
+      },
+      "6-12mo": {
+        title: "Nutrisi 6-12 Bulan",
+        recommendations: [
+          "Lanjutkan ASI disertai MPASI (Makanan Pendamping ASI)",
+          "Kenalkan makanan kaya zat besi seperti daging merah, hati, atau sereal yang diperkaya zat besi",
+          "Berikan makanan kaya protein seperti telur, ikan, tahu, tempe secara bertahap",
+          "Tambahkan makanan kaya kalsium seperti keju dan yogurt",
+          "Perkenalkan buah dan sayuran berwarna-warni"
+        ]
+      },
+      "12-24mo": {
+        title: "Nutrisi 12-24 Bulan",
+        recommendations: [
+          "Lanjutkan ASI sampai minimal 2 tahun jika memungkinkan",
+          "Berikan 3 kali makanan utama dengan porsi sesuai usia dan 2-3 kali makanan selingan bergizi",
+          "Pastikan makanan mengandung protein berkualitas tinggi seperti telur, ikan, daging, atau produk nabati",
+          "Sertakan karbohidrat kompleks seperti nasi merah, kentang, atau oatmeal",
+          "Berikan beragam buah dan sayuran untuk memenuhi kebutuhan vitamin dan mineral",
+          "Pastikan asupan lemak sehat dari alpukat, minyak zaitun, atau ikan berlemak"
+        ]
+      },
+      "24-36mo": {
+        title: "Nutrisi 24-36 Bulan",
+        recommendations: [
+          "Berikan porsi makan yang mencukupi kebutuhan energi anak yang aktif",
+          "Pastikan setiap makan mengandung protein (telur, ikan, ayam, daging, kacang-kacangan)",
+          "Sertakan sayuran dan buah dalam setiap kali makan",
+          "Batasi makanan manis, asin, dan berlemak jenuh",
+          "Pastikan anak mendapat cukup kalsium dari susu dan produk susu",
+          "Kenalkan beragam jenis makanan untuk memastikan asupan nutrisi lengkap"
+        ]
+      },
+      "36-60mo": {
+        title: "Nutrisi 36-60 Bulan",
+        recommendations: [
+          "Berikan 3 kali makan utama dan 2 kali camilan sehat setiap hari",
+          "Sertakan protein di setiap kali makan utama",
+          "Pastikan kebutuhan zat besi terpenuhi dari makanan seperti daging merah, telur, dan sayuran hijau",
+          "Berikan makanan yang kaya zinc seperti daging, kacang, dan biji-bijian",
+          "Sertakan kalsium dari susu, yogurt, atau keju",
+          "Libatkan anak dalam memilih makanan sehat untuk menumbuhkan kebiasaan makan yang baik",
+          "Batasi junk food, makanan tinggi gula, dan makanan olahan"
+        ]
+      },
+      "default": {
+        title: "Nutrisi Umum untuk Mencegah Stunting",
+        recommendations: [
+          "Pastikan makanan mengandung protein berkualitas tinggi",
+          "Berikan makanan kaya kalsium untuk pertumbuhan tulang",
+          "Sertakan makanan yang mengandung zat besi, zinc, dan vitamin A",
+          "Pastikan asupan lemak sehat yang cukup",
+          "Batasi makanan olahan, tinggi gula, dan rendah nutrisi",
+          "Berikan buah dan sayuran beragam warna setiap hari"
+        ]
+      }
+    };
+  }
+
+  /**
+   * Initialize physical activity recommendations by age group
+   * @returns {Object} - Activities by age
+   */
+  initActivitiesByAge() {
+    return {
+      "0-6mo": {
+        title: "Aktivitas Fisik 0-6 Bulan",
+        activities: [
+          "Tummy Time: Letakkan bayi tengkurap selama 3-5 menit, 2-3 kali sehari saat terjaga",
+          "Latihan Bayi: Gerakkan tangan dan kaki bayi dengan lembut seperti gerakan bersepeda",
+          "Rangsangan Visual: Gantung mainan berwarna cerah dalam jangkauan penglihatan bayi",
+          "Aktivitas Tengkurap: Letakkan mainan di sekitar bayi untuk merangsang bayi mengangkat kepala"
+        ]
+      },
+      "6-12mo": {
+        title: "Aktivitas Fisik 6-12 Bulan",
+        activities: [
+          "Duduk dengan Bantuan: Bantu bayi duduk dan berikan mainan untuk dimainkan",
+          "Merangkak: Dorong bayi merangkak dengan meletakkan mainan dalam jarak tertentu",
+          "Belajar Berdiri: Bantu bayi berpegangan pada furnitur yang aman untuk belajar berdiri",
+          "Bermain Sembunyi-sembunyi: Untuk merangsang gerakan dan kognitif",
+          "Bermain Air: Dalam pengawasan, aktivitas air dapat membantu perkembangan motorik"
+        ]
+      },
+      "12-24mo": {
+        title: "Aktivitas Fisik 12-24 Bulan",
+        activities: [
+          "Berjalan dan Berlari: Dorong anak untuk aktif bergerak di area yang aman",
+          "Menari: Putar musik dan ajak anak menari untuk melatih keseimbangan",
+          "Melempar Bola: Bermain lempar tangkap dengan bola yang lembut",
+          "Bermain di Taman: Ajak ke taman bermain untuk aktivitas seperti perosotan mini",
+          "Menaiki Tangga: Dengan pengawasan, bantu anak menaiki dan menuruni tangga",
+          "Mendorong atau Menarik Mainan: Seperti mobil-mobilan yang bisa ditarik"
+        ]
+      },
+      "24-36mo": {
+        title: "Aktivitas Fisik 24-36 Bulan",
+        activities: [
+          "Bermain Kejar-kejaran: Aktivitas ini melatih kecepatan dan koordinasi",
+          "Melompat: Ajari anak melompat di tempat atau dari ketinggian rendah",
+          "Bersepeda Roda Tiga: Mulai perkenalkan bersepeda dengan roda tiga",
+          "Bermain Bola: Tendang, lempar, dan kejar bola",
+          "Aktivitas Taman Bermain: Panjat, ayunan, dan perosotan yang sesuai usia",
+          "Bermain Air: Aktivitas air seperti main di kolam dangkal dengan pengawasan"
+        ]
+      },
+      "36-60mo": {
+        title: "Aktivitas Fisik 36-60 Bulan",
+        activities: [
+          "Berenang: Perkenalkan berenang dengan pendampingan",
+          "Bersepeda: Dengan atau tanpa roda pembantu",
+          "Permainan Kelompok: Seperti petak umpet atau permainan tradisional",
+          "Olahraga Mini: Perkenalkan mini-soccer atau basket dengan ukuran yang sesuai",
+          "Lompat Tali: Mulai dengan tali rendah",
+          "Senam Anak: Ikuti gerakan senam yang dirancang untuk anak-anak",
+          "Menari: Kegiatan menari untuk koordinasi dan keseimbangan"
+        ]
+      },
+      "default": {
+        title: "Aktivitas Fisik Umum untuk Mendukung Pertumbuhan",
+        activities: [
+          "Sediakan waktu bermain aktif minimal 60 menit setiap hari",
+          "Batasi waktu layar (TV, gadget) sesuai rekomendasi usia",
+          "Dorong aktivitas yang melibatkan semua anggota tubuh",
+          "Sertakan aktivitas yang melatih keseimbangan dan koordinasi",
+          "Lakukan aktivitas fisik yang menyenangkan dan sesuai usia"
+        ]
+      }
+    };
+  }
+
+  /**
+   * Initialize vitamins and supplements information
+   * @returns {Object} - Vitamins and supplements information
+   */
+  initVitaminsInfo() {
+    return {
+      vitaminA: {
+        name: "Vitamin A",
+        benefits: "Mendukung kesehatan mata, pertumbuhan tulang, dan sistem kekebalan tubuh",
+        sources: "Wortel, bayam, pepaya, mangga, hati, dan telur",
+        dosage: "Umumnya diberikan dalam kapsul 100.000 IU setiap 6 bulan untuk anak 6-59 bulan"
+      },
+      vitaminD: {
+        name: "Vitamin D",
+        benefits: "Membantu penyerapan kalsium dan fosfor untuk pertumbuhan tulang",
+        sources: "Sinar matahari pagi, ikan berlemak, kuning telur, dan produk susu yang difortifikasi",
+        dosage: "400 IU per hari untuk bayi hingga 12 bulan; 600 IU per hari untuk anak di atas 1 tahun"
+      },
+      calcium: {
+        name: "Kalsium",
+        benefits: "Sangat penting untuk pembentukan tulang dan gigi yang kuat",
+        sources: "Susu, keju, yogurt, ikan teri, dan sayuran hijau gelap",
+        dosage: "700mg per hari untuk anak 1-3 tahun; 1000mg per hari untuk anak 4-8 tahun"
+      },
+      iron: {
+        name: "Zat Besi",
+        benefits: "Mencegah anemia yang dapat menghambat pertumbuhan dan perkembangan kognitif",
+        sources: "Daging merah, hati, kacang-kacangan, bayam, dan makanan yang difortifikasi",
+        dosage: "7mg per hari untuk anak 1-3 tahun; 10mg per hari untuk anak 4-8 tahun"
+      },
+      zinc: {
+        name: "Zinc",
+        benefits: "Penting untuk pertumbuhan, perkembangan tulang, dan sistem kekebalan tubuh",
+        sources: "Daging, makanan laut, kacang-kacangan, dan biji-bijian utuh",
+        dosage: "3mg per hari untuk anak 1-3 tahun; 5mg per hari untuk anak 4-8 tahun"
+      },
+      omega3: {
+        name: "Omega-3 Fatty Acids",
+        benefits: "Mendukung perkembangan otak dan sistem saraf",
+        sources: "Ikan berlemak (salmon, makerel, sarden), minyak ikan, biji chia, dan kenari",
+        dosage: "Konsultasikan dengan dokter anak untuk dosis yang tepat sesuai usia"
+      },
+      protein: {
+        name: "Suplemen Protein",
+        benefits: "Blok bangunan untuk pertumbuhan dan perbaikan jaringan",
+        sources: "Telur, daging, ikan, susu, kedelai, dan kacang-kacangan",
+        dosage: "Konsultasikan dengan ahli gizi untuk dosis yang sesuai dengan kebutuhan anak"
+      },
+      multivitamin: {
+        name: "Multivitamin dan Mineral",
+        benefits: "Memberikan beragam nutrisi penting untuk mendukung pertumbuhan menyeluruh",
+        sources: "Suplemen yang tersedia dalam bentuk sirup, tablet kunyah, atau gummies",
+        dosage: "Sesuai petunjuk pada kemasan atau rekomendasi dokter"
+      }
+    };
+  }
+
+  /**
+   * Format recommendations into readable text
+   * @param {Object} recommendations - The recommendations object
+   * @returns {string} - Formatted recommendations
+   */
+  formatRecommendations(recommendations) {
+    let result = '';
+    
+    // Format nutrition recommendations
+    result += `**${recommendations.nutrition.title}**\n\n`;
+    recommendations.nutrition.recommendations.forEach((item, index) => {
+      result += `${index + 1}. ${item}\n`;
+    });
+    result += '\n';
+    
+    // Format activity recommendations
+    result += `**${recommendations.activities.title}**\n\n`;
+    recommendations.activities.activities.forEach((item, index) => {
+      result += `${index + 1}. ${item}\n`;
+    });
+    result += '\n';
+    
+    // Format supplements
+    result += `**Suplemen yang Direkomendasikan**\n\n`;
+    recommendations.supplements.forEach((supplement, index) => {
+      result += `${index + 1}. **${supplement.name}**: ${supplement.benefits}. \n   Sumber: ${supplement.sources}. \n   Dosis: ${supplement.dosage}.\n\n`;
+    });
+    
+    // Format specific tips
+    result += `**Tips Khusus**\n\n`;
+    recommendations.tips.forEach((tip, index) => {
+      result += `${index + 1}. ${tip}\n`;
+    });
+    
+    // Important reminder
+    result += '\n**Penting:** Selalu konsultasikan dengan dokter atau ahli gizi sebelum memberikan suplemen pada anak.';
+    
+    return result;
+  }
+}
+
+// Initialize StuntingAI, ChatbotPositioner, and StuntingRecommendations when the page loads
 document.addEventListener('DOMContentLoaded', function() {
-  stuntingAI = new StuntingAI();
+  console.log("Initializing StuntingAI and supporting classes...");
+  
+  // Initialize the StuntingAI as a global variable for use throughout the app
+  window.stuntingAI = new StuntingAI();
+  
+  // Initialize chatbot positioning as a global variable for access from other scripts
+  window.chatbotPositioner = new ChatbotPositioner();
+  
+  // Initialize stunting recommendations as a global variable
+  window.stuntingRecommendations = new StuntingRecommendations();
+  
+  // Check if elements exist
+  console.log("Chat container exists:", !!document.getElementById('chat-container'));
+  console.log("User input exists:", !!document.getElementById('user-input'));
+  console.log("Send button exists:", !!document.getElementById('send-btn'));
 });

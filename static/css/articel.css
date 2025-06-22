@@ -41,6 +41,487 @@ body {
   background: linear-gradient(90deg, rgba(255,255,255,0.3), transparent, rgba(255,255,255,0.3));
 }
 
+/* ========================= */
+/* CONSOLIDATED RESPONSIVE STYLES */
+/* ========================= */
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  /* Navbar adjustments for tiny screens */
+  .navbar {
+    padding: 10px 15px;
+    flex-direction: column;
+  }
+  
+  .nav-brand {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
+  }
+  
+  .nav-menu {
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
+  }
+  
+  .nav-menu a {
+    margin: 3px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
+    font-size: 0.85rem;
+  }
+  
+  .nav-menu img {
+    width: 20px;
+    height: 20px;
+  }
+  
+  /* Container and form adjustments */
+  .container {
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .form-card, .history-card {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+  }
+  
+  /* Form elements */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  
+  /* Radio button groups */
+  .radio-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* Article Section Styles */
+  .article-section {
+    padding: 15px 0;
+  }
+  
+  .article-card {
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+  
+  .article-image {
+    height: 180px;
+  }
+  
+  .article-title {
+    font-size: 1.2rem;
+  }
+  
+  .article-meta {
+    font-size: 0.8rem;
+  }
+  
+  .read-more {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+  
+  .sidebar {
+    margin-top: 20px;
+    padding: 15px;
+  }
+  
+  .sidebar-title {
+    font-size: 1.2rem;
+  }
+  
+  .sidebar-article {
+    padding: 10px;
+  }
+  
+  .sidebar-article-image {
+    height: 100px;
+  }
+  
+  .sidebar-article-title {
+    font-size: 0.9rem;
+  }
+  
+  .sidebar-article-date {
+    font-size: 0.8rem;
+  }
+  
+  /* Article Detail Styles */
+  #articleDetail {
+    padding: 10px;
+  }
+  
+  #articleDetail h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  
+  #articleDetail .card {
+    padding: 10px;
+  }
+  
+  #articleDetail .card-body {
+    padding: 15px 10px;
+  }
+  
+  #articleDetail .card-img-top {
+    height: 200px;
+  }
+  
+  /* ML result boxes */
+  #ml-results > div {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  
+  /* Buttons */
+  .btn-success, .btn-features {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  /* Charts */
+  .chart-area {
+    padding: 10px;
+  }
+  
+  .chart-area canvas {
+    height: 350px;
+  }
+  
+  /* Pagination */
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .pagination .page-item {
+    margin-bottom: 10px;
+  }
+  
+  .pagination .btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Card responsiveness */
+  #myArticles .row > div,
+  #sorotArticle .row > div {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  #myArticles .card,
+  #sorotArticle .card {
+    height: auto;
+  }
+  
+  #myArticles .img-fluid,
+  #sorotArticle .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  /* Navbar adjustments */
+  .navbar {
+    padding: 12px 20px;
+  }
+  
+  .nav-menu {
+    flex-wrap: wrap;
+    justify-content: center;
+  }
+  
+  .nav-menu a {
+    margin: 3px;
+    font-size: 0.9rem;
+  }
+  
+  /* Container */
+  .container {
+    padding: 15px;
+    max-width: 95%;
+  }
+  
+  /* Form elements */
+  .form-card, .history-card {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  /* Article styles */
+  .article-section {
+    padding: 20px 0;
+  }
+  
+  .article-image {
+    height: 200px;
+  }
+  
+  .article-title {
+    font-size: 1.4rem;
+  }
+  
+  /* Article detail */
+  #articleDetail {
+    padding: 15px;
+  }
+  
+  #articleDetail h1 {
+    font-size: 1.8rem;
+  }
+  
+  #articleDetail .card {
+    padding: 15px;
+  }
+  
+  #articleDetail .card-body {
+    padding: 20px 15px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .container {
+    max-width: 90%;
+  }
+  
+  .form-card, .history-card {
+    padding: 25px;
+  }
+  
+  /* Equal columns in medium screens */
+  .flex-md-equal {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .flex-md-equal > div {
+    flex: 1 1 45%;
+    margin: 10px;
+  }
+  
+  /* Article styles */
+  .article-card {
+    margin-bottom: 25px;
+  }
+  
+  .article-image {
+    height: 220px;
+  }
+  
+  /* Article detail */
+  #articleDetail {
+    padding: 20px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .container {
+    max-width: 1140px;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  /* Article cards and content containers */
+  .col-lg-10 {
+    width: 83.333333%;
+    margin: 0 auto;
+  }
+  
+  .col-lg-8 {
+    width: 66.666667%;
+  }
+  
+  .col-lg-4 {
+    width: 33.333333%;
+  }
+  
+  /* Article detail */
+  #articleDetail {
+    padding: 0;
+  }
+}
+
+/* Mobile Navigation Styles */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .navbar {
+    position: relative;
+    padding-right: 60px; /* Make space for the menu button */
+  }
+
+  .nav-brand {
+    flex: 1;
+  }
+
+  .mobile-menu-toggle {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    position: absolute;
+    right: 15px;
+    top: 50%;
+    transform: translateY(-50%);
+    z-index: 1001;
+    width: 44px;
+    height: 44px;
+    border-radius: 50%;
+    transition: background-color 0.3s ease;
+  }
+
+  .mobile-menu-toggle:hover {
+    background-color: rgba(255, 255, 255, 0.1);
+  }
+  
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #2ab7b4;
+    text-align: center;
+    padding: 10px 0;
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    z-index: 1000;
+  }
+  
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nav-menu a {
+    margin: 5px 15px;
+    width: auto;
+    padding: 12px;
+    border-radius: 8px;
+    transition: all 0.3s ease;
+  }
+
+  .nav-menu a:hover,
+  .nav-menu a.active {
+    background-color: rgba(255, 255, 255, 0.15);
+    transform: translateY(-2px);
+  }
+}
+
+/* Mobile menu transitions */
+.nav-menu {
+  transition: all 0.3s ease-in-out;
+}
+
+@media (min-width: 769px) {
+  .nav-menu {
+    display: flex !important;
+    position: static;
+    width: auto;
+    background-color: transparent;
+    box-shadow: none;
+    padding: 0;
+  }
+  
+  .mobile-menu-toggle {
+    display: none !important;
+  }
+}
+
+/* Navbar Sticky Mobile */
+@media (max-width: 768px) {
+  .navbar {
+    position: fixed;
+    width: 100%;
+    top: 0;
+    left: 0;
+    z-index: 1000;
+    transition: transform 0.3s ease-in-out;
+  }
+
+  .navbar.nav-scrolled-up {
+    transform: translateY(0);
+  }
+
+  .navbar.nav-scrolled-down {
+    transform: translateY(-100%);
+  }
+
+  /* Adjust main content to prevent overlap with fixed navbar */
+  body {
+    padding-top: 60px; /* Height of your navbar */
+  }
+
+  .nav-menu {
+    position: fixed;
+    top: 60px; /* Height of your navbar */
+    left: 0;
+    width: 100%;
+    background-color: #2ab7b4;
+    transform: translateY(-100%);
+    transition: transform 0.3s ease-in-out;
+    z-index: 999;
+  }
+
+  .nav-menu.active {
+    transform: translateY(0);
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  }
+}
+
+/* Fix for growth charts on mobile */
+@media (max-width: 600px) {
+  .chart-area {
+    padding: 10px;
+  }
+  
+  .view-charts-button, 
+  .close-charts-button {
+    width: 100%;
+  }
+}
+
+/* Improved pagination on mobile */
+@media (max-width: 768px) {
+  ul.pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+
 .nav-brand {
   display: flex;
   align-items: center;
@@ -246,6 +727,14 @@ main::after {
   margin-bottom: 20px;
   font-size: 1.05rem;
   line-height: 1.7;
+  display: -webkit-box;
+  display: box;
+  -webkit-box-orient: vertical;
+  box-orient: vertical;
+  -webkit-line-clamp: 3;
+  line-clamp: 3;
+  overflow: hidden;
+  text-overflow: ellipsis;
 }
 
 .article-meta {
@@ -593,6 +1082,19 @@ footer {
   margin-top: 3rem;
   width: 100%;
   clear: both;
+  position: relative;
+  box-shadow: 0 -5px 20px rgba(0, 0, 0, 0.05);
+}
+
+/* Garis pembatas berwarna di atas footer - konsisten dengan beranda */
+footer::before {
+  content: '';
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 5px;
+  background: linear-gradient(90deg, #2ab7b4, #39d2c0, #2ab7b4);
 }
 
 footer .border-bottom {
@@ -681,37 +1183,427 @@ footer p {
   transform: scale(1.05);
 }
 
-/* Responsif */
-@media screen and (max-width: 768px) {
+/* ========================= */
+/* CONSOLIDATED RESPONSIVE STYLES */
+/* ========================= */
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  /* Navbar adjustments for tiny screens */
   .navbar {
-    padding: 15px 20px;
+    padding: 10px 15px;
+    flex-direction: column;
+  }
+  
+  .nav-brand {
+    width: 100%;
+    justify-content: center;
+    margin-bottom: 10px;
   }
   
   .nav-menu {
-    margin-top: 10px;
-    justify-content: center;
+    width: 100%;
+    flex-direction: column;
+    align-items: center;
   }
   
   .nav-menu a {
-    margin-left: 5px;
-    margin-right: 5px;
-    margin-bottom: 5px;
-    padding: 6px 8px;
+    margin: 3px 0;
+    width: 100%;
+    display: flex;
+    justify-content: center;
+    padding: 8px 0;
     font-size: 0.85rem;
   }
   
   .nav-menu img {
     width: 20px;
     height: 20px;
-    margin-right: 5px;
+  }
+  
+  /* Container and form adjustments */
+  .container {
+    padding: 10px;
+    width: 100%;
+  }
+  
+  .form-card, .history-card {
+    width: 100%;
+    padding: 15px;
+    margin: 10px 0;
+  }
+  
+  /* Form elements */
+  input[type="text"],
+  input[type="number"],
+  input[type="date"],
+  select,
+  button {
+    width: 100%;
+    padding: 10px;
+    margin-bottom: 8px;
+  }
+  
+  /* Radio button groups */
+  .radio-group {
+    flex-direction: column;
+    gap: 8px;
+  }
+  
+  /* Article Section Styles */
+  .article-section {
+    padding: 15px 0;
+  }
+  
+  .article-card {
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+  
+  .article-image {
+    height: 180px;
+  }
+  
+  .article-title {
+    font-size: 1.2rem;
+  }
+  
+  .article-meta {
+    font-size: 0.8rem;
+  }
+  
+  .read-more {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+  
+  .sidebar {
+    margin-top: 20px;
+    padding: 15px;
+  }
+  
+  .sidebar-title {
+    font-size: 1.2rem;
+  }
+  
+  .sidebar-article {
+    padding: 10px;
+  }
+  
+  .sidebar-article-image {
+    height: 100px;
+  }
+  
+  .sidebar-article-title {
+    font-size: 0.9rem;
+  }
+  
+  .sidebar-article-date {
+    font-size: 0.8rem;
+  }
+  
+  /* Article Detail Styles */
+  #articleDetail {
+    padding: 10px;
+  }
+  
+  #articleDetail h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  
+  #articleDetail .card {
+    padding: 10px;
+  }
+  
+  #articleDetail .card-body {
+    padding: 15px 10px;
+  }
+  
+  #articleDetail .card-img-top {
+    height: 200px;
+  }
+  
+  /* ML result boxes */
+  #ml-results > div {
+    flex-direction: column !important;
+    gap: 10px !important;
+  }
+  
+  /* Buttons */
+  .btn-success, .btn-features {
+    width: 100%;
+    margin: 5px 0;
+  }
+  
+  /* Charts */
+  .chart-area {
+    padding: 10px;
+  }
+  
+  .chart-area canvas {
+    height: 350px;
+  }
+  
+  /* Pagination */
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .pagination .page-item {
+    margin-bottom: 10px;
+  }
+  
+  .pagination .btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+  
+  /* Card responsiveness */
+  #myArticles .row > div,
+  #sorotArticle .row > div {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  #myArticles .card,
+  #sorotArticle .card {
+    height: auto;
+  }
+  
+  #myArticles .img-fluid,
+  #sorotArticle .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Form styling for stunting page */
+  .form-control {
+    font-size: 14px;
+    padding: 10px;
+  }
+  
+  .btn-primary {
+    padding: 10px;
+    font-size: 14px;
+  }
+  
+  .results-flex-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  /* Navbar adjustments */
+  .navbar {
+    padding: 12px 20px;
+  }
+  
+  .nav-menu {
+    flex-wrap: wrap;
+    justify-content: center;
   }
   
   .nav-menu a {
-    margin-left: 12px;
+    margin: 3px;
     font-size: 0.9rem;
+  }
+  
+  /* Container */
+  .container {
+    padding: 15px;
+    max-width: 95%;
+  }
+  
+  /* Form elements */
+  .form-card, .history-card {
+    width: 100%;
+    padding: 20px;
+  }
+  
+  /* Article styles */
+  .article-section {
+    padding: 20px 0;
+  }
+  
+  .article-image {
+    height: 200px;
+  }
+  
+  .article-title {
+    font-size: 1.4rem;
+  }
+  
+  /* Article detail */
+  #articleDetail {
+    padding: 15px;
+  }
+  
+  #articleDetail h1 {
+    font-size: 1.8rem;
+  }
+  
+  #articleDetail .card {
+    padding: 15px;
+  }
+  
+  #articleDetail .card-body {
+    padding: 20px 15px;
+  }
+  
+  /* Stunting form */
+  .results-flex-container {
+    flex-direction: column;
+    gap: 15px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .container {
+    max-width: 90%;
+  }
+  
+  .form-card, .history-card {
+    padding: 25px;
+  }
+  
+  /* Equal columns in medium screens */
+  .flex-md-equal {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  .flex-md-equal > div {
+    flex: 1 1 45%;
+    margin: 10px;
+  }
+  
+  /* Article styles */
+  .article-card {
+    margin-bottom: 25px;
+  }
+  
+  .article-image {
+    height: 220px;
+  }
+  
+  /* Article detail */
+  #articleDetail {
+    padding: 20px;
+  }
+  
+  /* Navbar */
+  .navbar {
+    padding: 15px 20px;
+  }
+  
+  .nav-menu {
+    margin-top: 0;
+    justify-content: flex-end;
+  }
+  
+  .nav-menu a {
+    margin-left: 10px;
+    margin-right: 0;
+    font-size: 0.9rem;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  .container {
+    max-width: 1140px;
+  }
+  
+  .row {
+    display: flex;
+    flex-wrap: wrap;
+  }
+  
+  /* Article cards and content containers */
+  .col-lg-10 {
+    width: 83.333333%;
+    margin: 0 auto;
+  }
+  
+  .col-lg-8 {
+    width: 66.666667%;
+  }
+  
+  .col-lg-4 {
+    width: 33.333333%;
+  }
+  
+  /* Article detail */
+  #articleDetail {
+    padding: 0;
+  }
+  
+  /* Sidebar */
+  .sidebar {
+    margin-top: 0;
+  }
+}
+
+/* Mobile Navbar Toggle */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+    position: absolute;
+    right: 20px;
+    top: 20px;
+  }
+  
+  .nav-menu {
+    display: none;
+    width: 100%;
+    text-align: center;
+    padding-top: 10px;
+  }
+  
+  .nav-menu.active {
+    display: flex;
+    flex-direction: column;
+  }
+  
+  .nav-menu a {
+    margin: 5px 0;
+    width: 100%;
   }
   
   .sidebar {
     margin-top: 30px;
+  }
+  
+  ul.pagination {
+    flex-direction: column;
+    gap: 10px;
+  }
+}
+
+/* Fix for growth charts on mobile */
+@media (max-width: 600px) {
+  .chart-area {
+    padding: 10px;
+  }
+  
+  .view-charts-button, 
+  .close-charts-button {
+    width: 100%;
   }
 }

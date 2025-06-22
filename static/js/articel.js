@@ -4,7 +4,7 @@ let articlesPerPage = 6;
 let currentPage = 1;
 
 // Fungsi untuk mengambil jumlah total artikel dari API
-async function getTotalArticles() {
+window.getTotalArticles = async function() {
   try {
     const response = await fetch(url);
     const data = await response.json();
@@ -17,7 +17,7 @@ async function getTotalArticles() {
 }
 
 // Fungsi untuk generate pagination
-async function generatePagination(currentPage) {
+window.generatePagination = async function(currentPage) {
   const totalCount = await getTotalArticles();
   const totalPages = Math.ceil(totalCount / articlesPerPage);
   
@@ -100,7 +100,8 @@ async function generatePagination(currentPage) {
 }
 
 // Ambil semua artikel
-async function getArticles(page) {
+// Make getArticles function available globally
+window.getArticles = async function(page) {
   try {
     currentPage = page;
     const response = await fetch(`${url}?page=${page}&limit=${articlesPerPage}`);
@@ -126,23 +127,23 @@ async function getArticles(page) {
         </div>`;
     }
 
-    // Tampilkan daftar artikel lainnya
+    // Tampilkan daftar artikel lainnya sebagai rekomendasi di kolom kanan
     const myArticles = document.getElementById("myArticles");
     if (myArticles) {
       if (data.length > 2) {
-        myArticles.innerHTML = data.slice(2).map(article => `
-          <div class="col-md-12">
-            <div class="card mb-3">
-              <div class="row g-0">
-                <div class="col-md-4">
-                  <img src="${article.image}" class="img-fluid rounded-start" alt="${article.title || 'Gambar artikel'}" />
+        // Hanya ambil maksimal 3 artikel rekomendasi
+        const recommendationArticles = data.slice(2, 5);
+        myArticles.innerHTML = recommendationArticles.map(article => `
+          <div class="recommendation-item">
+            <div class="card">
+              <div class="row g-0 align-items-center" style="height: 100px;">
+                <div class="col-4" style="height: 100px;">
+                  <img src="${article.image}" class="img-fluid rounded-start" alt="${article.title || 'Gambar artikel'}" style="width: 100%; height: 100px; object-fit: cover;" />
                 </div>
-                <div class="col-md-8">
-                  <div class="card-body d-flex align-items-center">
-                    <div>
-                      <h5 class="card-title fw-bold" style="font-size: 20px">${article.title}</h5>
-                      <a href="articleDetail.html?id=${article.id}" class="btn btn-success">Baca Selengkapnya</a>
-                    </div>
+                <div class="col-8">
+                  <div class="card-body p-2">
+                    <h6 class="card-title fw-bold mb-1" style="font-size: 16px; line-height: 1.3;">${article.title.substring(0, 40)}${article.title.length > 40 ? '...' : ''}</h6>
+                    <a href="articleDetail.html?id=${article.id}" class="btn btn-sm btn-success w-100" style="font-size: 10px;">Baca Selengkapnya</a>
                   </div>
                 </div>
               </div>
@@ -150,7 +151,7 @@ async function getArticles(page) {
           </div>
         `).join("");
       } else {
-        myArticles.innerHTML = `<p>Tidak ada artikel tambahan untuk halaman ini.</p>`;
+        myArticles.innerHTML = `<p class="text-center text-muted">Tidak ada artikel tambahan untuk halaman ini.</p>`;
       }
     }
     

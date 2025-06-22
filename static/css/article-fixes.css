@@ -1,0 +1,146 @@
+/* Fix for article page specific styling issues */
+/* Ensures proper navbar styling and visibility */
+.navbar {
+  background-color: #2ab7b4;
+  color: white;
+  padding: 15px 25px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+  box-shadow: 0 4px 20px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+}
+
+/* Ensure nav menu items are visible and properly aligned */
+.nav-menu {
+  display: flex;
+  align-items: center;
+  flex-wrap: wrap;
+  justify-content: flex-end;
+}
+
+.nav-menu a {
+  color: white;
+  text-decoration: none;
+  margin-left: 15px;
+  font-weight: 500;
+  font-size: 0.95rem;
+  display: inline-flex;
+  align-items: center;
+  padding: 8px 10px;
+  border-radius: 30px;
+  transition: all 0.3s ease;
+  position: relative;
+  overflow: hidden;
+}
+
+.nav-menu a img {
+  width: 24px;
+  height: 24px;
+  vertical-align: middle;
+  margin-right: 8px;
+}
+
+/* Mobile menu styling */
+@media (max-width: 768px) {
+  .nav-menu {
+    display: none;
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #2ab7b4;
+    flex-direction: column;
+    padding: 10px 0;
+    box-shadow: 0 10px 20px rgba(0, 0, 0, 0.1);
+    z-index: 999;
+    transition: all 0.3s ease-in-out;
+  }
+
+  .nav-menu.active {
+    display: flex;
+    animation: fadeDown 0.3s ease forwards;
+  }
+
+  .nav-menu a {
+    width: 100%;
+    text-align: left;
+    padding: 12px 25px;
+    margin: 0;
+    border-radius: 0;
+  }
+
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  @keyframes fadeDown {
+    from {
+      opacity: 0;
+      transform: translateY(-10px);
+    }
+    to {
+      opacity: 1;
+      transform: translateY(0);
+    }
+  }
+}
+
+/* Article page specific fixes */
+.article-section {
+  padding: 40px 0;
+}
+
+.article-container .card {
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  margin-bottom: 20px;
+}
+
+.article-container .card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.1);
+}
+
+/* Recommendation sidebar styling */
+#myArticles.recommendation-articles {
+  padding: 15px;
+}
+
+/* Footer consistency */
+.social-links {
+  margin-top: 15px;
+}
+
+.social-link {
+  color: #2ab7b4;
+  font-size: 24px;
+  margin-right: 15px;
+  transition: all 0.3s ease;
+}
+
+.social-link:hover {
+  color: #1e8e8b;
+  transform: scale(1.2);
+}
+
+.link-group h5 {
+  font-weight: 600;
+  margin-bottom: 15px;
+  color: #333;
+}
+
+.link-group a {
+  color: #666;
+  text-decoration: none;
+  display: block;
+  margin-bottom: 8px;
+  transition: all 0.3s ease;
+}
+
+.link-group a:hover {
+  color: #2ab7b4;
+  transform: translateX(5px);
+}

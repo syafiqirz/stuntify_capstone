@@ -1,0 +1,112 @@
+/* Article Listing Responsive Styles */
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  .article-section {
+    padding: 15px 0;
+  }
+  
+  .article-card {
+    margin-bottom: 20px;
+    padding: 15px;
+  }
+  
+  .article-image {
+    height: 180px;
+  }
+    .article-title {
+    font-size: 1.2rem;
+  }
+  
+  .article-meta {
+    font-size: 0.8rem;
+  }
+  
+  .read-more {
+    font-size: 0.9rem;
+    padding: 6px 12px;
+  }
+  
+  .sidebar {
+    margin-top: 20px;
+    padding: 15px;
+  }
+  
+  .sidebar-title {
+    font-size: 1.2rem;
+  }
+  
+  .sidebar-article {
+    padding: 10px;
+  }
+  
+  .sidebar-article-image {
+    height: 100px;
+  }
+  
+  .sidebar-article-title {
+    font-size: 0.9rem;
+  }
+  
+  .sidebar-article-date {
+    font-size: 0.8rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  .article-section {
+    padding: 20px 0;
+  }
+  
+  .article-image {
+    height: 200px;
+  }
+  
+  .article-title {
+    font-size: 1.4rem;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  .article-card {
+    margin-bottom: 25px;
+  }
+  
+  .article-image {
+    height: 220px;
+  }
+}
+
+/* Card responsiveness */
+@media (max-width: 768px) {
+  #myArticles .row > div,
+  #sorotArticle .row > div {
+    width: 100%;
+    margin-bottom: 20px;
+  }
+  
+  #myArticles .card,
+  #sorotArticle .card {
+    height: auto;
+  }
+  
+  #myArticles .img-fluid,
+  #sorotArticle .card-img-top {
+    height: 200px;
+    object-fit: cover;
+  }
+  
+  /* Rekomendasi pada mobile tampil dibawah */
+  .col-md-12.col-lg-4.col-xl-4 {
+    margin-top: 30px;
+  }
+}
+
+/* Pagination responsiveness */
+@media (max-width: 768px) {
+  .pagination .page-item {
+    margin: 3px;
+  }
+}

@@ -8,19 +8,14 @@
       href="https://cdn.jsdelivr.net/npm/bootstrap@5.1.3/dist/css/bootstrap.min.css"
       rel="stylesheet"
     />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/Bmi.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/growth-charts.css') }}"
-    />
-    <link
-      rel="stylesheet"
-      href="{{ url_for('static', filename='css/footer.css') }}"
-    />
-    <link rel="icon" href="{{ url_for('static', filename='img/Stun.png') }}" />
+    <!-- Webpack bundled CSS -->
+    <link rel="stylesheet" href="../static/dist/css/stunting.css" />
+    <link rel="stylesheet" href="../static/css/articel.css" />
+    <link rel="stylesheet" href="../static/css/footer.css" />
+    <link rel="stylesheet" href="../static/css/Bmi.css" />
+    <link rel="stylesheet" href="../static/css/growth-charts.css" />
+    <link rel="stylesheet" href="../static/css/chatbot.css" />
+    <link rel="icon" href="../static/img/Stun.png" />
     <script
       src="https://kit.fontawesome.com/30b2892a0a.js"
       crossorigin="anonymous"
@@ -31,6 +26,8 @@
     <script src="https://cdnjs.cloudflare.com/ajax/libs/hammer.js/2.0.8/hammer.min.js"></script>
     <!-- Chart.js Zoom Plugin -->
     <script src="https://cdnjs.cloudflare.com/ajax/libs/chartjs-plugin-zoom/1.1.1/chartjs-plugin-zoom.min.js"></script>
+    <!-- WHO Growth Charts -->
+    <script src="../static/js/stunting-charts.js"></script>
     <script>
       // Verify Chart.js is loaded correctly
       window.addEventListener("DOMContentLoaded", () => {
@@ -46,48 +43,53 @@
     <header class="navbar">
       <div class="nav-brand">
         <img
-          src="{{ url_for('static', filename='img/Logo stuntify.png') }}"
+          src="../static/img/Logo stuntify.png"
           alt="Stuntify Logo"
           class="brand-logo"
         />
       </div>
-      <nav class="nav-menu">
-        <a href="/"
+      <button class="mobile-menu-toggle" id="mobile-menu-toggle" aria-label="Toggle menu">
+        <i class="fas fa-bars"></i>
+      </button>
+      <nav class="nav-menu" id="nav-menu">
+        <a href="index.html"
           ><img
-            src="{{ url_for('static', filename='img/home.png') }}"
+            src="../static/img/home.png"
             alt="Beranda"
           />
           Beranda</a
         >
-        <a href="/#alur-penggunaan"
+        <a href="index.html#alur-penggunaan"
           ><img
-            src="{{ url_for('static', filename='img/process.png') }}"
+            src="../static/img/process.png"
             alt="Alur Penggunaan"
           />Alur Penggunaan</a
         >
-        <a href="/articel.html"
+        <a href="articel.html"
           ><img
-            src="{{ url_for('static', filename='img/article.png') }}"
+            src="../static/img/article.png"
             alt="Artikel"
           />
           Artikel</a
         >
-        <a href="/stunting.html" class="active"
+        <a href="stunting.html" class="active"
           ><img
-            src="{{ url_for('static', filename='img/calculator.png') }}"
+            src="../static/img/calculator.png"
             alt="Stunting"
           />Prediksi Stunting Calculator</a
         >
-        <a href="/#peta"
+        <a href="index.html#peta"
           ><img
-            src="{{ url_for('static', filename='img/map.png') }}"
+            src="../static/img/map.png"
             alt="Peta Stunting"
           />Stunting Maps</a
         >
       </nav>
     </header>
-
-    <h1 style="text-align: center">Kalkulator Prediksi Stunting</h1>
+    
+    <div class="section-header">
+      <h1 class="page-title">Kalkulator Prediksi Stunting</h1>
+    </div>
 
     <div class="container">
       <!-- Flask Form Integration -->
@@ -104,103 +106,74 @@
       </form>
 
       <div class="form-card">
-        <label>Nama Anak:</label>
-        <input type="text" id="nama" />
+        <div class="form-group">
+          <label>Nama Anak:</label>
+          <input type="text" id="nama" class="form-control" />
+        </div>
 
-        <label>Jenis Kelamin:</label>
-        <div class="radio-group" style="display: flex; gap: 20px">
-          <div>
-            <input
-              type="radio"
-              id="laki"
-              name="gender"
-              value="Laki-laki"
-              checked
-            />
-            <label for="laki">Laki-Laki</label>
-          </div>
-          <div>
-            <input
-              type="radio"
-              id="perempuan"
-              name="gender"
-              value="Perempuan"
-            />
-            <label for="perempuan">Perempuan</label>
+        <div class="form-group">
+          <label>Jenis Kelamin:</label>
+          <div class="radio-group" style="display: flex; gap: 20px">
+            <div>
+              <input
+                type="radio"
+                id="laki"
+                name="gender"
+                value="Laki-laki"
+                checked
+              />
+              <label for="laki">Laki-Laki</label>
+            </div>
+            <div>
+              <input
+                type="radio"
+                id="perempuan"
+                name="gender"
+                value="Perempuan"
+              />
+              <label for="perempuan">Perempuan</label>
+            </div>
           </div>
         </div>
 
-        <label>Tinggi Badan (CM):</label>
-        <input type="number" id="tinggi-badan-input" />
-        <small id="tinggiError"></small>
+        <div class="form-group">
+          <label>Tinggi Badan (CM):</label>
+          <input type="number" id="tinggi-badan-input" class="form-control" />
+          <small id="tinggiError" class="error-text"></small>
+        </div>
 
-        <label>Berat Badan (KG):</label>
-        <input type="number" id="berat-badan-input" step="0.1" />
-        <small id="beratError"></small>
+        <div class="form-group">
+          <label>Berat Badan (KG):</label>
+          <input type="number" id="berat-badan-input" step="0.1" class="form-control" />
+          <small id="beratError" class="error-text"></small>
+        </div>
 
-        <label>Umur (Bulan):</label>
-        <input type="number" id="umur-input" min="0" max="60" />
-        <small id="umurError"></small>
-        <small>*Untuk anak 0-60 bulan (0-5 tahun)</small>
+        <div class="form-group">
+          <label>Umur (Bulan):</label>
+          <input type="number" id="umur-input" min="0" max="60" class="form-control" />
+          <small id="umurError" class="error-text"></small>
+          <small class="info-text">*Untuk anak 0-60 bulan (0-5 tahun)</small>
+        </div>
 
-        <button id="btn-submit-stunting">Hitung</button>
+        <button id="btn-submit-stunting" class="btn-primary">Hitung</button>
         <div class="result" id="result-stunting"></div>
 
         <!-- ML Prediction Results -->
-        <div id="ml-results" style="display: none; margin-top: 20px">
+        <div id="ml-results" style="display: none; margin-top: 20px" class="ml-results-container">
           <h3>Hasil Prediksi Machine Learning:</h3>
-          <div style="display: flex; gap: 20px; margin: 15px 0">
-            <div
-              style="
-                flex: 1;
-                padding: 15px;
-                border: 2px solid #007bff;
-                border-radius: 10px;
-                background: #f8f9fa;
-              "
-            >
-              <h4 style="color: #007bff; margin: 0 0 10px 0">
-                Status Stunting:
-              </h4>
-              <div
-                id="ml-stunting-result"
-                style="font-size: 18px; font-weight: bold"
-              ></div>
-              <div
-                id="ml-stunting-confidence"
-                style="font-size: 14px; color: #666; margin-top: 5px"
-              ></div>
+          <div class="results-flex-container">
+            <div class="results-card stunting-card">
+              <h4>Status Stunting:</h4>
+              <div id="ml-stunting-result" class="result-value"></div>
+              <div id="ml-stunting-confidence" class="confidence-value"></div>
             </div>
-            <div
-              style="
-                flex: 1;
-                padding: 15px;
-                border: 2px solid #ffc107;
-                border-radius: 10px;
-                background: #fff8e1;
-              "
-            >
-              <h4 style="color: #ffc107; margin: 0 0 10px 0">
-                Status Wasting:
-              </h4>
-              <div
-                id="ml-wasting-result"
-                style="font-size: 18px; font-weight: bold"
-              ></div>
-              <div
-                id="ml-wasting-confidence"
-                style="font-size: 14px; color: #666; margin-top: 5px"
-              ></div>
+            <div class="results-card wasting-card">
+              <h4>Status Wasting:</h4>
+              <div id="ml-wasting-result" class="result-value"></div>
+              <div id="ml-wasting-confidence" class="confidence-value"></div>
             </div>
           </div>
-          <div
-            style="
-              background: #e3f2fd;
-              padding: 15px;
-              border-radius: 10px;
-              margin: 10px 0;
-            "
-          >
+          <div class="info-note">
             <strong>⚠️ Catatan:</strong> Hasil prediksi ini menggunakan model
             Machine Learning dan hanya untuk referensi. Konsultasikan dengan
             tenaga kesehatan untuk diagnosis yang akurat.
@@ -210,24 +183,16 @@
         <!-- Results will appear inside form-card after calculation -->
         <div
           class="calculation-results"
-          style="margin-top: 20px; display: none"
           id="calculation-results"
         >
-          <hr
-            style="
-              border-top: 1px solid rgba(255, 255, 255, 0.3);
-              margin: 15px 0;
-            "
-          />
-          <div
-            class="chart-button-container"
-            style="display: flex; justify-content: center; margin: 15px 0"
-          >
+          <hr class="results-divider" />
+          <div class="chart-button-container">
             <button
               id="view-charts-btn"
               class="view-charts-button"
               style="display: none"
             >
+              <i class="fas fa-chart-line mr-2"></i>
               Lihat Grafik Pertumbuhan WHO
             </button>
           </div>
@@ -280,37 +245,36 @@
       </div>
 
       <!-- Chart container will be added here by JavaScript -->
-      <div id="chart-container-placeholder" style="width: 100%"></div>
+      <div id="chart-container-placeholder" class="chart-placeholder-container">
+        <!-- Empty div with fixed height to prevent layout shift -->
+        <div style="min-height: 50px; width: 100%;"></div>
+      </div>
     </div>
+    
+    <!-- Script to initialize chart placeholder -->
+    <script>
+      document.addEventListener('DOMContentLoaded', function() {
+        const placeholder = document.getElementById('chart-container-placeholder');
+        if (placeholder) {
+          // Set explicit dimensions to prevent layout shift
+          placeholder.style.width = '100%';
+          placeholder.style.position = 'static';
+          placeholder.style.display = 'block';
+        }
+      });
+    </script>
 
-    <div style="text-align: center; margin-top: 30px">
-      <a href="/" class="back-button">Kembali ke Beranda</a>
-    </div>
-
-    <div class="chat-container" id="chat-container">
+        <!-- Chatbot akan dipindahkan ke lokasi yang sesuai dengan JavaScript -->
+    <!-- Chatbot container (hidden initially, will be shown by JavaScript after calculation) -->
+    <div class="chat-container" id="chat-container" style="display:none">
       <div class="chat-header">
         <h3>🤖 Stuntify AI Assistant</h3>
+        <div class="chat-toggle" id="chat-toggle">
+          <i class="fas fa-chevron-up" id="toggle-icon"></i>
+        </div>
       </div>
       <div class="chat-messages" id="chat-messages">
-        <div class="message ai-message">
-          <div class="message-content">
-            <p>
-              Halo! Saya adalah asisten AI Stuntify. Saya dapat membantu Anda
-              dengan informasi seputar:
-            </p>
-            <p>
-              • Pengertian dan penyebab stunting<br />
-              • Rekomendasi vitamin dan suplemen untuk anak<br />
-              • Aktivitas fisik untuk mendukung pertumbuhan optimal<br />
-              • Interpretasi hasil pengukuran pertumbuhan anak<br />
-              • Program nutrisi untuk pencegahan stunting
-            </p>
-            <p>
-              Silakan tanyakan apa saja seputar stunting dan pertumbuhan anak!
-              😊
-            </p>
-          </div>
-        </div>
+        <!-- Pesan chatbot akan ditambahkan di sini secara dinamis -->
       </div>
       <div class="typing-indicator" id="typing-indicator" style="display: none">
         <span></span>
@@ -327,17 +291,24 @@
       </div>
     </div>
 
-    <footer class="text-center text-lg-start text-muted">
-      <div class="container py-4">
+    <!-- Add spacing before footer -->
+    <div class="footer-spacer"></div>
+
+    <!-- Back button positioned at bottom center -->
+    <div class="back-button-center">
+      <a href="index.html" class="back-button">
+        <i class="fas fa-home mr-2"></i> Kembali ke Beranda
+      </a>
+    </div>
+
+    <!-- 7. Footer -->
+    <footer class="text-center text-lg-start bg-light text-muted stunting-footer">
+      <div class="container">
         <div class="footer-content">
           <div class="footer-brand">
             <h2>Stuntify</h2>
             <div class="social-links">
-              <a
-                href="https://github.com/FadlanAmin0"
-                class="social-link"
-                target="_blank"
-              >
+              <a href="https://github.com/kyujizt" class="social-link" aria-label="GitHub">
                 <i class="fab fa-github"></i>
               </a>
             </div>
@@ -346,15 +317,15 @@
           <div class="footer-links">
             <div class="link-group">
               <h5>Artikel</h5>
-              <a href="/articel.html">Cek Artikel</a>
+              <a href="articel.html">Cek Artikel</a>
             </div>
             <div class="link-group">
               <h5>Cek Stunting</h5>
-              <a href="/stunting.html">Prediksi Stunting</a>
+              <a href="stunting.html">Prediksi Stunting</a>
             </div>
             <div class="link-group">
               <h5>Infografis Stunting</h5>
-              <a href="/#peta">Lihat Peta</a>
+              <a href="index.html#peta">Lihat Peta</a>
             </div>
             <div class="link-group">
               <h5>About us</h5>
@@ -370,13 +341,10 @@
     </footer>
 
     <!-- Growth Charts Script -->
-    <script src="{{ url_for('static', filename='js/stunting-charts.js') }}"></script>
-
-    <!-- Custom AI Assistant -->
-    <script src="{{ url_for('static', filename='js/custom-ai-assistant.js') }}"></script>
-
-    <!-- Recommendations Script - loaded after custom-ai-assistant.js -->
-    <script src="{{ url_for('static', filename='js/stunting-recommendations.js') }}"></script>
+    <!-- Webpack bundled JS -->
+    <script src="../static/dist/js/604.js"></script>
+    <script src="../static/dist/js/stunting.js"></script>
+    <script src="../static/js/custom-ai-assistant.js"></script>
 
     <script>
       // Standar Height-for-Age (stunting reference) sesuai WHO
@@ -560,38 +528,37 @@
           umurStatus = true;
         }
 
-        if (tinggiStatus && umurStatus && beratStatus) {
-          // Original WHO calculation
-          const genderIndex = jenisKelamin === "Laki-Laki" ? 0 : 1;
-          const minimalNormal = stuntingReference[umurInput][genderIndex];
+        if (tinggiStatus && umurStatus && beratStatus) {      // Original WHO calculation
+      const genderIndex = jenisKelamin === "Laki-Laki" ? 0 : 1;
+      const minimalNormal = stuntingReference[umurInput][genderIndex];
 
-          let statusStunting = "";
-          if (tinggiInput < minimalNormal - 5) {
-            statusStunting = "Stunting Berat";
-          } else if (tinggiInput < minimalNormal) {
-            statusStunting = "Stunting Ringan";
-          } else {
-            statusStunting = "Normal";
-          }
+      let statusStunting = "";
+      if (tinggiInput < minimalNormal - 5) {
+        statusStunting = "Stunting Berat";
+      } else if (tinggiInput < minimalNormal) {
+        statusStunting = "Stunting Ringan";
+      } else {
+        statusStunting = "Normal";
+      }
 
-          // Set result text and apply styling
-          result.innerText = `Status: ${statusStunting} (Tinggi: ${tinggiInput} cm, Minimal Normal: ${minimalNormal.toFixed(
-            1
-          )} cm)`;
+      // Set result text and apply styling
+      result.innerText = `Status: ${statusStunting} (Tinggi: ${tinggiInput} cm, Minimal Normal: ${minimalNormal.toFixed(
+        1
+      )} cm)`;
 
-          // Apply status-based styling
-          result.classList.remove(
-            "status-normal",
-            "status-stunting-ringan",
-            "status-stunting-berat"
-          );
-          if (statusStunting === "Normal") {
-            result.classList.add("status-normal");
-          } else if (statusStunting === "Stunting Ringan") {
-            result.classList.add("status-stunting-ringan");
-          } else {
-            result.classList.add("status-stunting-berat");
-          }
+      // Apply status-based styling
+      result.classList.remove(
+        "status-normal",
+        "status-stunting-ringan",
+        "status-stunting-berat"
+      );
+      if (statusStunting === "Normal") {
+        result.classList.add("status-normal");
+      } else if (statusStunting === "Stunting Ringan") {
+        result.classList.add("status-stunting-ringan");
+      } else {
+        result.classList.add("status-stunting-berat");
+      }
 
           // Update chat context
           chatContext = {
@@ -826,10 +793,10 @@
             console.error("updateCharts function not found");
           }
 
-          // Show chatbot after calculation
-          document.getElementById("chat-container").style.display = "block";
+          // Show welcome message first after chatbot positioning is handled by ChatbotPositioner
+          sendWelcomeMessage();
 
-          // Send initial AI message with context
+          // Send initial AI message with context after welcome
           setTimeout(() => {
             sendInitialAIMessage(
               statusStunting,
@@ -838,7 +805,79 @@
               minimalNormal,
               jenisKelamin
             );
-          }, 1000);
+          }, 3000);
+
+          // After calculation, ensure chatbot is visible
+          if (window.chatbotPositioner) {
+            // Force the calculation flag to be true
+            window.chatbotPositioner.calculationPerformed = true;
+            
+            // Reposition chatbot with a delay to ensure it happens after DOM updates
+            setTimeout(() => {
+              window.chatbotPositioner.positionChatbotInHistoryCard();
+              
+              // Make sure it's actually visible 
+              const chatContainer = document.getElementById('chat-container');
+              if (chatContainer) {
+                chatContainer.style.display = 'block';
+              }
+            }, 500);
+          }
+
+          // Helper function to make absolutely sure the chatbot is visible after calculation
+      function ensureChatbotVisible() {
+        console.log("ensureChatbotVisible called");
+        
+        // Force the chatbot to be visible
+        const chatContainer = document.getElementById("chat-container");
+        if (chatContainer) {
+          console.log("Making chat container visible");
+          chatContainer.style.display = 'block';
+          
+          // Make sure the chatbot is expanded (not collapsed)
+          chatContainer.classList.remove('chat-collapsed');
+          const toggleIcon = document.getElementById('toggle-icon');
+          if (toggleIcon) toggleIcon.className = 'fas fa-chevron-up';
+          
+          // Re-add to the DOM in the right place if needed
+          const historyCard = document.querySelector('.history-card');
+          const clearButton = historyCard?.querySelector('#hapus-riwayat-btn');
+          
+          if (clearButton && historyCard) {
+            // Only move if not already in the right place
+            if (!chatContainer.parentNode || chatContainer.parentNode !== historyCard) {
+              console.log("Moving chat container to history card");
+              // Remove from current location
+              if (chatContainer.parentNode) {
+                chatContainer.parentNode.removeChild(chatContainer);
+              }
+              
+              // Place after clear button
+              clearButton.insertAdjacentElement('afterend', chatContainer);
+            }
+          }
+          
+          // Ensure all inner elements are visible
+          const chatMessages = document.getElementById('chat-messages');
+          if (chatMessages) chatMessages.style.display = 'block';
+          
+          const chatInput = document.querySelector('.chat-input');
+          if (chatInput) chatInput.style.display = 'flex';
+          
+          // Ensure it's actually visible
+          setTimeout(() => {
+            chatContainer.style.display = 'block';
+          }, 100);
+        } else {
+          console.log("Chat container not found");
+        }
+      }
+      
+      // Call the function after calculation is done
+      button.addEventListener("click", function() {
+        // Delay to ensure calculation has time to complete
+        setTimeout(ensureChatbotVisible, 1000);
+      });
 
           // Continue with existing logic for panels, history, etc.
           const nama = document.getElementById("nama").value || "Tanpa Nama";
@@ -860,8 +899,7 @@
 
           // Create an image element
           const deleteIcon = document.createElement("img");
-          deleteIcon.src =
-            "{{ url_for('static', filename='img/delete-button.png') }}";
+          deleteIcon.src = "../static/img/delete-button.png";
           deleteIcon.alt = "Delete";
           deleteIcon.style.width = "16px";
           deleteIcon.style.height = "16px";
@@ -887,6 +925,47 @@
       const userInput = document.getElementById("user-input");
       const sendBtn = document.getElementById("send-btn");
 
+      // Add welcome message when the chatbot is displayed (only after calculation)
+      function sendWelcomeMessage() {
+        console.log("sendWelcomeMessage called");
+        
+        // Check if any calculation was performed during this session
+        if (!window.chatbotPositioner || !window.chatbotPositioner.calculationPerformed) {
+          console.log("No calculation performed yet, not showing welcome message");
+          return;
+        }
+        
+        console.log("Calculation performed, showing welcome message");
+        
+        // Clean previous messages if any
+        if (chatMessages) {
+          chatMessages.innerHTML = '';
+        }
+        
+        // Make sure the chatbot is visible
+        if (chatContainer) {
+          chatContainer.style.display = 'block';
+        }
+        
+        setTimeout(() => {
+          typingIndicator.style.display = "block";
+          setTimeout(() => {
+            typingIndicator.style.display = "none";
+            let welcomeMessage;
+            
+            // Check if we have stuntingAI instance
+            if (stuntingAI) {
+              // Using the greeting message from custom-ai-assistant.js
+              welcomeMessage = stuntingAI.getGeneralResponse("halo");
+            } else {
+              welcomeMessage = "Halo! Saya Stuntify Bot, siap membantu Anda dengan informasi seputar stunting dan pertumbuhan anak. Apa yang ingin Anda tanyakan?";
+            }
+            
+            appendMessage("ai", welcomeMessage);
+          }, 1000);
+        }, 500);
+      }
+
       sendBtn.addEventListener("click", handleUserMessage);
       userInput.addEventListener("keypress", function (e) {
         if (e.key === "Enter") {
@@ -895,277 +974,124 @@
       });
 
       function handleUserMessage() {
+        console.log("handleUserMessage called");
+        const message = userInput.value.trim();
+        if (message === "") return;
+
+        console.log("Processing message:", message);
+
+        // Disable input while processing
+        userInput.disabled = true;
+        sendBtn.disabled = true;
+        
+        appendMessage("user", message);
+        userInput.value = "";
+
+        // Calculate typing delay based on response length (simulate typing)
+        const calculateTypingDelay = (text) => {
+          const baseDelay = 500;  // minimum delay in ms
+          const charsPerSecond = 20;
+          return baseDelay + Math.min(2500, text.length / charsPerSecond * 1000);
+        };
+
+        // Show typing indicator
+        typingIndicator.style.display = "block";
+        
         try {
-          const message = userInput.value.trim();
-          if (!message) return;
-
-          // Add user message to chat
-          appendMessage("user", message);
-          userInput.value = "";
-
-          // Show typing indicator
-          typingIndicator.style.display = "block";
-          chatMessages.scrollTop = chatMessages.scrollHeight;
-
-          console.log("Processing message:", message);
-          console.log("Chat context:", chatContext);
-          console.log(
-            "stuntingAI available:",
-            typeof stuntingAI !== "undefined"
-          );
-          console.log(
-            "StuntingAI class available:",
-            typeof StuntingAI !== "undefined"
-          );
-          console.log(
-            "StuntingRecommendations available:",
-            typeof StuntingRecommendations !== "undefined"
-          );
-
-          // Simulate a slight delay to make it feel more natural
+          // Small delay before "typing" starts
           setTimeout(() => {
-            try {
-              // Get response from our custom AI
-              let response;
-
-              // Check if stuntingAI is initialized
-              if (typeof stuntingAI === "undefined" || !stuntingAI) {
-                // If stuntingAI doesn't exist, initialize it
-                console.log("stuntingAI not found, initializing...");
-                try {
-                  window.stuntingAI = new StuntingAI();
-                  console.log("stuntingAI initialized successfully");
-                } catch (initError) {
-                  console.error("Failed to initialize stuntingAI:", initError);
-                  throw new Error(
-                    "Could not initialize AI assistant: " + initError.message
-                  );
-                }
-                console.log("stuntingAI initialized:", window.stuntingAI);
-              }
-
-              // Analisis lebih detail terhadap pertanyaan pengguna
-              const queryLower = message.toLowerCase();
-
-              // Klasifikasikan jenis pertanyaan untuk respons yang lebih akurat
-              const isAboutStunting =
-                queryLower.includes("stunting") ||
-                queryLower.includes("tubuh pendek") ||
-                queryLower.includes("tinggi badan");
-              const isAboutWeight =
-                queryLower.includes("berat") ||
-                queryLower.includes("timbangan") ||
-                queryLower.includes("kurus") ||
-                queryLower.includes("gemuk") ||
-                queryLower.includes("obesitas");
-              const isAboutVitamins =
-                queryLower.includes("vitamin") ||
-                queryLower.includes("suplemen") ||
-                queryLower.includes("nutrisi");
-              const isAboutDiet =
-                queryLower.includes("makan") ||
-                queryLower.includes("diet") ||
-                queryLower.includes("gizi") ||
-                queryLower.includes("makanan");
-              const isAboutActivities =
-                queryLower.includes("aktivitas") ||
-                queryLower.includes("olahraga") ||
-                queryLower.includes("latihan") ||
-                queryLower.includes("bermain");
-              const isAboutResults =
-                queryLower.includes("hasil") ||
-                queryLower.includes("perhitungan") ||
-                queryLower.includes("kalkulasi") ||
-                queryLower.includes("status");
-
-              // Data dari hasil perhitungan
-              if (chatContext && chatContext.stunting_status) {
-                const childData = {
-                  stunting_status: chatContext.stunting_status,
-                  weight_status: determineWeightStatus(
-                    chatContext.weight,
-                    chatContext.age,
-                    chatContext.gender
-                  ),
-                  height: chatContext.height,
-                  age: chatContext.age,
-                  gender: chatContext.gender,
-                  weight: chatContext.weight,
-                  name: chatContext.childName || "Anak",
-                  ml_stunting_result: chatContext.ml_stunting_result,
-                  ml_wasting_result: chatContext.ml_wasting_result,
-                  stunting_confidence: chatContext.stunting_confidence || "85",
-                  wasting_confidence: chatContext.wasting_confidence || "85",
-                };
-
-                console.log("Child data prepared:", childData);
-
-                // Berikan respons yang lebih spesifik berdasarkan pertanyaan
-                if (isAboutResults) {
-                  // Merespons tentang hasil perhitungan
-                  console.log("Getting results response");
-                  response =
-                    `**Hasil Perhitungan:**\n\nUntuk anak ${childData.name} (${
-                      childData.gender
-                    }), ${childData.age} bulan, dengan tinggi ${
-                      childData.height
-                    } cm ${
-                      childData.weight
-                        ? "dan berat " + childData.weight + " kg"
-                        : ""
-                    }:\n\n` +
-                    `Status stunting: **${childData.stunting_status}**\n` +
-                    (childData.weight
-                      ? `Status berat badan: **${childData.weight_status}**\n`
-                      : "") +
-                    (childData.ml_stunting_result
-                      ? `\nPrediksi Machine Learning untuk stunting: **${childData.ml_stunting_result}** (kepercayaan ${childData.stunting_confidence}%)\n`
-                      : "") +
-                    (childData.ml_wasting_result
-                      ? `Prediksi Machine Learning untuk status berat: **${childData.ml_wasting_result}** (kepercayaan ${childData.wasting_confidence}%)\n`
-                      : "");
-                } else if (
-                  (isAboutVitamins || isAboutDiet) &&
-                  window.stuntingRecommendations
-                ) {
-                  // Rekomendasi vitamin dan diet
-                  console.log("Getting detailed vitamin/diet recommendations");
-                  response = stuntingAI.getDetailedRecommendations(
-                    message,
-                    childData
-                  );
-                } else if (
-                  isAboutActivities &&
-                  window.stuntingRecommendations
-                ) {
-                  // Rekomendasi aktivitas
-                  console.log("Getting activity recommendations");
-                  response = stuntingAI.getDetailedRecommendations(
-                    message,
-                    childData
-                  );
-                } else if (
-                  isAboutStunting &&
-                  childData.stunting_status !== "Normal"
-                ) {
-                  // Informasi khusus tentang stunting jika anak mengalami stunting
-                  console.log(
-                    "Getting stunting information for affected child"
-                  );
-                  response =
-                    `**Informasi Tentang Stunting untuk ${childData.name}:**\n\n` +
-                    `Berdasarkan perhitungan, ${childData.name} mengalami kondisi ${childData.stunting_status}. ` +
-                    `Tinggi badan saat ini ${
-                      childData.height
-                    } cm, sedangkan standar minimal untuk anak ${
-                      childData.gender
-                    } usia ${
-                      childData.age
-                    } bulan adalah sekitar ${stuntingAI.getMinNormalHeight(
-                      childData.age,
-                      childData.gender
-                    )} cm.\n\n` +
-                    `**Tindakan yang Perlu Dilakukan:**\n\n` +
-                    `1. **Nutrisi Tepat**: Berikan makanan kaya protein, kalsium, vitamin A, D, dan zinc\n` +
-                    `2. **Konsultasi dengan Ahli**: Periksakan ke dokter atau ahli gizi untuk mendapatkan program intervensi\n` +
-                    `3. **Pemantauan Berkala**: Lakukan pengukuran rutin setiap bulan\n` +
-                    `4. **Stimulasi**: Berikan stimulasi yang cukup untuk mendukung perkembangan anak\n\n` +
-                    `Stunting perlu ditangani secepatnya karena dapat mempengaruhi perkembangan fisik dan kognitif anak.`;
-                } else {
-                  // Respons dengan format baru berdasarkan data anak
-                  console.log("Getting child response");
-                  response = stuntingAI.getResponseForChild(childData);
-                }
-              } else {
-                // General response based on the question
-                console.log("Getting general response");
-                response = stuntingAI.getGeneralResponse(message);
-              }
-
-              console.log(
-                "AI response generated:",
-                response ? "Success" : "Failed"
-              );
-
-              // Hide typing indicator
-              typingIndicator.style.display = "none";
-
-              // Display the response
-              appendMessage(
-                "ai",
-                response ||
-                  "Maaf, saya mengalami kendala dalam memproses pesan Anda. Silakan coba lagi."
-              );
-            } catch (error) {
-              console.error("Error in AI response generation:", error);
-              typingIndicator.style.display = "none";
-              appendMessage(
-                "ai",
-                "Maaf, terjadi kesalahan teknis. Detail: " + error.message
-              );
+            let response;
+            
+            // Check if we have stuntingAI instance
+            if (stuntingAI) {
+              response = stuntingAI.getGeneralResponse(message);
+            } else {
+              response = "Maaf, sistem sedang memuat. Silakan coba lagi dalam beberapa saat.";
             }
-          }, 1000 + Math.random() * 1000); // Random delay between 1-2 seconds
+            
+            // Calculate delay based on response length
+            const typingDelay = calculateTypingDelay(response);
+            
+            // Hide typing indicator and show response after "typing" is done
+            setTimeout(() => {
+              typingIndicator.style.display = "none";
+              appendMessage("ai", response);
+              
+              // Re-enable input after response is shown
+              userInput.disabled = false;
+              sendBtn.disabled = false;
+              userInput.focus();
+            }, typingDelay);
+            
+          }, 500); // Initial delay before typing starts
         } catch (error) {
           console.error("Error in handleUserMessage:", error);
           typingIndicator.style.display = "none";
-          appendMessage(
-            "ai",
-            "Maaf, terjadi kesalahan. Silakan coba lagi nanti."
-          );
+          appendMessage("ai", "Maaf, terjadi kesalahan teknis. Silakan coba lagi nanti.");
+          
+          // Re-enable input after error
+          userInput.disabled = false;
+          sendBtn.disabled = false;
         }
       }
 
       function appendMessage(sender, message) {
+        console.log(`Appending ${sender} message:`, message);
+        
         const messageDiv = document.createElement("div");
         messageDiv.className = `message ${sender}-message`;
+        
+        // Make sure chatbot is expanded when messages are added
+        if (chatContainer) {
+          chatContainer.classList.remove('chat-collapsed');
+          const toggleIcon = document.getElementById('toggle-icon');
+          if (toggleIcon) toggleIcon.className = 'fas fa-chevron-up';
+        }
+        
+        // Add animation styles
+        messageDiv.style.opacity = "0";
+        messageDiv.style.transform = sender === "user" ? "translateX(20px)" : "translateX(-20px)";
+        messageDiv.style.transition = "all 0.3s ease";
 
         const contentDiv = document.createElement("div");
         contentDiv.className = "message-content";
 
-        // Format the message with proper HTML instead of plain text
-        if (sender === "ai") {
-          // Replace markdown-style formatting with HTML elements
+        if (sender === "user") {
+          contentDiv.textContent = message;
+        } else {
+          // For AI messages, convert markdown-style formatting to HTML
           let formattedMessage = message
             .replace(/\*\*(.*?)\*\*/g, "<strong>$1</strong>") // Bold text
             .replace(/\*(.*?)\*/g, "<em>$1</em>") // Italic text
-            .replace(/\n\s*\n/g, "</p><p>") // Paragraphs
-            .replace(/\n([0-9]+\.\s)/g, "</p><p>$1") // Numbered lists
-            .replace(/\n(\•\s)/g, "</p><p>• ") // Bullet points
-            .replace(/\n(⚠️\s)/g, "</p><p>⚠️ ") // Warning points
-            .replace(/\n(❗\s)/g, "</p><p>❗ ") // Alert points
-            .replace(/\n(✅\s)/g, "</p><p>✅ ") // Success points
-            .replace(/### (.*?)\n/g, "</p><h3>$1</h3><p>") // Headers
-            .replace(/\n---\n/g, "</p><hr><p>") // Horizontal lines
-            .replace(/\n/g, "<br>"); // Line breaks
+            .replace(/\n\n/g, '<br><br>') // Double line breaks
+            .replace(/\n([0-9]+\.\s)/g, '<br>$1') // Numbered lists
+            .replace(/\n(\s*•\s)/g, '<br>$1') // Bullet points
+            .replace(/\n/g, '<br>'); // Single line breaks
 
-          // Wrap with paragraph tags
-          formattedMessage = `<p>${formattedMessage}</p>`;
-
-          // Buat gaya heading dan divider lebih baik
-          formattedMessage = formattedMessage
-            .replace(
-              /<h3>/g,
-              '<h3 style="color:#007bff; margin-top:15px; margin-bottom:10px;">'
-            )
-            .replace(
-              /<hr>/g,
-              '<hr style="border-top: 1px solid #ddd; margin: 15px 0;">'
-            );
-
-          // Set the formatted message as HTML
           contentDiv.innerHTML = formattedMessage;
-
-          // Tambahkan gaya khusus ke contentDiv
-          contentDiv.style.fontSize = "14px";
-          contentDiv.style.lineHeight = "1.5";
-        } else {
-          // For user messages, keep it simple
-          contentDiv.textContent = message;
         }
 
         messageDiv.appendChild(contentDiv);
+        
+        // Ensure chatMessages exists and is visible
+        if (!chatMessages) {
+          console.error("Chat messages container not found");
+          return;
+        }
+        
         chatMessages.appendChild(messageDiv);
-        chatMessages.scrollTop = chatMessages.scrollHeight;
+        
+        // Make sure the chat container is visible
+        if (chatContainer) {
+          chatContainer.style.display = 'block';
+        }
+        
+        // Trigger animation after a tiny delay to ensure DOM update
+        setTimeout(() => {
+          messageDiv.style.opacity = "1";
+          messageDiv.style.transform = "translateX(0)";
+          chatMessages.scrollTop = chatMessages.scrollHeight;
+        }, 10);
       }
 
       function determineWeightStatus(weight, age, gender) {
@@ -1192,23 +1118,42 @@
       }
 
       function sendInitialAIMessage(status, height, age, minHeight, gender) {
+        console.log("sendInitialAIMessage called with:", status, height, age);
+        
+        // Use the chatbotPositioner's state to determine if we should show the AI message
+        if (!window.chatbotPositioner || !window.chatbotPositioner.calculationPerformed) {
+          console.log("No calculation performed yet, not showing AI message");
+          return;
+        }
+        
+        console.log("Calculation performed, showing AI message");
+        
+        // Make sure the chatbot is visible
+        if (chatContainer) {
+          chatContainer.style.display = 'block';
+        }
+        
         typingIndicator.style.display = "block";
 
         setTimeout(() => {
           typingIndicator.style.display = "none";
+          
+          // Get weight if available
+          const weight = parseFloat(document.getElementById("berat-badan-input").value);
+          let weightStatus = null;
+          
+          if (weight && !isNaN(weight) && weight > 0) {
+            weightStatus = assessWeightStatus(weight, age, gender);
+          }
 
           // Prepare child data
           const childData = {
             stunting_status: status,
-            weight_status: determineWeightStatus(
-              chatContext.weight,
-              age,
-              gender
-            ),
+            weight_status: weightStatus ? weightStatus.status : "Tidak diketahui",
             height: height,
             age: age,
             gender: gender,
-            weight: chatContext.weight,
+            weight: weight,
             name: document.getElementById("nama").value || "Anak Anda",
             ml_stunting_result: chatContext.ml_stunting_result,
             ml_wasting_result: chatContext.ml_wasting_result,
@@ -1216,8 +1161,9 @@
             wasting_confidence: chatContext.wasting_confidence || "85",
           };
 
-          // Generate detailed response based on the calculation results and display it immediately
+          // Gunakan template respons yang telah disiapkan melalui getResponseForChild
           const detailedResponse = stuntingAI.getResponseForChild(childData);
+          
           appendMessage("ai", detailedResponse);
         }, 1500);
       }
@@ -1226,6 +1172,15 @@
         .getElementById("hapus-riwayat-btn")
         .addEventListener("click", () => {
           historyContainer.innerHTML = "";
+          
+          // Reset the chatbot visibility flag and hide the chatbot
+          if (window.chatbotPositioner) {
+            window.chatbotPositioner.calculationPerformed = false;
+            const chatContainer = document.getElementById('chat-container');
+            if (chatContainer) {
+              chatContainer.style.display = 'none';
+            }
+          }
         });
 
       // Assessment functions
@@ -1328,6 +1283,77 @@
           recommendation: recommendation,
         };
       }
+
+      // Verifikasi custom-ai-assistant.js dimuat dengan benar
+      window.addEventListener("DOMContentLoaded", () => {
+        // Verify Chart.js already checked above
+
+        // Check if AI assistant is loaded
+        setTimeout(() => {
+          if (typeof stuntingAI === 'undefined') {
+            console.error("Stuntify AI Assistant not loaded! Loading fallback...");
+            
+            // Create a fallback script tag and append to body
+            const aiScript = document.createElement('script');
+            aiScript.src = "{{ url_for('static', filename='js/custom-ai-assistant.js') }}";
+            aiScript.onload = function() {
+              console.log("Fallback AI Assistant loaded successfully");
+            };
+            aiScript.onerror = function() {
+              console.error("Failed to load AI Assistant fallback");
+            };
+            document.body.appendChild(aiScript);
+          } else {
+            console.log("AI Assistant loaded successfully");
+          }
+        }, 1000);
+      });
+
+      // Mobile menu toggle JavaScript
+      document.addEventListener('DOMContentLoaded', function() {
+        const mobileMenuToggle = document.getElementById('mobile-menu-toggle');
+        const navMenu = document.getElementById('nav-menu');
+        
+        if (mobileMenuToggle && navMenu) {
+          mobileMenuToggle.addEventListener('click', function() {
+            navMenu.classList.toggle('active');
+          });
+          
+          // Close menu when clicking outside
+          document.addEventListener('click', function(event) {
+            if (!event.target.closest('.nav-menu') && 
+                !event.target.closest('.mobile-menu-toggle') && 
+                navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+          
+          // Close menu when window is resized to desktop size
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+        }
+      });
     </script>
+    <!-- navbar-scroll.js now included in webpack bundle -->
+  </body>
+</html>
+</html>
+              navMenu.classList.remove('active');
+            }
+          });
+          
+          // Close menu when window is resized to desktop size
+          window.addEventListener('resize', function() {
+            if (window.innerWidth > 768 && navMenu.classList.contains('active')) {
+              navMenu.classList.remove('active');
+            }
+          });
+        }
+      });
+    </script>
+    <!-- navbar-scroll.js now included in webpack bundle -->
   </body>
 </html>

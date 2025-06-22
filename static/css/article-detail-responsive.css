@@ -1,0 +1,83 @@
+/* Article Detail Responsive Styles */
+
+#articleDetail {
+  transition: all 0.3s ease;
+}
+
+#articleDetail img {
+  max-width: 100%;
+  height: auto;
+}
+
+/* Extra small devices (phones, 600px and down) */
+@media only screen and (max-width: 600px) {
+  #articleDetail {
+    padding: 10px;
+  }
+  
+  #articleDetail h1 {
+    font-size: 1.5rem;
+    margin-bottom: 10px;
+    line-height: 1.3;
+  }
+  
+  #articleDetail .card {
+    padding: 10px;
+  }
+  
+  #articleDetail .card-body {
+    padding: 15px 10px;
+  }
+  
+  #articleDetail .card-img-top {
+    height: 200px;
+  }
+  
+  .pagination {
+    flex-wrap: wrap;
+    justify-content: center;
+    gap: 10px;
+  }
+  
+  .pagination .page-item {
+    margin-bottom: 10px;
+  }
+  
+  .pagination .btn {
+    padding: 8px 15px;
+    font-size: 0.9rem;
+  }
+}
+
+/* Small devices (portrait tablets and large phones, 600px and up) */
+@media only screen and (min-width: 600px) and (max-width: 768px) {
+  #articleDetail {
+    padding: 15px;
+  }
+  
+  #articleDetail h1 {
+    font-size: 1.8rem;
+  }
+  
+  #articleDetail .card {
+    padding: 15px;
+  }
+  
+  #articleDetail .card-body {
+    padding: 20px 15px;
+  }
+}
+
+/* Medium devices (landscape tablets, 768px and up) */
+@media only screen and (min-width: 768px) and (max-width: 992px) {
+  #articleDetail {
+    padding: 20px;
+  }
+}
+
+/* Large devices (laptops/desktops, 992px and up) */
+@media only screen and (min-width: 992px) {
+  #articleDetail {
+    padding: 0;
+  }
+}

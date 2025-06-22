@@ -1,0 +1,26 @@
+/* 
+ * Footer border fix - This ensures the colored gradient border
+ * appears correctly on all pages
+ */
+
+footer {
+  position: relative !important;
+  margin-top: 40px !important;
+  padding-top: 40px !important;
+}
+
+footer::before {
+  content: '' !important;
+  position: absolute !important;
+  top: 0 !important;
+  left: 0 !important;
+  width: 100% !important;
+  height: 5px !important;
+  background: linear-gradient(90deg, #2ab7b4, #39d2c0, #2ab7b4) !important;
+  z-index: 5 !important;
+}
+
+/* Ensure footer content has proper spacing */
+.footer-content {
+  padding-top: 5px !important;
+}

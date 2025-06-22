@@ -119,75 +119,78 @@ function initializeCharts() {
     const chartTitle = document.createElement('h3');
     chartTitle.textContent = 'Grafik Pertumbuhan WHO';
     chartTitle.style.textAlign = 'center';
-    chartTitle.style.margin = '10px 0 20px 0';
-    chartTitle.style.fontSize = '1.5rem';
     chartContainer.appendChild(chartTitle);
     
     // Add close button
     const closeButton = document.createElement('button');
     closeButton.textContent = 'Tutup Grafik';
     closeButton.className = 'close-charts-button';
-    closeButton.style.padding = '8px 15px';
-    closeButton.style.backgroundColor = '#f44336';
-    closeButton.style.color = 'white';
-    closeButton.style.border = 'none';
-    closeButton.style.borderRadius = '5px';
-    closeButton.style.margin = '10px 0';
-    closeButton.style.cursor = 'pointer';
+    
+    // Create a scrollable container for charts
+    const scrollableContainer = document.createElement('div');
+    scrollableContainer.className = 'charts-scrollable-container';
     
     // Create height-for-age chart
     const heightChartContainer = document.createElement('div');
     heightChartContainer.className = 'chart-container';
-    heightChartContainer.style.marginBottom = '30px';
+    
+    const heightChartTitle = document.createElement('h4');
+    heightChartTitle.textContent = 'Tinggi Badan menurut Umur';
+    heightChartTitle.style.textAlign = 'center';
+    heightChartTitle.style.marginBottom = '15px';
+    
+    heightChartContainer.appendChild(heightChartTitle);
     
     const heightChartCanvas = document.createElement('canvas');
     heightChartCanvas.id = 'height-chart';
-    heightChartCanvas.height = 450; // Increased height for better visibility
+    heightChartCanvas.style.height = '380px';
+    heightChartCanvas.style.width = '100%';
     heightChartContainer.appendChild(heightChartCanvas);
     
     // Create weight-for-age chart
     const weightChartContainer = document.createElement('div');
     weightChartContainer.className = 'chart-container';
-    weightChartContainer.style.marginBottom = '20px';
+    
+    const weightChartTitle = document.createElement('h4');
+    weightChartTitle.textContent = 'Berat Badan menurut Umur';
+    weightChartTitle.style.textAlign = 'center';
+    weightChartTitle.style.marginBottom = '15px';
+    
+    weightChartContainer.appendChild(weightChartTitle);
     
     const weightChartCanvas = document.createElement('canvas');
     weightChartCanvas.id = 'weight-chart';
-    weightChartCanvas.height = 450; // Increased height for better visibility
+    weightChartCanvas.style.height = '380px';
+    weightChartCanvas.style.width = '100%';
     weightChartContainer.appendChild(weightChartCanvas);
+    
+    // Add child elements to scrollable container
+    scrollableContainer.appendChild(heightChartContainer);
+    scrollableContainer.appendChild(weightChartContainer);
     
     // Add to chart container in proper order
     chartContainer.appendChild(closeButton);
-    chartContainer.appendChild(heightChartContainer);
-    chartContainer.appendChild(weightChartContainer);
-      // Find where to insert the chart container
+    chartContainer.appendChild(scrollableContainer);
+    
+    // Find where to insert the chart container
     const placeholder = document.getElementById('chart-container-placeholder');
     if (placeholder) {
-      console.log("Chart container placeholder found, inserting chart container");
       placeholder.appendChild(chartContainer);
+      console.log("Chart container added to placeholder");
     } else {
-      console.log("Chart container placeholder not found, trying calculation results container");
-      // Try calculation results container first (new location)
-      const calculationResults = document.getElementById('calculation-results');
-      if (calculationResults) {
-        console.log("Calculation results container found, inserting chart container");
-        calculationResults.appendChild(chartContainer);
+      // If no placeholder, add after the calculation-results container
+      const resultsContainer = document.getElementById('calculation-results');
+      if (resultsContainer) {
+        resultsContainer.parentNode.insertBefore(chartContainer, resultsContainer.nextSibling);
+        console.log("Chart container added after calculation results");
       } else {
-        console.log("Calculation results container not found, trying assessment panel");
-        // Fallback: try after assessment panel
-        const assessmentPanel = document.getElementById('assessment-panel');
-        if (assessmentPanel) {
-          console.log("Assessment panel found, inserting chart container after it");
-          assessmentPanel.parentNode.insertBefore(chartContainer, assessmentPanel.nextSibling);
+        // Last resort: add to container
+        const container = document.querySelector('.container');
+        if (container) {
+          container.appendChild(chartContainer);
+          console.log("Chart container added to main container");
         } else {
-          console.error("Assessment panel not found, inserting chart container at the end of form-card");
-          // Fallback: insert at the end of form-card
-          const formCard = document.querySelector('.form-card');
-          if (formCard) {
-            formCard.appendChild(chartContainer);
-          } else {
-            console.error("Form card not found, inserting chart container at the end of body");
-            document.body.appendChild(chartContainer);
-          }
+          console.error("No suitable container found for charts");
         }
       }
     }
@@ -201,48 +204,97 @@ function initializeCharts() {
     closeButton.parentNode.replaceChild(newCloseBtn, closeButton);
     
     newCloseBtn.addEventListener('click', function() {
-      console.log("Close button clicked");
       const chartsElement = document.getElementById('growth-charts');
       if (chartsElement) {
         chartsElement.style.display = 'none';
-        console.log("Charts hidden");
+        console.log("Growth charts container hidden");
       }
     });
   }
   
-  // Setup view charts button event
-  const viewChartsBtn = document.getElementById('view-charts-btn');
-  if (viewChartsBtn) {
-    console.log("View charts button found, setting up click event");
+  // Set up view charts button
+  createViewChartsButton();
+  
+  console.log("Charts initialization complete");
+}
+
+// Function to create the view charts button if it doesn't exist
+function createViewChartsButton() {
+  // Check if button container exists, otherwise create it
+  let btnContainer = document.querySelector('.chart-button-container');
+  if (!btnContainer) {
+    console.log("Creating button container");
+    btnContainer = document.createElement('div');
+    btnContainer.className = 'chart-button-container';
     
+    // Find where to insert the button container
+    const resultsContainer = document.getElementById('calculation-results');
+    if (resultsContainer) {
+      if (resultsContainer.firstChild) {
+        resultsContainer.insertBefore(btnContainer, resultsContainer.firstChild);
+      } else {
+        resultsContainer.appendChild(btnContainer);
+      }
+    }
+  }
+  
+  // Check if button exists, otherwise create it
+  let viewChartsBtn = document.getElementById('view-charts-btn');
+  if (!viewChartsBtn) {
+    console.log("Creating view charts button");
+    viewChartsBtn = document.createElement('button');
+    viewChartsBtn.id = 'view-charts-btn';
+    viewChartsBtn.className = 'view-charts-button';
+    viewChartsBtn.style.display = 'none';
+    
+    // Add icon if font awesome is available
+    const iconSpan = document.createElement('span');
+    iconSpan.innerHTML = '<i class="fas fa-chart-line"></i> ';
+    viewChartsBtn.appendChild(iconSpan);
+    
+    const btnText = document.createTextNode('Lihat Grafik Pertumbuhan WHO');
+    viewChartsBtn.appendChild(btnText);
+    
+    btnContainer.appendChild(viewChartsBtn);
+  }
+  
+  // Set up click event
+  const btn = document.getElementById('view-charts-btn');
+  if (btn) {
     // Remove old event listeners by cloning and replacing
-    const newViewBtn = viewChartsBtn.cloneNode(true);
-    viewChartsBtn.parentNode.replaceChild(newViewBtn, viewChartsBtn);
+    const newViewBtn = btn.cloneNode(true);
+    if (btn.parentNode) {
+      btn.parentNode.replaceChild(newViewBtn, btn);
+    }
     
     newViewBtn.addEventListener('click', function() {
       console.log("View charts button clicked");
       const chartsElement = document.getElementById('growth-charts');
       if (chartsElement) {
+        // Show with fade in for smoother transition
+        chartsElement.style.opacity = '0';
         chartsElement.style.display = 'block';
-        console.log("Charts displayed");
         
-        // Force chart resize after displaying to fix any rendering issues
-        setTimeout(() => {
-          if (window.heightChart) window.heightChart.resize();
-          if (window.weightChart) window.weightChart.resize();
-        }, 100);
+        // Force layout reflow
+        void chartsElement.offsetWidth;
+        
+        // Fade in
+        chartsElement.style.transition = 'opacity 0.3s ease-in-out';
+        chartsElement.style.opacity = '1';
+        console.log("Growth charts container displayed");
       } else {
-        console.error("Growth charts container not found");
+        console.error("Growth charts container not found when button clicked");
+        // Try to create it
+        initializeCharts();
+        setTimeout(function() {
+          const newChartsElement = document.getElementById('growth-charts');
+          if (newChartsElement) {
+            newChartsElement.style.display = 'block';
+          }
+        }, 100);
       }
     });
-    
-    // Style the view button
-    newViewBtn.classList.add('view-charts-button');
-  } else {
-    console.error('View charts button not found');
   }
-  
-  console.log("Charts initialization complete");
 }
 
 // Function to generate datasets for the height-for-age chart
@@ -347,7 +399,6 @@ function drawHeightChart(childHeight, childAge, gender) {
   try {
     // Destroy existing chart if it exists to prevent memory leaks
     if (window.heightChart) {
-      console.log('Destroying existing height chart');
       window.heightChart.destroy();
     }
     
@@ -374,8 +425,7 @@ function drawHeightChart(childHeight, childAge, gender) {
         responsive: true,
         maintainAspectRatio: false,
         animation: {
-          duration: 1000, // Animation duration in milliseconds
-          easing: 'easeOutQuart'
+          duration: 0
         },
         plugins: {
           title: {
@@ -392,10 +442,8 @@ function drawHeightChart(childHeight, childAge, gender) {
           tooltip: {
             callbacks: {
               label: function(context) {
-                const datasetLabel = context.dataset.label || '';
-                const value = context.parsed.y;
-                const age = context.parsed.x;
-                return `${datasetLabel}: ${value} cm (${age} bulan)`;
+                const dataPoint = context.raw;
+                return `Umur: ${dataPoint.x} bulan, Tinggi: ${dataPoint.y} cm`;
               }
             },
             backgroundColor: 'rgba(0,0,0,0.8)',
@@ -494,7 +542,6 @@ function drawWeightChart(childWeight, childAge, gender) {
     
     // Add the child's data point if weight is provided
     if (childWeight && !isNaN(childWeight) && childWeight > 0) {
-      console.log(`Adding child's weight data point: ${childWeight}kg at ${childAge} months`);
       chartData.datasets.push({
         label: 'Anak',
         data: [{x: childAge, y: childWeight}],
@@ -508,33 +555,62 @@ function drawWeightChart(childWeight, childAge, gender) {
     }
     
     // Create new chart
-    console.log('Creating new weight chart');
     window.weightChart = new Chart(ctx, {
       type: 'scatter',
       data: chartData,
       options: {
         responsive: true,
         maintainAspectRatio: false,
+        animation: {
+          duration: 0
+        },
         plugins: {
           title: {
             display: true,
             text: 'Grafik Berat Badan menurut Umur (WHO)',
             font: {
               size: 16
+            },
+            padding: {
+              top: 10,
+              bottom: 20
             }
           },
           tooltip: {
             callbacks: {
               label: function(context) {
-                const datasetLabel = context.dataset.label || '';
-                const value = context.parsed.y;
-                const age = context.parsed.x;
-                return `${datasetLabel}: ${value} kg (${age} bulan)`;
+                const dataPoint = context.raw;
+                return `Umur: ${dataPoint.x} bulan, Berat: ${dataPoint.y} kg`;
               }
-            }
+            },
+            backgroundColor: 'rgba(0,0,0,0.8)',
+            titleFont: {
+              weight: 'bold'
+            },
+            displayColors: true,
+            padding: 10
           },
           legend: {
-            position: 'bottom'
+            position: 'bottom',
+            labels: {
+              usePointStyle: true,
+              padding: 20
+            }
+          },
+          zoom: {
+            pan: {
+              enabled: true,
+              mode: 'xy'
+            },
+            zoom: {
+              wheel: {
+                enabled: true
+              },
+              pinch: {
+                enabled: true
+              },
+              mode: 'xy'
+            }
           }
         },
         scales: {
@@ -543,21 +619,33 @@ function drawWeightChart(childWeight, childAge, gender) {
             position: 'bottom',
             title: {
               display: true,
-              text: 'Umur (bulan)'
+              text: 'Umur (bulan)',
+              font: {
+                weight: 'bold'
+              }
             },
             min: 0,
             max: 60,
             ticks: {
               stepSize: 6
+            },
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
             }
           },
           y: {
             title: {
               display: true,
-              text: 'Berat (kg)'
+              text: 'Berat (kg)',
+              font: {
+                weight: 'bold'
+              }
             },
-            min: 2,
-            suggestedMax: 20
+            min: 0,
+            suggestedMax: 20,
+            grid: {
+              color: 'rgba(0,0,0,0.1)'
+            }
           }
         }
       }
@@ -568,72 +656,152 @@ function drawWeightChart(childWeight, childAge, gender) {
   }
 }
 
+// Add responsive configuration for charts
+const chartConfig = {
+  options: {
+    responsive: true,
+    maintainAspectRatio: false,
+    plugins: {
+      zoom: {
+        pan: {
+          enabled: true,
+          mode: 'xy',
+          overScaleMode: 'y'
+        },
+        zoom: {
+          wheel: {
+            enabled: true,
+          },
+          pinch: {
+            enabled: true
+          },
+          mode: 'xy',
+        }
+      }
+    },
+    scales: {
+      x: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Usia (Bulan)'
+        },
+        ticks: {
+          maxRotation: 45,
+          minRotation: 45,
+          autoSkip: true,
+          maxTicksLimit: 12
+        }
+      },
+      y: {
+        display: true,
+        title: {
+          display: true,
+          text: 'Tinggi Badan (cm)'
+        }
+      }
+    }
+  }
+};
+
+// Update any existing chart creation to use this config
+function createChart(ctx, data) {
+  const isMobile = window.innerWidth <= 768;
+  const config = {
+    ...chartConfig,
+    options: {
+      ...chartConfig.options,
+      scales: {
+        ...chartConfig.options.scales,
+        x: {
+          ...chartConfig.options.scales.x,
+          ticks: {
+            ...chartConfig.options.scales.x.ticks,
+            maxTicksLimit: isMobile ? 6 : 12
+          }
+        }
+      }
+    }
+  };
+  
+  return new Chart(ctx, {
+    ...data,
+    options: config.options
+  });
+}
+
+// Add window resize handler
+window.addEventListener('resize', function() {
+  if (!window.Chart || !window.Chart.instances) return;
+  
+  const charts = Object.values(window.Chart.instances);
+  charts.forEach(chart => {
+    // Update chart to handle resize
+    if (chart) {
+      chart.resize();
+    }
+  });
+});
+
 // Function to update charts based on input
 function updateCharts(height, weight, age, gender) {
   console.log(`Updating charts with data: height=${height}, weight=${weight}, age=${age}, gender=${gender}`);
   
-  // Show the view charts button
+  // Prepare charts
+  try {
+    // Ensure container exists
+    let chartContainer = document.getElementById('growth-charts');
+    if (!chartContainer) {
+      console.log("Chart container not found, initializing charts first");
+      initializeCharts();
+    }
+    
+    // Pre-render charts in hidden state to avoid layout shift
+    const growthCharts = document.getElementById('growth-charts');
+    if (growthCharts) {
+      // Save original display state
+      const originalDisplay = growthCharts.style.display;
+      
+      // Temporarily set visible but with opacity 0 for rendering
+      growthCharts.style.display = 'block';
+      growthCharts.style.opacity = '0';
+      
+      // Pre-render charts
+      drawHeightChart(height, age, gender);
+      if (weight && !isNaN(weight) && weight > 0) {
+        drawWeightChart(weight, age, gender);
+      }
+      
+      // Restore to original state
+      setTimeout(() => {
+        growthCharts.style.display = originalDisplay;
+        growthCharts.style.opacity = '1';
+      }, 100);
+    }
+  } catch (error) {
+    console.error("Error preparing charts:", error);
+  }
+  
+  // Show view charts button
+  if (!document.getElementById('view-charts-btn')) {
+    createViewChartsButton();
+  }
+  
   const viewChartsBtn = document.getElementById('view-charts-btn');
   if (viewChartsBtn) {
     console.log("View charts button found, making it visible");
     viewChartsBtn.style.display = 'block';
-    
-    // Set up the view button style if not done already
-    if (!viewChartsBtn.classList.contains('styled')) {
-      console.log("Styling view charts button");
-      viewChartsBtn.style.backgroundColor = '#2196f3';
-      viewChartsBtn.style.color = 'white';
-      viewChartsBtn.style.padding = '8px 15px';
-      viewChartsBtn.style.border = 'none';
-      viewChartsBtn.style.borderRadius = '5px';
-      viewChartsBtn.style.cursor = 'pointer';
-      viewChartsBtn.style.margin = '15px 0';
-      viewChartsBtn.style.fontSize = '14px';
-      viewChartsBtn.classList.add('styled');
-    }
-    
-    // Setup click event if it's not already set
-    if (!viewChartsBtn.hasAttribute('data-event-set')) {
-      viewChartsBtn.setAttribute('data-event-set', 'true');
-      viewChartsBtn.addEventListener('click', function() {
-        console.log("View charts button clicked");
-        const chartsElement = document.getElementById('growth-charts');
-        if (chartsElement) {
-          chartsElement.style.display = 'block';
-          console.log("Growth charts container displayed");
-        } else {
-          console.error("Growth charts container not found when button clicked");
-        }
-      });
-    }
   } else {
     console.error('View charts button not found');
-  }
-  
-  // Make sure the chart container exists
-  const growthCharts = document.getElementById('growth-charts');
-  if (!growthCharts) {
-    console.error('Chart container not initialized');
-    // Try to initialize it now
-    console.log("Attempting to initialize charts now...");
-    initializeCharts();
     
-    // Check if initialization was successful
-    if (!document.getElementById('growth-charts')) {
-      console.error("Chart initialization failed, cannot proceed");
-      return;
+    // Create button container and button if they don't exist
+    createViewChartsButton();
+    
+    // Try to show the button again
+    const newBtn = document.getElementById('view-charts-btn');
+    if (newBtn) {
+      newBtn.style.display = 'block';
     }
-  }
-  
-  try {
-    // Draw charts but don't show them yet
-    console.log("Drawing height chart");
-    drawHeightChart(height, age, gender);
-    console.log("Drawing weight chart");
-    drawWeightChart(weight, age, gender);
-    console.log("Charts updated successfully");
-  } catch (error) {
-    console.error("Error updating charts:", error);
   }
 }
 
@@ -657,7 +825,7 @@ function assessWeightStatus(weight, age, gender) {
   if (weight < underweightThreshold) {
     weightStatus = "Berat Badan Kurang";
   } else if (weight < medianWeight * 0.85) {
-    weightStatus = "Berat Badan Rendah";
+    weightStatus = "Berat Badan Borderline";
   } else if (weight > medianWeight * 1.15) {
     weightStatus = "Berat Badan Lebih";
   } else {
@@ -678,20 +846,23 @@ function getComprehensiveAssessment(stuntingStatus, weightStatus) {
   
   // Combined assessment
   if (stuntingStatus === "Normal" && weightStatus.includes("Normal")) {
-    overallStatus = "Pertumbuhan Normal";
-    recommendation = "Pertahankan pola makan sehat dan aktivitas fisik yang cukup untuk mendukung pertumbuhan optimal.";
-  } else if (stuntingStatus === "Normal" && weightStatus.includes("Kurang")) {
-    overallStatus = "Wasting (Kurus)";
-    recommendation = "Fokus pada peningkatan asupan kalori dan protein, konsultasikan dengan dokter atau ahli gizi.";
-  } else if (stuntingStatus.includes("Stunting") && weightStatus.includes("Normal")) {
-    overallStatus = "Stunting";
-    recommendation = "Perbaiki asupan nutrisi terutama protein, kalsium, dan vitamin D. Konsultasikan dengan dokter.";
+    overallStatus = "<span class='text-success fw-bold'>Pertumbuhan Normal</span>";
+    recommendation = "Anak memiliki pertumbuhan normal untuk usia ini. Lanjutkan dengan pola makan seimbang dan pemantauan pertumbuhan rutin.";
   } else if (stuntingStatus.includes("Stunting") && weightStatus.includes("Kurang")) {
-    overallStatus = "Stunting dan Wasting";
-    recommendation = "Kondisi serius yang memerlukan konsultasi medis dan intervensi nutrisi segera.";
-  } else if (weightStatus.includes("Lebih")) {
-    overallStatus = "Risiko Kelebihan Berat Badan";
-    recommendation = "Perhatikan pola makan seimbang dan aktifitas fisik yang cukup.";
+    overallStatus = "<span class='text-danger fw-bold'>Kekurangan Gizi Kronis</span>";
+    recommendation = "Anak menunjukkan tanda kekurangan gizi kronis. Konsultasikan dengan dokter anak atau ahli gizi untuk rencana penanganan yang tepat.";
+  } else if (stuntingStatus.includes("Stunting") && weightStatus.includes("Normal")) {
+    overallStatus = "<span class='text-warning fw-bold'>Stunting dengan Berat Badan Normal</span>";
+    recommendation = "Anak memiliki tinggi di bawah standar namun berat badan normal. Perhatikan asupan nutrisi pembangun tulang dan pertumbuhan.";
+  } else if (stuntingStatus === "Normal" && weightStatus.includes("Kurang")) {
+    overallStatus = "<span class='text-warning fw-bold'>Kurang Berat Badan</span>";
+    recommendation = "Anak memiliki tinggi normal tapi berat badan kurang. Tingkatkan asupan kalori dan protein dengan makanan bergizi.";
+  } else if (stuntingStatus === "Normal" && weightStatus.includes("Lebih")) {
+    overallStatus = "<span class='text-warning fw-bold'>Kelebihan Berat Badan</span>";
+    recommendation = "Anak memiliki tinggi normal tapi berat badan lebih. Pastikan pola makan seimbang dan aktivitas fisik yang cukup.";
+  } else {
+    overallStatus = "<span class='text-warning fw-bold'>Perlu Perhatian</span>";
+    recommendation = "Ada beberapa indikator yang memerlukan perhatian pada pertumbuhan anak. Konsultasikan dengan tenaga kesehatan untuk penilaian lebih lanjut.";
   }
   
   return {
@@ -699,3 +870,12 @@ function getComprehensiveAssessment(stuntingStatus, weightStatus) {
     recommendation: recommendation
   };
 }
+
+// Ensure charts are initialized when page loads
+document.addEventListener('DOMContentLoaded', function() {
+  // Initialize charts but keep them hidden
+  initializeCharts();
+  
+  // Create view charts button but keep it hidden
+  createViewChartsButton();
+});

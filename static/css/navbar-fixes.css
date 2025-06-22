@@ -1,0 +1,50 @@
+/* Mobile menu toggle styles */
+.mobile-menu-toggle {
+  display: none;
+  background: none;
+  border: none;
+  color: white;
+  font-size: 24px;
+  cursor: pointer;
+  padding: 10px;
+  transition: all 0.3s ease;
+}
+
+@media (max-width: 768px) {
+  .mobile-menu-toggle {
+    display: block;
+  }
+
+  .nav-menu {
+    position: absolute;
+    top: 100%;
+    left: 0;
+    width: 100%;
+    background-color: #2ab7b4;
+    flex-direction: column;
+    padding: 0;
+    max-height: 0;
+    overflow: hidden;
+    transition: max-height 0.5s ease;
+  }
+
+  .nav-menu.active {
+    max-height: 300px;
+    box-shadow: 0 8px 16px rgba(0,0,0,0.1);
+  }
+
+  .nav-menu a {
+    width: 100%;
+    padding: 15px 25px;
+    border-top: 1px solid rgba(255,255,255,0.1);
+  }
+}
+
+/* General navbar fixes for sticky header */
+.navbar.nav-scrolled-down {
+  transform: translateY(-100%);
+}
+
+.navbar.nav-scrolled-up {
+  transform: translateY(0);
+}
